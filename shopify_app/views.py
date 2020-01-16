@@ -19,7 +19,7 @@ class Dashboard(TemplateView):
     template_name = "dashboard.html"
 
     def get(self, request, *args, **kwargs):
-        context = {'SHOPIFY_API_SCOPE': settings.SHOPIFY_API_SCOPE}
+        context = {'page_name': 'Home'}
 
         return self.render_to_response(context)
 
@@ -52,8 +52,6 @@ class Install(View):
         else:
             url = route_url('shopify_app:index', _query={'shop': shop, 'hmac': hmac, 'timestamp': timestamp})
             url = request.build_absolute_uri(url)
-
-        print(url)
         return redirect(url)
 
 
@@ -73,15 +71,18 @@ class Finalize(View):
         return redirect(url)
 
 
-def webhook_app_uninstalled(request):
-    if request.method == 'POST' and verify_webhook(request.body, request.headers.get('X-Shopify-Hmac-Sha256')):
-        topic = request.headers.get('X-Shopify-Topic')
-        shop_url = request.headers.get('X-Shopify-Shop-Domain')
-        data = json.loads(request.body)
-        data.update({'X-Shopify-Shop-Domain': shop_url})
-        if topic == 'app/uninstalled':
-            tasks.app_uninstalled(data, verbose_name='Task for app/uninstalled webhook event: %s' % shop_url)
-    return render(request, 'webhook.html')
+class WebhookAppUninstalled(TemplateView):
+    template_name = "webhook.html"
+
+    def post(self, request, *args, **kwargs):
+        if request.method == 'POST' and verify_webhook(request.body, request.headers.get('X-Shopify-Hmac-Sha256')):
+            topic = request.headers.get('X-Shopify-Topic')
+            shop_url = request.headers.get('X-Shopify-Shop-Domain')
+            data = json.loads(request.body)
+            data.update({'X-Shopify-Shop-Domain': shop_url})
+            if topic == 'app/uninstalled':
+                tasks.app_uninstalled(data, verbose_name='Task for app/uninstalled webhook event: %s' % shop_url)
+        return self.render_to_response({})
 
 
 class GoogleXml(TemplateResponseMixin, View):

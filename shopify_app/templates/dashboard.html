@@ -1,4 +1,10 @@
+<!DOCTYPE html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
+    <link rel="stylesheet" href="https://unpkg.com/@shopify/polaris@4.0.0/styles.min.css"/>
     <script src="https://cdn.shopify.com/s/assets/external/app.js"></script>
     <script src="https://unpkg.com/@shopify/app-bridge"></script>
     <script type="text/javascript">
@@ -9,5 +15,289 @@
             shopOrigin: '{{ current_shop }}',
             forceRedirect: true
         });
+        var actions = AppBridge.actions;
+        var TitleBar = actions.TitleBar;
+        var titleBarOptions = {
+            title: '{{ page_name }}'
+        };
+        var myTitleBar = TitleBar.create(app, titleBarOptions);
     </script>
 </head>
+<body>
+<div class="Polaris-Page">
+    <div class="Polaris-Page__Content">
+        <div class="Polaris-Layout">
+            <div class="Polaris-Layout__AnnotatedSection">
+                <div class="Polaris-Layout__AnnotationWrapper">
+                    <div class="Polaris-Layout__Annotation">
+                        <div class="Polaris-TextContainer"><h2 class="Polaris-Heading">All set up!</h2>
+                            <div class="Polaris-Layout__AnnotationDescription"><p>You have successfully generated
+                                your Facebook product feed. You can now add it to your Facebook Catalog.</p></div>
+                        </div>
+                    </div>
+                    <div class="Polaris-Layout__AnnotationContent">
+                        <div class="Polaris-Card">
+                            <div class="Polaris-Card__Header"><h2 class="Polaris-Heading">Your Feed (Flexify
+                                v1.0)</h2></div>
+                            <div class="Polaris-Card__Section">
+                                <div class="">
+                                    <div class="Polaris-Labelled__LabelWrapper">
+                                        <div class="Polaris-Label"><label id="TextField1Label" for="TextField1"
+                                                                          class="Polaris-Label__Text">URL</label>
+                                        </div>
+                                        <button type="button" class="Polaris-Button Polaris-Button--plain"><span
+                                                class="Polaris-Button__Content"><span>Copy to clipboard</span></span>
+                                        </button>
+                                    </div>
+                                    <div class="Polaris-TextField Polaris-TextField--hasValue Polaris-TextField--readOnly">
+                                        <input id="TextField1" readonly="" class="Polaris-TextField__Input"
+                                               aria-label="URL" aria-labelledby="TextField1Label"
+                                               aria-invalid="false"
+                                               value="https://{{ current_shop }}/a/ytt_feed/facebook.xml">
+                                        <div class="Polaris-TextField__Backdrop"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="Polaris-Layout__AnnotatedSection">
+                <div class="Polaris-Layout__AnnotationWrapper">
+                    <div class="Polaris-Layout__Annotation">
+                        <div class="Polaris-TextContainer"><h2 class="Polaris-Heading">Settings</h2></div>
+                    </div>
+                    <div class="Polaris-Layout__AnnotationContent">
+                        <div class="Polaris-Card">
+                            <div class="Polaris-Card__Section">
+                                <div class="Polaris-FormLayout">
+                                    <div class="Polaris-FormLayout__Item">
+                                        <div class="">
+                                            <div class="Polaris-Labelled__LabelWrapper">
+                                                <div class="Polaris-Label"><label id="Select2Label" for="Select2"
+                                                                                  class="Polaris-Label__Text">Collection
+                                                    used for the feed</label></div>
+                                            </div>
+                                            <div class="Polaris-Select"><select id="Select2"
+                                                                                class="Polaris-Select__Input"
+                                                                                aria-invalid="false"
+                                                                                aria-describedby="Select2HelpText">
+                                                <option value="0">Nothing selected. Falling back to 'all'
+                                                    collection
+                                                </option>
+                                                <option value="162122694796">Home page</option>
+                                            </select>
+                                                <div class="Polaris-Select__Content" aria-hidden="true"><span
+                                                        class="Polaris-Select__SelectedOption">Nothing selected. Falling back to 'all' collection</span><span
+                                                        class="Polaris-Select__Icon"><span class="Polaris-Icon"><svg
+                                                        class="Polaris-Icon__Svg" viewBox="0 0 20 20"
+                                                        focusable="false" aria-hidden="true"><path
+                                                        d="M13 8l-3-3-3 3h6zm-.1 4L10 14.9 7.1 12h5.8z"
+                                                        fill-rule="evenodd"></path></svg></span></span></div>
+                                                <div class="Polaris-Select__Backdrop"></div>
+                                            </div>
+                                            <div class="Polaris-Labelled__HelpText" id="Select2HelpText">
+                                                <div>Collections have to be <a target="_blank" class="Polaris-Link"
+                                                                               href="https://help.shopify.com/en/manual/products/collections/make-collections-available#change-the-availability-of-a-collection"
+                                                                               rel="noopener noreferrer"
+                                                                               data-polaris-unstyled="true">available
+                                                    on the Online Store</a> in order to be selectable here.
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div role="group" class="">
+                                        <div class="Polaris-FormLayout__Items">
+                                            <div class="Polaris-FormLayout__Item"><label class="Polaris-Choice"
+                                                                                         for="Checkbox5"><span
+                                                    class="Polaris-Choice__Control"><span
+                                                    class="Polaris-Checkbox"><input id="Checkbox5"
+                                                                                    name="use_seo_fields"
+                                                                                    type="checkbox"
+                                                                                    class="Polaris-Checkbox__Input"
+                                                                                    aria-invalid="false"
+                                                                                    role="checkbox"
+                                                                                    aria-checked="false"
+                                                                                    value=""><span
+                                                    class="Polaris-Checkbox__Backdrop"></span><span
+                                                    class="Polaris-Checkbox__Icon"><span class="Polaris-Icon"><svg
+                                                    class="Polaris-Icon__Svg" viewBox="0 0 20 20" focusable="false"
+                                                    aria-hidden="true"><path
+                                                    d="M8.315 13.859l-3.182-3.417a.506.506 0 0 1 0-.684l.643-.683a.437.437 0 0 1 .642 0l2.22 2.393 4.942-5.327a.437.437 0 0 1 .643 0l.643.684a.504.504 0 0 1 0 .683l-5.91 6.35a.437.437 0 0 1-.642 0"></path></svg></span></span></span></span><span
+                                                    class="Polaris-Choice__Label">Sync search engine optimized titles and descriptions</span></label>
+                                            </div>
+                                            <div class="Polaris-FormLayout__Item"><label class="Polaris-Choice"
+                                                                                         for="Checkbox6"><span
+                                                    class="Polaris-Choice__Control"><span
+                                                    class="Polaris-Checkbox"><input id="Checkbox6"
+                                                                                    name="usePlainItemIdFormat"
+                                                                                    type="checkbox"
+                                                                                    class="Polaris-Checkbox__Input"
+                                                                                    aria-invalid="false"
+                                                                                    role="checkbox"
+                                                                                    aria-checked="true"
+                                                                                    value=""><span
+                                                    class="Polaris-Checkbox__Backdrop"></span><span
+                                                    class="Polaris-Checkbox__Icon"><span class="Polaris-Icon"><svg
+                                                    class="Polaris-Icon__Svg" viewBox="0 0 20 20" focusable="false"
+                                                    aria-hidden="true"><path
+                                                    d="M8.315 13.859l-3.182-3.417a.506.506 0 0 1 0-.684l.643-.683a.437.437 0 0 1 .642 0l2.22 2.393 4.942-5.327a.437.437 0 0 1 .643 0l.643.684a.504.504 0 0 1 0 .683l-5.91 6.35a.437.437 0 0 1-.642 0"></path></svg></span></span></span></span><span
+                                                    class="Polaris-Choice__Label"><div>Format feed for the <a
+                                                    target="_blank" class="Polaris-Link"
+                                                    href="https://docs.shopify.com/manual/reports-and-analytics/facebook-pixel/facebook-pixel-for-shopify"
+                                                    rel="noopener noreferrer" data-polaris-unstyled="true">native shopify pixel setting</a></div></span></label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="Polaris-Layout__AnnotatedSection">
+                <div class="Polaris-Layout__AnnotationWrapper">
+                    <div class="Polaris-Layout__Annotation">
+                        <div class="Polaris-TextContainer"><h2 class="Polaris-Heading">Need more?</h2></div>
+                    </div>
+                    <div class="Polaris-Layout__AnnotationContent">
+                        <div class="Polaris-Banner Polaris-Banner--statusInfo Polaris-Banner--withinPage"
+                             tabindex="0" role="status" aria-live="polite" aria-labelledby="Banner9Heading"
+                             aria-describedby="Banner9Content">
+                            <div class="Polaris-Banner__Ribbon"><span
+                                    class="Polaris-Icon Polaris-Icon--colorTealDark Polaris-Icon--isColored Polaris-Icon--hasBackdrop"><svg
+                                    class="Polaris-Icon__Svg" viewBox="0 0 20 20" focusable="false"
+                                    aria-hidden="true"><g fill-rule="evenodd"><circle cx="10" cy="10" r="9"
+                                                                                      fill="currentColor"></circle><path
+                                    d="M10 0C4.486 0 0 4.486 0 10s4.486 10 10 10 10-4.486 10-10S15.514 0 10 0m0 18c-4.411 0-8-3.589-8-8s3.589-8 8-8 8 3.589 8 8-3.589 8-8 8m1-5v-3a1 1 0 0 0-1-1H9a1 1 0 1 0 0 2v3a1 1 0 0 0 1 1h1a1 1 0 1 0 0-2m-1-5.9a1.1 1.1 0 1 0 0-2.2 1.1 1.1 0 0 0 0 2.2"></path></g></svg></span>
+                            </div>
+                            <div>
+                                <div class="Polaris-Banner__Heading" id="Banner9Heading"><p class="Polaris-Heading">
+                                    Announcing: Premium membership program!</p></div>
+                                <div class="Polaris-Banner__Content" id="Banner9Content">
+                                    <div class="Polaris-TextContainer Polaris-TextContainer--spacingTight"><h3
+                                            aria-label="Benefits include" class="Polaris-Subheading">Benefits
+                                        include</h3>
+                                        <div><b class="Polaris-TextStyle--variationStrong">⭐️ Support</b> via email
+                                        </div>
+                                        <div>⭐️ Access to premium and beta <b
+                                                class="Polaris-TextStyle--variationStrong">features</b> e.g.:
+                                        </div>
+                                        <div style="padding-left: 1em;">✓ <a target="_blank" class="Polaris-Link"
+                                                                             href="https://docs.flexify.net/goto/23"
+                                                                             rel="noopener noreferrer"
+                                                                             data-polaris-unstyled="true">Unlimited
+                                            products via feed pagination</a><br>✓ <a target="_blank"
+                                                                                     class="Polaris-Link"
+                                                                                     href="https://docs.flexify.net/goto/30"
+                                                                                     rel="noopener noreferrer"
+                                                                                     data-polaris-unstyled="true">Custom
+                                            labels</a><br>✓ <a target="_blank" class="Polaris-Link"
+                                                               href="https://docs.flexify.net/goto/33"
+                                                               rel="noopener noreferrer"
+                                                               data-polaris-unstyled="true">Specify images</a><br>✓
+                                            <a target="_blank" class="Polaris-Link"
+                                               href="https://docs.flexify.net/goto/35" rel="noopener noreferrer"
+                                               data-polaris-unstyled="true">Automatic image resizing (no more
+                                                cropped images in your facebook ads!)</a><br>✓ <a target="_blank"
+                                                                                                  class="Polaris-Link"
+                                                                                                  href="https://docs.flexify.net/goto/37"
+                                                                                                  rel="noopener noreferrer"
+                                                                                                  data-polaris-unstyled="true">Add
+                                                price and discount overlays to your ads</a><br></div>
+                                        <span class="Polaris-Badge Polaris-Badge--statusSuccess"><span
+                                                class="Polaris-VisuallyHidden">Success</span>Get support and power features for only $29 USD a month</span>
+                                    </div>
+                                    <div class="Polaris-Banner__Actions">
+                                        <div class="Polaris-ButtonGroup">
+                                            <div class="Polaris-ButtonGroup__Item">
+                                                <button type="button"
+                                                        class="Polaris-Button Polaris-Button--outline"><span
+                                                        class="Polaris-Button__Content"><span>Upgrade to Premium Membership</span></span>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="Polaris-Layout__AnnotatedSection">
+                <div class="Polaris-Layout__AnnotationWrapper">
+                    <div class="Polaris-Layout__Annotation">
+                        <div class="Polaris-TextContainer"><h2 class="Polaris-Heading">Image Optimization
+                            Preview</h2>
+                            <div class="Polaris-Layout__AnnotationDescription"><span
+                                    class="Polaris-Badge Polaris-Badge--statusInfo"><span
+                                    class="Polaris-VisuallyHidden">Info</span>Premium Feature</span></div>
+                        </div>
+                    </div>
+                    <div class="Polaris-Layout__AnnotationContent">
+                        <div class="Polaris-Card">
+                            <div class="Polaris-Card__Header">
+                                <div class="Polaris-Stack Polaris-Stack--alignmentBaseline">
+                                    <div class="Polaris-Stack__Item Polaris-Stack__Item--fill"><span>Preview for LED High Tops</span>
+                                    </div>
+                                    <div class="Polaris-Stack__Item">
+                                        <div class="Polaris-ButtonGroup">
+                                            <div class="Polaris-ButtonGroup__Item Polaris-ButtonGroup__Item--plain">
+                                                <button type="button" class="Polaris-Button Polaris-Button--plain">
+                                                    <span class="Polaris-Button__Content"><span><span>Change product</span></span></span>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="Polaris-Card__Section">
+                                <div class="Polaris-Stack Polaris-Stack--distributionFillEvenly">
+                                    <div class="Polaris-Stack__Item">
+                                        <div class="Polaris-TextContainer"><span class="Polaris-Thumbnail"><img
+                                                class="Polaris-Thumbnail__Image" alt="Facebook Option: Crop"
+                                                src="https://shopify-flexify.imgix.net/https%3A%2F%2Fcdn.shopify.com%2Fs%2Ffiles%2F1%2F0308%2F8947%2F6236%2Fproducts%2Fputting-on-your-shoes_925x_f71c19ac-c091-4c7f-bbfe-a43d6a0456b7_400x400.jpg%3Fv%3D1578919697?fit=crop&amp;h=400&amp;w=400&amp;s=92036ba10391e0f6a4958b0aed7a2716"></span>
+                                            <p class="Polaris-Caption">Facebook Option: Crop</p></div>
+                                    </div>
+                                    <div class="Polaris-Stack__Item">
+                                        <div class="Polaris-TextContainer"><span class="Polaris-Thumbnail"><img
+                                                class="Polaris-Thumbnail__Image" alt="Facebook Option: Fill"
+                                                src="https://shopify-flexify.imgix.net/https%3A%2F%2Fcdn.shopify.com%2Fs%2Ffiles%2F1%2F0308%2F8947%2F6236%2Fproducts%2Fputting-on-your-shoes_925x_f71c19ac-c091-4c7f-bbfe-a43d6a0456b7_400x400.jpg%3Fv%3D1578919697?bg=FFFFFF&amp;fit=fill&amp;h=400&amp;w=400&amp;s=4c42c023beab788348479933e9b61ccc"></span>
+                                            <p class="Polaris-Caption">Facebook Option: Fill</p></div>
+                                    </div>
+                                    <div class="Polaris-Stack__Item">
+                                        <div class="Polaris-TextContainer"><span class="Polaris-Thumbnail"><img
+                                                class="Polaris-Thumbnail__Image" alt="Optimized by Flexify"
+                                                src="https://shopify-flexify.imgix.net/https%3A%2F%2Fcdn.shopify.com%2Fs%2Ffiles%2F1%2F0308%2F8947%2F6236%2Fproducts%2Fputting-on-your-shoes_925x_f71c19ac-c091-4c7f-bbfe-a43d6a0456b7_400x400.jpg%3Fv%3D1578919697?fit=clamp&amp;h=400&amp;w=400&amp;s=18a5f87ea66f76c2709319a9b704a072"></span>
+                                            <p class="Polaris-Caption">Optimized by Flexify</p></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="Polaris-Layout__Section">
+                <div class="Polaris-FooterHelp">
+                    <div class="Polaris-FooterHelp__Content">
+                        <div class="Polaris-FooterHelp__Icon"><span
+                                class="Polaris-Icon Polaris-Icon--colorTeal Polaris-Icon--isColored Polaris-Icon--hasBackdrop"><svg
+                                class="Polaris-Icon__Svg" viewBox="0 0 20 20" focusable="false" aria-hidden="true"><circle
+                                cx="10" cy="10" r="9" fill="currentColor"></circle><path
+                                d="M10 0C4.486 0 0 4.486 0 10s4.486 10 10 10 10-4.486 10-10S15.514 0 10 0m0 18c-4.411 0-8-3.589-8-8s3.589-8 8-8 8 3.589 8 8-3.589 8-8 8m0-4a1 1 0 1 0 0 2 1 1 0 1 0 0-2m0-10C8.346 4 7 5.346 7 7a1 1 0 1 0 2 0 1.001 1.001 0 1 1 1.591.808C9.58 8.548 9 9.616 9 10.737V11a1 1 0 1 0 2 0v-.263c0-.653.484-1.105.773-1.317A3.013 3.013 0 0 0 13 7c0-1.654-1.346-3-3-3"></path></svg></span>
+                        </div>
+                        <div class="Polaris-FooterHelp__Text">For more details visit our <a target="_blank"
+                                                                                            class="Polaris-Link"
+                                                                                            href="https://docs.flexify.net/help/facebook-product-feed"
+                                                                                            rel="noopener noreferrer"
+                                                                                            data-polaris-unstyled="true">documentation</a>.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+
+</html>
