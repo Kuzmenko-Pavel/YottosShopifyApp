@@ -1,0 +1,13 @@
+<head>
+    <script src="https://cdn.shopify.com/s/assets/external/app.js"></script>
+    <script src="https://unpkg.com/@shopify/app-bridge"></script>
+    <script type="text/javascript">
+        var AppBridge = window['app-bridge'];
+        var createApp = AppBridge.default;
+        var app = createApp({
+            apiKey: '{{ api_key }}',
+            shopOrigin: '{{ current_shop }}',
+            forceRedirect: true
+        });
+    </script>
+</head>

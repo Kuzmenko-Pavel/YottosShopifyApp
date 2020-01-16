@@ -3,81 +3,74 @@ from django.conf import settings
 import shopify
 import json
 from django.template import RequestContext
-from django.views.generic.base import TemplateResponseMixin, View
-from django.urls import reverse
+from django.views.generic.base import TemplateResponseMixin, View, TemplateView
 
 from django.utils import timezone
-from .helpers import verify_webhook, ShopifyHelper
+from .helpers import verify_webhook, ShopifyHelper, route_url
 from . import tasks
 
 
 def index(request):
-    print(request.GET)
-    print(request.POST)
-    print(request.META)
     context = {'SHOPIFY_API_SCOPE': settings.SHOPIFY_API_SCOPE, 'request': RequestContext(request)}
     return render(request, 'index.html', context)
 
 
-def dashboard(request):
-    print(request.GET)
-    print(request.POST)
-    print(request.META)
-    context = {'SHOPIFY_API_SCOPE': settings.SHOPIFY_API_SCOPE, 'request': RequestContext(request)}
-    return render(request, 'index.html', context)
+class Dashboard(TemplateView):
+    template_name = "dashboard.html"
+
+    def get(self, request, *args, **kwargs):
+        context = {'SHOPIFY_API_SCOPE': settings.SHOPIFY_API_SCOPE}
+
+        return self.render_to_response(context)
 
 
-def install(request):
-    print(request.GET)
-    print(request.POST)
-    print(request.META)
-    shop = request.GET.get('shop') or request.POST.get('shop')
-    if shop:
-        scope = settings.SHOPIFY_API_SCOPE
-        redirect_uri = request.build_absolute_uri(reverse('shopify_app:finalize'))
-        print(redirect_uri)
-        permission_url = shopify.Session(shop.strip(), settings.SHOPIFY_API_VERSION).create_permission_url(scope,
-                                                                                                           redirect_uri)
-        return redirect(permission_url)
-    url = reverse('shopify_app:index')
-    qs = '&'.join(['shop', shop])
-    url = '?'.join((url, qs))
-    return redirect(url)
+class Authenticate(View):
+
+    def get(self, request, *args, **kwargs):
+        shop = request.GET.get('shop')
+        hmac = request.GET.get('hmac')
+        timestamp = request.GET.get('timestamp')
+        if shop:
+            url = route_url('shopify_app:install', _query={'shop': shop, 'hmac': hmac, 'timestamp': timestamp})
+        else:
+            url = route_url('shopify_app:dashboard', _query={'shop': shop, 'hmac': hmac, 'timestamp': timestamp})
+
+        return redirect(url)
 
 
-def authenticate(request):
-    print(request.GET)
-    print(request.POST)
-    print(request.META)
-    shop = request.GET.get('shop') or request.POST.get('shop')
-    if shop:
-        url = reverse('shopify_app:install')
-    else:
-        url = reverse('shopify_app:dashboard')
+class Install(View):
 
-    qs = '&'.join(['shop', shop])
-    url = '?'.join((url, qs))
-    return redirect(url)
+    def get(self, request, *args, **kwargs):
+        shop = request.GET.get('shop')
+        hmac = request.GET.get('hmac')
+        timestamp = request.GET.get('timestamp')
+        if shop:
+            scope = settings.SHOPIFY_API_SCOPE
+            redirect_uri = request.build_absolute_uri(route_url('shopify_app:finalize'))
+            session = shopify.Session(shop.strip(), settings.SHOPIFY_API_VERSION)
+            url = session.create_permission_url(scope, redirect_uri)
+        else:
+            url = route_url('shopify_app:index', _query={'shop': shop, 'hmac': hmac, 'timestamp': timestamp})
+            url = request.build_absolute_uri(url)
+
+        print(url)
+        return redirect(url)
 
 
-def finalize(request):
-    print(request.GET)
-    print(request.POST)
-    print(request.META)
-    shop = request.GET.get('shop') or request.POST.get('shop')
-    url = reverse('shopify_app:dashboard')
-    try:
-        shopify_session = shopify.Session(shop, settings.SHOPIFY_API_VERSION)
-        request.session['shopify'] = {
-            "shop_url": shop,
-            "access_token": shopify_session.request_token(request.GET)
-        }
-    except Exception:
-        url = reverse('shopify_app:authenticate')
+class Finalize(View):
 
-    qs = '&'.join(['shop', shop])
-    url = '?'.join((url, qs))
-    return redirect(url)
+    def get(self, request, *args, **kwargs):
+        shop = request.GET.get('shop')
+        hmac = request.GET.get('hmac')
+        timestamp = request.GET.get('timestamp')
+        url = route_url('shopify_app:dashboard', _query={'shop': shop, 'hmac': hmac, 'timestamp': timestamp})
+        try:
+            shopify_session = shopify.Session(shop, settings.SHOPIFY_API_VERSION)
+            access_token = shopify_session.request_token(request.GET)
+            print(access_token)
+        except Exception:
+            url = route_url('shopify_app:authenticate', _query={'shop': shop, 'hmac': hmac, 'timestamp': timestamp})
+        return redirect(url)
 
 
 def webhook_app_uninstalled(request):
@@ -96,9 +89,6 @@ class GoogleXml(TemplateResponseMixin, View):
     content_type = 'application/liquid'
 
     def get(self, request, *args, **kwargs):
-        print(request.GET)
-        print(request.POST)
-        print(request.META)
         context = {}
         return self.render_to_response(context)
 
@@ -111,9 +101,6 @@ class FacebookXml(TemplateResponseMixin, View):
     content_type = 'application/liquid'
 
     def get(self, request, *args, **kwargs):
-        print(request.GET)
-        print(request.POST)
-        print(request.META)
         context = {}
         return self.render_to_response(context)
 
@@ -126,9 +113,6 @@ class YottosXml(TemplateResponseMixin, View):
     content_type = 'application/liquid'
 
     def get(self, request, *args, **kwargs):
-        print(request.GET)
-        print(request.POST)
-        print(request.META)
         context = {}
         return self.render_to_response(context)
 

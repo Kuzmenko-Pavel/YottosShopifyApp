@@ -1,6 +1,7 @@
 from django.conf import settings
 from django.shortcuts import reverse
 
+from urllib.parse import urlencode
 import hmac
 import hashlib
 import base64
@@ -14,6 +15,14 @@ from .models import ShopifyStore
 
 SECRET = settings.SHOPIFY_API_SECRET
 URL = settings.URL
+
+
+def route_url(*args, **kwargs):
+    query = kwargs.pop('_query', {})
+    url = reverse(*args, **kwargs)
+    if query:
+        url += '?' + urlencode(query)
+    return url
 
 
 def verify_webhook(data, hmac_header):
