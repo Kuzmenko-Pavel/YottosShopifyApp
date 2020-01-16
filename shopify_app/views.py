@@ -12,16 +12,25 @@ from . import tasks
 
 
 def index(request):
+    print(request.GET)
+    print(request.POST)
+    print(request.META)
     context = {'SHOPIFY_API_SCOPE': settings.SHOPIFY_API_SCOPE, 'request': RequestContext(request)}
     return render(request, 'index.html', context)
 
 
 def dashboard(request):
+    print(request.GET)
+    print(request.POST)
+    print(request.META)
     context = {'SHOPIFY_API_SCOPE': settings.SHOPIFY_API_SCOPE, 'request': RequestContext(request)}
     return render(request, 'index.html', context)
 
 
 def install(request):
+    print(request.GET)
+    print(request.POST)
+    print(request.META)
     shop = request.GET.get('shop') or request.POST.get('shop')
     if shop:
         scope = settings.SHOPIFY_API_SCOPE
@@ -30,43 +39,45 @@ def install(request):
         permission_url = shopify.Session(shop.strip(), settings.SHOPIFY_API_VERSION).create_permission_url(scope,
                                                                                                            redirect_uri)
         return redirect(permission_url)
-
-    return redirect(_return_address(request))
+    url = reverse('shopify_app:index')
+    qs = '&'.join(['shop', shop])
+    url = '?'.join((url, qs))
+    return redirect(url)
 
 
 def authenticate(request):
+    print(request.GET)
+    print(request.POST)
+    print(request.META)
     shop = request.GET.get('shop') or request.POST.get('shop')
     if shop:
-        scope = settings.SHOPIFY_API_SCOPE
-        redirect_uri = request.build_absolute_uri(reverse('shopify_app:finalize'))
-        print(redirect_uri)
-        permission_url = shopify.Session(shop.strip(), settings.SHOPIFY_API_VERSION).create_permission_url(scope, redirect_uri)
-        return redirect(permission_url)
+        url = reverse('shopify_app:install')
+    else:
+        url = reverse('shopify_app:dashboard')
 
-    return redirect(_return_address(request))
-
-
-def _return_address(request):
-    return request.session.get('return_to') or reverse('home:index')
+    qs = '&'.join(['shop', shop])
+    url = '?'.join((url, qs))
+    return redirect(url)
 
 
 def finalize(request):
-    shop_url = request.GET.get('shop')
+    print(request.GET)
+    print(request.POST)
+    print(request.META)
+    shop = request.GET.get('shop') or request.POST.get('shop')
+    url = reverse('shopify_app:dashboard')
     try:
-        shopify_session = shopify.Session(shop_url, settings.SHOPIFY_API_VERSION)
+        shopify_session = shopify.Session(shop, settings.SHOPIFY_API_VERSION)
         request.session['shopify'] = {
-            "shop_url": shop_url,
+            "shop_url": shop,
             "access_token": shopify_session.request_token(request.GET)
         }
-        # create_shopify_store_user(request.session['shopify'])
     except Exception:
-        # messages.error(request, "Could not log in to Shopify store.")
-        return redirect(reverse('shopify_app:login'))
+        url = reverse('shopify_app:authenticate')
 
-    # messages.info(request, "Logged in to shopify store.")
-    response = redirect(_return_address(request))
-    # request.session.pop('return_to', None)
-    return response
+    qs = '&'.join(['shop', shop])
+    url = '?'.join((url, qs))
+    return redirect(url)
 
 
 def webhook_app_uninstalled(request):
@@ -85,6 +96,9 @@ class GoogleXml(TemplateResponseMixin, View):
     content_type = 'application/liquid'
 
     def get(self, request, *args, **kwargs):
+        print(request.GET)
+        print(request.POST)
+        print(request.META)
         context = {}
         return self.render_to_response(context)
 
@@ -97,6 +111,9 @@ class FacebookXml(TemplateResponseMixin, View):
     content_type = 'application/liquid'
 
     def get(self, request, *args, **kwargs):
+        print(request.GET)
+        print(request.POST)
+        print(request.META)
         context = {}
         return self.render_to_response(context)
 
@@ -109,6 +126,9 @@ class YottosXml(TemplateResponseMixin, View):
     content_type = 'application/liquid'
 
     def get(self, request, *args, **kwargs):
+        print(request.GET)
+        print(request.POST)
+        print(request.META)
         context = {}
         return self.render_to_response(context)
 
