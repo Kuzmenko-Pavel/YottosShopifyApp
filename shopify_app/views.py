@@ -3,7 +3,7 @@ from django.conf import settings
 import shopify
 import json
 from django.template import RequestContext
-from django.http import HttpResponse
+from django.views.generic.base import TemplateResponseMixin, View
 from django.urls import reverse
 
 from django.utils import timezone
@@ -80,13 +80,37 @@ def webhook_app_uninstalled(request):
     return render(request, 'webhook.html')
 
 
-def google_xml(request):
-    return render(request, 'liquid/ga_feed.liquid')
+class GoogleXml(TemplateResponseMixin, View):
+    template_name = "liquid/ga_feed.liquid"
+    content_type = 'application/liquid'
+
+    def get(self, request, *args, **kwargs):
+        context = {}
+        return self.render_to_response(context)
+
+    def head(self, request, *args, **kwargs):
+        return self.get(request, *args, **kwargs)
 
 
-def facebook_xml(request):
-    return render(request, 'liquid/fb_feed.liquid')
+class FacebookXml(TemplateResponseMixin, View):
+    template_name = "liquid/fb_feed.liquid"
+    content_type = 'application/liquid'
+
+    def get(self, request, *args, **kwargs):
+        context = {}
+        return self.render_to_response(context)
+
+    def head(self, request, *args, **kwargs):
+        return self.get(request, *args, **kwargs)
 
 
-def yottos_xml(request):
-    return render(request, 'liquid/yt_feed.liquid')
+class YottosXml(TemplateResponseMixin, View):
+    template_name = "liquid/yt_feed.liquid"
+    content_type = 'application/liquid'
+
+    def get(self, request, *args, **kwargs):
+        context = {}
+        return self.render_to_response(context)
+
+    def head(self, request, *args, **kwargs):
+        return self.get(request, *args, **kwargs)
