@@ -3,6 +3,7 @@ from django.conf import settings
 import shopify
 import json
 from django.template import RequestContext
+from django.http import HttpResponse
 from django.urls import reverse
 
 from django.utils import timezone
@@ -15,8 +16,22 @@ def index(request):
     return render(request, 'index.html', context)
 
 
+def dashboard(request):
+    context = {'SHOPIFY_API_SCOPE': settings.SHOPIFY_API_SCOPE, 'request': RequestContext(request)}
+    return render(request, 'index.html', context)
+
+
 def install(request):
-    return render(request, 'login.html')
+    shop = request.GET.get('shop') or request.POST.get('shop')
+    if shop:
+        scope = settings.SHOPIFY_API_SCOPE
+        redirect_uri = request.build_absolute_uri(reverse('shopify_app:finalize'))
+        print(redirect_uri)
+        permission_url = shopify.Session(shop.strip(), settings.SHOPIFY_API_VERSION).create_permission_url(scope,
+                                                                                                           redirect_uri)
+        return redirect(permission_url)
+
+    return redirect(_return_address(request))
 
 
 def authenticate(request):
@@ -63,3 +78,15 @@ def webhook_app_uninstalled(request):
         if topic == 'app/uninstalled':
             tasks.app_uninstalled(data, verbose_name='Task for app/uninstalled webhook event: %s' % shop_url)
     return render(request, 'webhook.html')
+
+
+def google_xml(request):
+    return render(request, 'liquid/ga_feed.liquid')
+
+
+def facebook_xml(request):
+    return render(request, 'liquid/fb_feed.liquid')
+
+
+def yottos_xml(request):
+    return render(request, 'liquid/yt_feed.liquid')
