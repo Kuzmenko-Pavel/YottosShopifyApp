@@ -85,6 +85,18 @@ class WebhookAppUninstalled(TemplateView):
         return self.render_to_response({})
 
 
+class MainXml(TemplateResponseMixin, View):
+    template_name = "liquid/main.liquid"
+    content_type = 'application/liquid'
+
+    def get(self, request, *args, **kwargs):
+        context = {}
+        return self.render_to_response(context)
+
+    def head(self, request, *args, **kwargs):
+        return self.get(request, *args, **kwargs)
+
+
 class GoogleXml(TemplateResponseMixin, View):
     template_name = "liquid/ga_feed.liquid"
     content_type = 'application/liquid'

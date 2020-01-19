@@ -9,6 +9,7 @@ urlpatterns = [
     path('authenticate/', views.Authenticate.as_view(), name='authenticate'),
     path('finalize/', views.Finalize.as_view(), name='finalize'),
     path('webhook/app_uninstalled/', views.WebhookAppUninstalled.as_view(), name='app_uninstalled'),
+    path('proxy_url/', views.MainXml.as_view(), name='main_xml'),
     path('proxy_url/google.xml', views.GoogleXml.as_view(), name='google_xml'),
     path('proxy_url/facebook.xml', views.FacebookXml.as_view(), name='facebook_xml'),
     path('proxy_url/yottos.xml', views.YottosXml.as_view(), name='yottos_xml'),
