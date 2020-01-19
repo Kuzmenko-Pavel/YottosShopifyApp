@@ -235,4 +235,4 @@ fabric.properties
 # mkdocs documentation
 
 # mypy
-yottos_shopify/app_settings.py
+#yottos_shopify/app_settings.py

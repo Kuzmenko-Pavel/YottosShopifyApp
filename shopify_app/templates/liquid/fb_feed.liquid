@@ -6,8 +6,8 @@
 <link>{{ shop.url }}</link>
 <description>{{ collection.description | strip_html }}</description>
 {%- for product in collections.all.products -%}
-  {%- assign GoogleProductCategory = product.metafields.mm-google-shopping.google_product_category -%}
-  {%- assign Gender = product.metafields.mm-google-shopping.gender -%}
+  {%- assign GoogleProductCategory = product.metafields.mm-google-shopping.google_product_category | default: 111 -%}
+  {%- assign Gender = product.metafields.mm-google-shopping.gender | default: Unisex -%}
   {%- assign AgeGroup = product.metafields.mm-google-shopping.age_group -%}
 
   {%- if product.variants.size > 0 -%}
@@ -17,7 +17,7 @@
 <title>{{ product.title | strip_html | strip_newlines | replace: '&', '&amp;' }}</title>
 <description>{{ product.description | replace: '</', ' </' | strip_html | strip_newlines | replace: '&', '&amp;' }}</description>
 <link>{{ shop.url }}{{ variant.url }}</link>
-<g:google_product_category>{{ GoogleProductCategory | replace: '&', '&amp;'  }}</g:google_product_category>
+<g:google_product_category>{{ GoogleProductCategory | replace: '&', '&amp;' }}</g:google_product_category>
 <g:item_group_id>{{ product.id }}</g:item_group_id>
 <g:content_id>{{ variant.id }}</g:content_id>
 <g:price>{{ variant.price | money_without_currency }} {{ shop.currency }}</g:price>
@@ -29,11 +29,8 @@
 <g:product_type>{{ product.type | replace: '&', '&amp;' }}</g:product_type>
 <g:age_group>{{ AgeGroup }}</g:age_group>
 <g:gender>{{ Gender }}</g:gender>
-<g:custom_label_0>{{ product.metafields.mm-google-shopping.custom_label_0 }}</g:custom_label_0>
-<g:custom_label_1>{{ product.metafields.mm-google-shopping.custom_label_1 }}</g:custom_label_1>
-<g:custom_label_2>{{ product.metafields.mm-google-shopping.custom_label_2 }}</g:custom_label_2>
-<g:custom_label_3>{{ product.metafields.mm-google-shopping.custom_label_3 }}</g:custom_label_3>
-<g:custom_label_4>{{ product.metafields.mm-google-shopping.custom_label_4 }}</g:custom_label_4>
+<g:brand>{{ product.vendor }}</g:brand>
+<g:inventory>{{ variant.inventory_quantity }}</g:inventory>
 </item>
   {% endfor %}
   {% else %}
@@ -54,11 +51,7 @@
 <g:product_type>{{ product.type | replace: '&', '&amp;' }}</g:product_type>
 <g:age_group>{{ AgeGroup }}</g:age_group>
 <g:gender>{{ Gender }}</g:gender>
-<g:custom_label_0>{{ product.metafields.mm-google-shopping.custom_label_0 }}</g:custom_label_0>
-<g:custom_label_1>{{ product.metafields.mm-google-shopping.custom_label_1 }}</g:custom_label_1>
-<g:custom_label_2>{{ product.metafields.mm-google-shopping.custom_label_2 }}</g:custom_label_2>
-<g:custom_label_3>{{ product.metafields.mm-google-shopping.custom_label_3 }}</g:custom_label_3>
-<g:custom_label_4>{{ product.metafields.mm-google-shopping.custom_label_4 }}</g:custom_label_4>
+<g:brand>{{ product.vendor }}</g:brand>
 </item>
   {% endif %}
 {% endfor %}
