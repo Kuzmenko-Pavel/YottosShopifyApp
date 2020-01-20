@@ -17,7 +17,7 @@
                 {%- assign GoogleProductCategory = product.metafields.mm-google-shopping.google_product_category | default: 111 -%}
                 {%- assign Gender = product.metafields.mm-google-shopping.gender | default: Unisex -%}
                 {%- assign AgeGroup = product.metafields.mm-google-shopping.age_group -%}
-            {%- if product.variants.size > 0 -%}
+            {%- if product.variants.size > 1 -%}
             {%- for variant in product.variants -%}
             <offer id='{{ variant.id }}'>
                 <categoryName>{{ GoogleProductCategory | replace: '&', '&amp;'  }}</categoryName>
@@ -25,7 +25,7 @@
                 <url>{{ shop.url }}{{ variant.url }}</url>
                 <price>{{ variant.price | money_without_currency }}</price>
                 <currencyId>{{ shop.currency }}</currencyId>
-                <picture>http:{% if variant.image.src %}{{ variant.image.src | product_img_url: 'grande' }}{% else %}{{ product.featured_image.src | product_img_url: 'grande' }}{% endif %}</picture>
+                <picture>http:{% if variant.image.src %}{{ variant.image.src | img_url: '720x720' }}{% else %}{{ product.featured_image.src | img_url: '720x720' }}{% endif %}</picture>
                 <description>{{ product.description | replace: '</', ' </' | strip_html | strip_newlines | replace: '&', '&amp;' }}</description>
                 <product_type>{{ product.type | replace: '&', '&amp;' }}</product_type>
                 <age_group>{{ AgeGroup }}</age_group>
@@ -40,7 +40,13 @@
                 <url>{{ shop.url }}{{ product.url }}</url>
                 <price>{{ product.price | money_without_currency }}</price>
                 <currencyId>{{ shop.currency }}</currencyId>
-                <picture>http:{{ product.featured_image.src | product_img_url: 'grande' }}</picture>
+                {%- if product.images.size > 1 -%}
+                {%- for image in product.images -%}
+                    <picture>http:{{ image.src | img_url: '720x720' }}</picture>
+                {% endfor %}
+                {% else %}
+                    <picture>http:{{ product.featured_image.src | img_url: '720x720' }}</picture>
+                {% endif %}
                 <description>{{ product.description | replace: '</', ' </' | strip_html | strip_newlines | replace: '&', '&amp;' }}</description>
                 <product_type>{{ product.type | replace: '&', '&amp;' }}</product_type>
                 <age_group>{{ AgeGroup }}</age_group>

@@ -88,7 +88,7 @@ class WebhookAppUninstalled(TemplateView):
 
 class MainXml(TemplateResponseMixin, View):
     template_name = "liquid/main.liquid"
-    content_type = 'application/liquid'
+    content_type = 'text/html'
 
     def get(self, request, *args, **kwargs):
         context = {}

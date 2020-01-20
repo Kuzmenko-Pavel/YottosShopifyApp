@@ -9,7 +9,10 @@ class ShopifyStore(models.Model):
     shop_owner = models.CharField(max_length=100, help_text='Shopify store owner name.', null=True, blank=True)
     country_name = models.CharField(max_length=100, help_text='Store location.', null=True, blank=True)
     access_token = models.CharField(max_length=100, help_text='Permanent token received from shopify.')
+    installed = models.BooleanField(help_text='App installed.', null=True, blank=True)
     date_installed = models.DateTimeField(help_text='App installation date.', null=True, blank=True)
+    date_uninstalled = models.DateTimeField(help_text='App uninstalled date.', null=True, blank=True)
+    installed = models.BooleanField(help_text='App installed.', null=True, blank=True)
 
     def __str__(self):
         """String representation for model object."""
