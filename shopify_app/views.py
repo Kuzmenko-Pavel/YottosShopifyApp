@@ -47,6 +47,7 @@ class Install(View):
         if shop:
             scope = settings.SHOPIFY_API_SCOPE
             redirect_uri = request.build_absolute_uri(route_url('shopify_app:finalize'))
+            print(redirect_uri)
             session = shopify.Session(shop.strip(), settings.SHOPIFY_API_VERSION)
             url = session.create_permission_url(scope, redirect_uri)
         else:

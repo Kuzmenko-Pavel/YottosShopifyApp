@@ -15,8 +15,10 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from yottos_shopify import views
 
 urlpatterns = [
+    path('', views.Index.as_view()),
     path('admin/', admin.site.urls),
     path('shopify/', include('shopify_app.urls')),
 ]
