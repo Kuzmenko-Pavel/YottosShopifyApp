@@ -8,7 +8,6 @@ from django.utils import timezone
 
 from .models import ShopifyStore
 from .helpers import verify_webhook, route_url
-from . import tasks
 
 
 def index(request):
@@ -16,16 +15,7 @@ def index(request):
     return render(request, 'index.html', context)
 
 
-class Dashboard(TemplateView):
-    template_name = "dashboard.html"
-
-    def get(self, request, *args, **kwargs):
-        context = {'page_name': 'Home'}
-
-        return self.render_to_response(context)
-
-
-class Authenticate(View):
+class BaseShop(object):
 
     def get_shop(self, domain):
         try:
@@ -33,18 +23,32 @@ class Authenticate(View):
         except ShopifyStore.DoesNotExist:
             return None
 
+
+class Dashboard(TemplateView, BaseShop):
+    template_name = "dashboard.html"
+
     def get(self, request, *args, **kwargs):
-        shop = request.shop
+        context = {'page_name': 'Your Feed', 'shop': self.get_shop(request.shop)}
+
+        return self.render_to_response(context)
+
+
+class Authenticate(View, BaseShop):
+
+    def get(self, request, *args, **kwargs):
         shop = self.get_shop(request.shop)
         _query = {
             'shop': request.shop, 'hmac': request.hmac, 'timestamp': request.timestamp
         }
-        if shop:
-            url = route_url('shopify_app:dashboard', _query=_query)
-        else:
-            url = route_url('shopify_app:install', _query=_query)
-
-
+        url = route_url('shopify_app:install', _query=_query)
+        if shop and shop.installed:
+            try:
+                with shopify.Session.temp(shop.myshopify_domain, settings.SHOPIFY_API_VERSION, shop.access_token):
+                    count = shopify.Product.count()
+                    print(count)
+                    url = route_url('shopify_app:dashboard', _query=_query)
+            except Exception as e:
+                print(e)
         return redirect(url)
 
 
@@ -72,20 +76,34 @@ class Finalize(View):
 
     def create_shopify_store(self, shop_url, token):
         with shopify.Session.temp(shop_url, settings.SHOPIFY_API_VERSION, token):
-            user, created = ShopifyStore.objects.get_or_create(myshopify_domain=shop_url)
+            obj, created = ShopifyStore.objects.get_or_create(myshopify_domain=shop_url)
             if created:
                 shop = shopify.Shop.current()
-                user.myshopify_domain = shop_url
-                user.access_token = token
-                user.date_installed = timezone.now()
-                user.email = shop.email
-                user.shop_owner = shop.shop_owner
-                user.country_name = shop.country_name
-                user.name = shop.name
-                user.save()
+                obj.myshopify_domain = shop.myshopify_domain
+                obj.access_token = token
+                obj.date_installed = timezone.now()
+                obj.email = shop.email
+                obj.shop_owner = shop.shop_owner
+                obj.country_name = shop.country_name
+                obj.name = shop.name
+                obj.installed = True
+                obj.save()
             else:
-                if user.access_token != token:
-                    user.access_token = token
+                if obj.access_token != token:
+                    obj.access_token = token
+                    obj.save()
+
+    def webhook_create(self, request, shop_url, token):
+        with shopify.Session.temp(shop_url, settings.SHOPIFY_API_VERSION, token):
+            webhook_data = {
+                "topic": 'app/uninstalled',
+                "address": request.build_absolute_uri(route_url('shopify_app:app_uninstalled')),
+                "format": "json"
+            }
+            webhook = shopify.Webhook()
+            w = webhook.create(webhook_data)
+            print(w.errors.full_messages(), sep='\n')
+            print(w.to_dict(), sep='\n')
 
     def get(self, request, *args, **kwargs):
         shop = request.shop
@@ -99,50 +117,58 @@ class Finalize(View):
             shopify_session = shopify.Session(shop, settings.SHOPIFY_API_VERSION)
             access_token = shopify_session.request_token(request.GET)
             self.create_shopify_store(shop, access_token)
+            self.webhook_create(request, shop, access_token)
         except Exception:
             url = route_url('shopify_app:authenticate', _query=_query)
         return redirect(url)
 
 
-class Subscribe(TemplateView):
+class Subscribe(TemplateView, BaseShop):
     template_name = "subscribe.html"
 
     def get(self, request, *args, **kwargs):
-        shop = request.shop
-        hmac = request.hmac
-        timestamp = request.timestamp
         _query = {
             'shop': request.shop, 'hmac': request.hmac, 'timestamp': request.timestamp
         }
         context = {'url': route_url('shopify_app:authenticate', _query=_query)}
         try:
-            with shopify.Session.temp(shop, settings.SHOPIFY_API_VERSION, '187cf4fd80e2383a64594211bbfeae0f'):
-                charge = shopify.RecurringApplicationCharge()
-                charge.test = True
-                charge.return_url = request.build_absolute_uri(route_url('shopify_app:subscribe_submit', _query=_query))
-                charge.price = 10.00
-                charge.name = "Test name"
-                charge.save()
-                print(charge)
-                print(charge.return_url)
-                context['url'] = charge.confirmation_url
-                print(context['url'])
+            shop = self.get_shop(request.shop)
+            if shop:
+                with shopify.Session.temp(shop.myshopify_domain, settings.SHOPIFY_API_VERSION, shop.access_token):
+                    rac = shopify.RecurringApplicationCharge()
+                    rac.test = True
+                    rac.return_url = request.build_absolute_uri(route_url('shopify_app:subscribe_submit', _query=_query))
+                    rac.price = 10.00
+                    rac.name = "Test name"
+                    if rac.save():
+                        context['url'] = rac.confirmation_url
+                        print(rac.attributes)
+
         except Exception as e:
             print(e)
         return self.render_to_response(context)
 
 
-class SubmitSubscribe(View):
+class SubmitSubscribe(View, BaseShop):
 
     def get(self, request, *args, **kwargs):
-        shop = request.shop
-        hmac = request.hmac
-        timestamp = request.timestamp
-        url = request.build_absolute_uri(route_url('shopify_app:dashboard', _query={'shop': shop, 'hmac': hmac, 'timestamp': timestamp}))
+        _query = {
+            'shop': request.shop, 'hmac': request.hmac, 'timestamp': request.timestamp
+        }
+        charge_id = request.GET.get('charge_id')
+        shop = self.get_shop(request.shop)
+        if shop and charge_id:
+            with shopify.Session.temp(shop.myshopify_domain, settings.SHOPIFY_API_VERSION, shop.access_token):
+                rac = shopify.RecurringApplicationCharge.find(charge_id)
+                rac.activate()
+                if rac.status == 'active':
+                    shop.premium = True
+                    shop.save()
+        url = request.build_absolute_uri(route_url('shopify_app:dashboard', _query=_query))
         return redirect(url)
 
 
-class WebhookAppUninstalled(TemplateView):
+class WebhookAppUninstalled(TemplateView, BaseShop):
     template_name = "webhook.html"
 
     def post(self, request, *args, **kwargs):
@@ -150,21 +176,19 @@ class WebhookAppUninstalled(TemplateView):
             topic = request.headers.get('X-Shopify-Topic')
             shop_url = request.headers.get('X-Shopify-Shop-Domain')
             data = json.loads(request.body)
-            data.update({'X-Shopify-Shop-Domain': shop_url})
             if topic == 'app/uninstalled':
-                tasks.app_uninstalled(data, verbose_name='Task for app/uninstalled webhook event: %s' % shop_url)
+                shop = self.get_shop(request.shop_url)
+                if shop:
+                    print(data)
+                    shop.installed = False
+                    shop.save()
+
         return self.render_to_response({})
 
 
-class MainXml(TemplateResponseMixin, View):
+class MainXml(TemplateResponseMixin, View, BaseShop):
     template_name = "liquid/main.liquid"
     content_type = 'application/liquid'
-
-    def get_shop(self, domain):
-        try:
-            return ShopifyStore.objects.get(myshopify_domain=domain)
-        except ShopifyStore.DoesNotExist:
-            return None
 
     def get(self, request, *args, **kwargs):
         context = {

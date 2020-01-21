@@ -4,7 +4,7 @@
 # SHOPIFY_API_SECRET = 'f7b4a5856490a7355107167c4d462281'
 SHOPIFY_API_KEY = 'cca1b498c9cd837a42e6ac59c59f3c1b'
 SHOPIFY_API_SECRET = '6a8e5512946335b324768235d1f97fec'
-SHOPIFY_API_SCOPE = ['read_script_tags', 'write_script_tags', 'read_orders', 'write_orders']
+SHOPIFY_API_SCOPE = []
 SHOPIFY_API_VERSION = '2019-04'
 DB_NAME = 'shopify'
 DB_USER = 'shopify'

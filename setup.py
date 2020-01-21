@@ -20,11 +20,9 @@ def read_version():
 
 install_requires = [
     'Django',
-    'django-background-tasks',
     'mysqlclient',
     'pyactiveresource',
     'ShopifyAPI',
-    'mysqlclient'
 ]
 
 setup(
