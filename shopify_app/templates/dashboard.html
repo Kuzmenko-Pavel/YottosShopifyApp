@@ -22,7 +22,7 @@
         var titleBarOptions = {
             title: '{{ page_name }}',
         };
-        {% if shop.premium is None %}
+        {% if not shop.premium %}
             var Button = actions.Button;
             var Redirect = actions.Redirect;
             var redirect = Redirect.create(app);

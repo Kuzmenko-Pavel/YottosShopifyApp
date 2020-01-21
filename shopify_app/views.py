@@ -187,12 +187,10 @@ class WebhookAppUninstalled(TemplateView, BaseShop):
         if request.method == 'POST' and verify_webhook(request.body, request.headers.get('X-Shopify-Hmac-Sha256')):
             topic = request.headers.get('X-Shopify-Topic')
             shop_url = request.headers.get('X-Shopify-Shop-Domain')
-            print(request.body)
             data = json.loads(request.body.decode('utf-8'))
             if topic == 'app/uninstalled':
                 shop = self.get_shop(shop_url)
                 if shop:
-                    print(data)
                     shop.installed = False
                     shop.premium = False
                     shop.date_uninstalled = timezone.now()
@@ -207,7 +205,8 @@ class MainXml(TemplateResponseMixin, View, BaseShop):
 
     def get(self, request, *args, **kwargs):
         context = {
-            'shop': self.get_shop(request.shop)
+            'shop': self.get_shop(request.shop),
+            'page': int(request.GET.get('page', '1'))
         }
         return self.render_to_response(context)
 
@@ -219,9 +218,14 @@ class MainXml(TemplateResponseMixin, View, BaseShop):
         Pass response_kwargs to the constructor of the response class.
         """
         response_kwargs.setdefault('content_type', self.content_type)
+        shop = context.get('shop')
+        page = context.get('page', 1)
         template = self.get_template_names()
-        if context.get('shop') is None:
+        if shop is None:
             template = ["liquid/main.liquid"]
+        else:
+            if page > 1 and not shop.premium:
+                template = ["liquid/main.liquid"]
         return self.response_class(
             request=self.request,
             template=template,
