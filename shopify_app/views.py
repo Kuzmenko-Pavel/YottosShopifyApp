@@ -4,6 +4,8 @@ import shopify
 import json
 from django.template import RequestContext
 from django.views.generic.base import TemplateResponseMixin, View, TemplateView
+from django.views.decorators.csrf import csrf_exempt
+from django.utils.decorators import method_decorator
 from django.utils import timezone
 
 from .models import ShopifyStore
@@ -41,6 +43,8 @@ class Authenticate(View, BaseShop):
             'shop': request.shop, 'hmac': request.hmac, 'timestamp': request.timestamp
         }
         url = route_url('shopify_app:install', _query=_query)
+        print(shop)
+        print(shop.installed)
         if shop and shop.installed:
             try:
                 with shopify.Session.temp(shop.myshopify_domain, settings.SHOPIFY_API_VERSION, shop.access_token):
@@ -79,6 +83,8 @@ class Finalize(View):
             obj, created = ShopifyStore.objects.get_or_create(myshopify_domain=shop_url)
             if created:
                 shop = shopify.Shop.current()
+                count = shopify.Product.count()
+                print(count)
                 obj.myshopify_domain = shop.myshopify_domain
                 obj.access_token = token
                 obj.date_installed = timezone.now()
@@ -91,6 +97,10 @@ class Finalize(View):
             else:
                 if obj.access_token != token:
                     obj.access_token = token
+                    obj.installed = True
+                    obj.save()
+                if not obj.installed:
+                    obj.installed = True
                     obj.save()
 
     def webhook_create(self, request, shop_url, token):
@@ -163,11 +173,13 @@ class SubmitSubscribe(View, BaseShop):
                 rac.activate()
                 if rac.status == 'active':
                     shop.premium = True
+                    shop.date_paid = timezone.now()
                     shop.save()
         url = request.build_absolute_uri(route_url('shopify_app:dashboard', _query=_query))
         return redirect(url)
 
 
+@method_decorator(csrf_exempt, name='dispatch')
 class WebhookAppUninstalled(TemplateView, BaseShop):
     template_name = "webhook.html"
 
@@ -175,12 +187,15 @@ class WebhookAppUninstalled(TemplateView, BaseShop):
         if request.method == 'POST' and verify_webhook(request.body, request.headers.get('X-Shopify-Hmac-Sha256')):
             topic = request.headers.get('X-Shopify-Topic')
             shop_url = request.headers.get('X-Shopify-Shop-Domain')
-            data = json.loads(request.body)
+            print(request.body)
+            data = json.loads(request.body.decode('utf-8'))
             if topic == 'app/uninstalled':
-                shop = self.get_shop(request.shop_url)
+                shop = self.get_shop(shop_url)
                 if shop:
                     print(data)
                     shop.installed = False
+                    shop.premium = False
+                    shop.date_uninstalled = timezone.now()
                     shop.save()
 
         return self.render_to_response({})
