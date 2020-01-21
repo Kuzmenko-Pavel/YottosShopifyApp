@@ -5,8 +5,8 @@ import json
 from django.template import RequestContext
 from django.views.generic.base import TemplateResponseMixin, View, TemplateView
 
-from django.utils import timezone
-from .helpers import verify_webhook, ShopifyHelper, route_url
+from .models import ShopifyStore
+from .helpers import verify_webhook, route_url
 from . import tasks
 
 
@@ -123,47 +123,50 @@ class WebhookAppUninstalled(TemplateView):
 
 class MainXml(TemplateResponseMixin, View):
     template_name = "liquid/main.liquid"
-    content_type = 'text/html'
+    content_type = 'application/liquid'
+
+    def get_shop(self, domain):
+        try:
+            return ShopifyStore.objects.get(myshopify_domain=domain)
+        except ShopifyStore.DoesNotExist:
+            return None
 
     def get(self, request, *args, **kwargs):
-        context = {}
+        context = {
+            'shop': self.get_shop(request.shop)
+        }
         return self.render_to_response(context)
+
+    def render_to_response(self, context, **response_kwargs):
+        """
+        Return a response, using the `response_class` for this view, with a
+        template rendered with the given context.
+
+        Pass response_kwargs to the constructor of the response class.
+        """
+        response_kwargs.setdefault('content_type', self.content_type)
+        template = self.get_template_names()
+        if context.get('shop') is None:
+            template = ["liquid/main.liquid"]
+        return self.response_class(
+            request=self.request,
+            template=template,
+            context=context,
+            using=self.template_engine,
+            **response_kwargs
+        )
 
     def head(self, request, *args, **kwargs):
         return self.get(request, *args, **kwargs)
 
 
-class GoogleXml(TemplateResponseMixin, View):
+class GoogleXml(MainXml):
     template_name = "liquid/ga_feed.liquid"
-    content_type = 'application/liquid'
-
-    def get(self, request, *args, **kwargs):
-        context = {}
-        return self.render_to_response(context)
-
-    def head(self, request, *args, **kwargs):
-        return self.get(request, *args, **kwargs)
 
 
-class FacebookXml(TemplateResponseMixin, View):
+class FacebookXml(MainXml):
     template_name = "liquid/fb_feed.liquid"
-    content_type = 'application/liquid'
-
-    def get(self, request, *args, **kwargs):
-        context = {}
-        return self.render_to_response(context)
-
-    def head(self, request, *args, **kwargs):
-        return self.get(request, *args, **kwargs)
 
 
-class YottosXml(TemplateResponseMixin, View):
+class YottosXml(MainXml):
     template_name = "liquid/yt_feed.liquid"
-    content_type = 'application/liquid'
-
-    def get(self, request, *args, **kwargs):
-        context = {}
-        return self.render_to_response(context)
-
-    def head(self, request, *args, **kwargs):
-        return self.get(request, *args, **kwargs)
