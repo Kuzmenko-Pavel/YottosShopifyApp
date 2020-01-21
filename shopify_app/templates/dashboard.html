@@ -13,12 +13,23 @@
         var app = createApp({
             apiKey: '{{ api_key }}',
             shopOrigin: '{{ current_shop }}',
-            forceRedirect: true
+            forceRedirect: true,
+            debug: true,
         });
         var actions = AppBridge.actions;
+        var Button = actions.Button;
+        var Redirect = actions.Redirect;
+        var redirect = Redirect.create(app);
+        var saveButton = Button.create(app, { label: 'Upgrade to Premium Membership' });
+        var clickUnsubscribe = saveButton.subscribe(Button.Action.CLICK, function () {
+            redirect.dispatch(Redirect.Action.APP, '/shopify/subscribe');
+        });
         var TitleBar = actions.TitleBar;
         var titleBarOptions = {
-            title: '{{ page_name }}'
+            title: '{{ page_name }}',
+            buttons: {
+                primary: saveButton,
+            },
         };
         var myTitleBar = TitleBar.create(app, titleBarOptions);
     </script>

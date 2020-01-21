@@ -47,7 +47,6 @@ class Install(View):
         if shop:
             scope = settings.SHOPIFY_API_SCOPE
             redirect_uri = request.build_absolute_uri(route_url('shopify_app:finalize'))
-            print(redirect_uri)
             session = shopify.Session(shop.strip(), settings.SHOPIFY_API_VERSION)
             url = session.create_permission_url(scope, redirect_uri)
         else:
@@ -69,6 +68,42 @@ class Finalize(View):
             print(access_token)
         except Exception:
             url = route_url('shopify_app:authenticate', _query={'shop': shop, 'hmac': hmac, 'timestamp': timestamp})
+        return redirect(url)
+
+
+class Subscribe(TemplateView):
+    template_name = "subscribe.html"
+
+    def get(self, request, *args, **kwargs):
+        shop = request.GET.get('shop')
+        hmac = request.GET.get('hmac')
+        timestamp = request.GET.get('timestamp')
+        context = {'url': route_url('shopify_app:authenticate', _query={'shop': shop, 'hmac': hmac, 'timestamp': timestamp})}
+        try:
+            with shopify.Session.temp(shop, settings.SHOPIFY_API_VERSION, '187cf4fd80e2383a64594211bbfeae0f'):
+                charge = shopify.RecurringApplicationCharge()
+                charge.test = True
+                charge.return_url = request.build_absolute_uri(route_url('shopify_app:subscribe_submit', _query={'shop': shop, 'hmac': hmac, 'timestamp': timestamp}))
+                charge.price = 10.00
+                charge.name = "Test name"
+                charge.save()
+                print(charge)
+                print(charge.return_url)
+                context['url'] = charge.confirmation_url
+                print(context['url'])
+        except Exception as e:
+            print(e)
+        return self.render_to_response(context)
+
+
+class SubmitSubscribe(View):
+
+    def get(self, request, *args, **kwargs):
+        shop = request.GET.get('shop')
+        hmac = request.GET.get('hmac')
+        timestamp = request.GET.get('timestamp')
+        url = request.build_absolute_uri(route_url('shopify_app:dashboard', _query={'shop': shop, 'hmac': hmac, 'timestamp': timestamp}))
+        print(url)
         return redirect(url)
 
 
