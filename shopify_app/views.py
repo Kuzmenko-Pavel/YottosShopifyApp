@@ -4,6 +4,7 @@ import shopify
 import json
 from django.template import RequestContext
 from django.views.generic.base import TemplateResponseMixin, View, TemplateView
+from django.utils import timezone
 
 from .models import ShopifyStore
 from .helpers import verify_webhook, route_url
@@ -26,14 +27,23 @@ class Dashboard(TemplateView):
 
 class Authenticate(View):
 
+    def get_shop(self, domain):
+        try:
+            return ShopifyStore.objects.get(myshopify_domain=domain)
+        except ShopifyStore.DoesNotExist:
+            return None
+
     def get(self, request, *args, **kwargs):
-        shop = request.GET.get('shop')
-        hmac = request.GET.get('hmac')
-        timestamp = request.GET.get('timestamp')
+        shop = request.shop
+        shop = self.get_shop(request.shop)
+        _query = {
+            'shop': request.shop, 'hmac': request.hmac, 'timestamp': request.timestamp
+        }
         if shop:
-            url = route_url('shopify_app:install', _query={'shop': shop, 'hmac': hmac, 'timestamp': timestamp})
+            url = route_url('shopify_app:dashboard', _query=_query)
         else:
-            url = route_url('shopify_app:dashboard', _query={'shop': shop, 'hmac': hmac, 'timestamp': timestamp})
+            url = route_url('shopify_app:install', _query=_query)
+
 
         return redirect(url)
 
@@ -41,33 +51,56 @@ class Authenticate(View):
 class Install(View):
 
     def get(self, request, *args, **kwargs):
-        shop = request.GET.get('shop')
-        hmac = request.GET.get('hmac')
-        timestamp = request.GET.get('timestamp')
+        shop = request.shop
+        hmac = request.hmac
+        timestamp = request.timestamp
+        _query = {
+            'shop': request.shop, 'hmac': request.hmac, 'timestamp': request.timestamp
+        }
         if shop:
             scope = settings.SHOPIFY_API_SCOPE
             redirect_uri = request.build_absolute_uri(route_url('shopify_app:finalize'))
             session = shopify.Session(shop.strip(), settings.SHOPIFY_API_VERSION)
             url = session.create_permission_url(scope, redirect_uri)
         else:
-            url = route_url('shopify_app:index', _query={'shop': shop, 'hmac': hmac, 'timestamp': timestamp})
+            url = route_url('shopify_app:index', _query=_query)
             url = request.build_absolute_uri(url)
         return redirect(url)
 
 
 class Finalize(View):
 
+    def create_shopify_store(self, shop_url, token):
+        with shopify.Session.temp(shop_url, settings.SHOPIFY_API_VERSION, token):
+            user, created = ShopifyStore.objects.get_or_create(myshopify_domain=shop_url)
+            if created:
+                shop = shopify.Shop.current()
+                user.myshopify_domain = shop_url
+                user.access_token = token
+                user.date_installed = timezone.now()
+                user.email = shop.email
+                user.shop_owner = shop.shop_owner
+                user.country_name = shop.country_name
+                user.name = shop.name
+                user.save()
+            else:
+                if user.access_token != token:
+                    user.access_token = token
+
     def get(self, request, *args, **kwargs):
-        shop = request.GET.get('shop')
-        hmac = request.GET.get('hmac')
-        timestamp = request.GET.get('timestamp')
-        url = route_url('shopify_app:dashboard', _query={'shop': shop, 'hmac': hmac, 'timestamp': timestamp})
+        shop = request.shop
+        hmac = request.hmac
+        timestamp = request.timestamp
+        _query = {
+            'shop': request.shop, 'hmac': request.hmac, 'timestamp': request.timestamp
+        }
+        url = route_url('shopify_app:dashboard', _query=_query)
         try:
             shopify_session = shopify.Session(shop, settings.SHOPIFY_API_VERSION)
             access_token = shopify_session.request_token(request.GET)
-            print(access_token)
+            self.create_shopify_store(shop, access_token)
         except Exception:
-            url = route_url('shopify_app:authenticate', _query={'shop': shop, 'hmac': hmac, 'timestamp': timestamp})
+            url = route_url('shopify_app:authenticate', _query=_query)
         return redirect(url)
 
 
@@ -75,15 +108,18 @@ class Subscribe(TemplateView):
     template_name = "subscribe.html"
 
     def get(self, request, *args, **kwargs):
-        shop = request.GET.get('shop')
-        hmac = request.GET.get('hmac')
-        timestamp = request.GET.get('timestamp')
-        context = {'url': route_url('shopify_app:authenticate', _query={'shop': shop, 'hmac': hmac, 'timestamp': timestamp})}
+        shop = request.shop
+        hmac = request.hmac
+        timestamp = request.timestamp
+        _query = {
+            'shop': request.shop, 'hmac': request.hmac, 'timestamp': request.timestamp
+        }
+        context = {'url': route_url('shopify_app:authenticate', _query=_query)}
         try:
             with shopify.Session.temp(shop, settings.SHOPIFY_API_VERSION, '187cf4fd80e2383a64594211bbfeae0f'):
                 charge = shopify.RecurringApplicationCharge()
                 charge.test = True
-                charge.return_url = request.build_absolute_uri(route_url('shopify_app:subscribe_submit', _query={'shop': shop, 'hmac': hmac, 'timestamp': timestamp}))
+                charge.return_url = request.build_absolute_uri(route_url('shopify_app:subscribe_submit', _query=_query))
                 charge.price = 10.00
                 charge.name = "Test name"
                 charge.save()
@@ -99,11 +135,10 @@ class Subscribe(TemplateView):
 class SubmitSubscribe(View):
 
     def get(self, request, *args, **kwargs):
-        shop = request.GET.get('shop')
-        hmac = request.GET.get('hmac')
-        timestamp = request.GET.get('timestamp')
+        shop = request.shop
+        hmac = request.hmac
+        timestamp = request.timestamp
         url = request.build_absolute_uri(route_url('shopify_app:dashboard', _query={'shop': shop, 'hmac': hmac, 'timestamp': timestamp}))
-        print(url)
         return redirect(url)
 
 
