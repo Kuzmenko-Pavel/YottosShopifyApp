@@ -1,3 +1,4 @@
+import re
 import shopify
 from django.conf import settings
 
@@ -21,3 +22,33 @@ class LoginProtection(object):
         request.timestamp = request.GET.get('timestamp', '')
         response = self.get_response(request)
         return response
+
+
+class StripWhitespaceMiddleware(object):
+    """
+    Strips leading and trailing whitespace from response content.
+    """
+
+    def __init__(self, get_response=None):
+        self.get_response = get_response
+        self.whitespace = re.compile('^\s*\n', re.MULTILINE)
+        self.whitespace_lead = re.compile('^\s+', re.MULTILINE)
+        self.whitespace_trail = re.compile('\s+$', re.MULTILINE)
+        self.new_line = re.compile('^\n*$', re.MULTILINE)
+
+    def __call__(self, request):
+        response = self.get_response(request)
+        if "liquid" in response['Content-Type']:
+            if hasattr(self, 'whitespace_lead'):
+                response.content = self.whitespace_lead.sub('', response.content.decode('utf-8'))
+            if hasattr(self, 'whitespace_trail'):
+                response.content = self.whitespace_trail.sub('', response.content.decode('utf-8'))
+            # Uncomment the next line to remove empty lines
+            if hasattr(self, 'whitespace'):
+                response.content = self.whitespace.sub('', response.content.decode('utf-8'))
+            if hasattr(self, 'new_line'):
+                print(response.content.decode('utf-8'))
+                response.content = self.new_line.sub('', response.content.decode('utf-8'))
+            return response
+        else:
+            return response

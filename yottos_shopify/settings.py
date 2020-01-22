@@ -50,6 +50,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'shopify_app.middleware.LoginProtection',
+    'shopify_app.middleware.StripWhitespaceMiddleware',
     # 'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 

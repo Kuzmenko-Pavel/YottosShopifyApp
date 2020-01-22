@@ -1,6 +1,8 @@
-{% verbatim block %}{% layout none %}<?xml version="1.0"?>
+{% verbatim %}
+{%- layout none -%}
+<?xml version="1.0"?>
 <rss xmlns:g="http://base.google.com/ns/1.0" version="2.0">
-{% paginate collections.all.products by 1000 %}
+{%- paginate collections.all.products by 1000 -%}
 <channel>
 <title>{{ shop.name }} {{ collection.title | replace: '&', '&amp;' }}</title>
 <link>{{ shop.url }}</link>
@@ -13,6 +15,10 @@
   {%- if product.variants.size > 1 -%}
   {%- for variant in product.variants -%}
 <item>
+{% endverbatim%}
+
+
+{% verbatim %}
 <g:id>{{ variant.id }}</g:id>
 <title>{{ product.title | strip_html | strip_newlines | replace: '&', '&amp;' }}</title>
 <description>{{ product.description | replace: '</', ' </' | strip_html | strip_newlines | replace: '&', '&amp;' }}</description>
@@ -22,8 +28,8 @@
 <g:content_id>{{ variant.id }}</g:content_id>
 <g:price>{{ variant.price | money_without_currency }} {{ shop.currency }}</g:price>
 <g:condition>new</g:condition>
-<g:availability>{% if variant.available %}in stock{% else %}out of stock{% endif %}</g:availability>
-<g:image_link>http:{% if variant.image.src %}{{ variant.image.src | img_url: '720x720' }}{% else %}{{ product.featured_image.src | img_url: '720x720' }}{% endif %}</g:image_link>
+<g:availability>{%- if variant.available -%}in stock{%- else %}out of stock{%- endif -%}</g:availability>
+<g:image_link>http:{%- if variant.image.src -%}{{ variant.image.src | img_url: '720x720' }}{%- else -%}{{ product.featured_image.src | img_url: '720x720' }}{%- endif -%}</g:image_link>
 <g:additional_image_link></g:additional_image_link>
 <g:gtin>{{ variant.barcode }}</g:gtin>
 <g:mpn>{{ variant.sku }}</g:mpn>
@@ -33,8 +39,8 @@
 <g:brand>{{ product.vendor }}</g:brand>
 <g:inventory>{{ variant.inventory_quantity }}</g:inventory>
 </item>
-  {% endfor %}
-  {% else %}
+{%- endfor -%}
+{%- else -%}
 
 <item>
 <title>{{ product.title | strip_html | strip_newlines | replace: '&', '&amp;' }}</title>
@@ -45,18 +51,18 @@
 <g:item_group_id>{{ product.id }}</g:item_group_id>
 <g:price>{{ product.price | money_without_currency }} {{ shop.currency }}</g:price>
 <g:condition>new</g:condition>
-<g:availability>{% if product.available %}in stock{% else %}out of stock{% endif %}</g:availability>
+<g:availability>{%- if product.available -%}in stock{%- else -%}out of stock{%- endif -%}</g:availability>
 {%- if product.images.size > 1 -%}
 {%- for image in product.images -%}
-    {% if forloop.first == true %}
+    {%- if forloop.first == true -%}
     <image_link>http:{{ image.src | img_url: '720x720' }}</image_link>
-    {% else %}
+    {%- else -%}
     <additional_image_link>http:{{ image.src | img_url: '720x720' }}</additional_image_link>
-    {% endif %}
-{% endfor %}
-{% else %}
+    {%- endif -%}
+{%- endfor -%}
+{%- else -%}
     <g:image_link>http:{{ product.featured_image.src | img_url: '720x720' }}</g:image_link>
-{% endif %}
+{%- endif -%}
 <g:gtin>{{ product.barcode }}</g:gtin>
 <g:mpn>{{ product.sku }}</g:mpn>
 <g:product_type>{{ product.type | replace: '&', '&amp;' }}</g:product_type>
@@ -64,9 +70,9 @@
 <g:gender>{{ Gender }}</g:gender>
 <g:brand>{{ product.vendor }}</g:brand>
 </item>
-  {% endif %}
-{% endfor %}
+  {%- endif -%}
+{%- endfor -%}
 </channel>
 </rss>
-{% endpaginate %}
-{% endverbatim block %}
+{%- endpaginate -%}
+{% endverbatim %}
