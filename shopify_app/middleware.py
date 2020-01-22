@@ -47,7 +47,6 @@ class StripWhitespaceMiddleware(object):
             if hasattr(self, 'whitespace'):
                 response.content = self.whitespace.sub('', response.content.decode('utf-8'))
             if hasattr(self, 'new_line'):
-                print(response.content.decode('utf-8'))
                 response.content = self.new_line.sub('', response.content.decode('utf-8'))
             return response
         else:

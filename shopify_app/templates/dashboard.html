@@ -25,7 +25,7 @@
             var Button = actions.Button;
             var Redirect = actions.Redirect;
             var redirect = Redirect.create(app);
-            var subscribeButton = Button.create(app, {label: 'Billing'});
+            var subscribeButton = Button.create(app, {label: 'Billing', style: Button.Style.Danger});
             var clickSubscribe = subscribeButton.subscribe(Button.Action.CLICK, function () {
                 redirect.dispatch(Redirect.Action.APP, '{% url "shopify_app:billing" %}');
             });
