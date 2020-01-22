@@ -22,16 +22,14 @@
             var titleBarOptions = {
                 title: '{{ page_name }}'
             };
-            {% if not shop.premium %}
-                var Button = actions.Button;
-                var Redirect = actions.Redirect;
-                var redirect = Redirect.create(app);
-                var subscribeButton = Button.create(app, {label: 'Upgrade to Premium Membership'});
-                var clickSubscribe = subscribeButton.subscribe(Button.Action.CLICK, function () {
-                    redirect.dispatch(Redirect.Action.APP, '/shopify/subscribe');
-                });
-                titleBarOptions.buttons = {primary: subscribeButton};
-            {% endif %}
+            var Button = actions.Button;
+            var Redirect = actions.Redirect;
+            var redirect = Redirect.create(app);
+            var subscribeButton = Button.create(app, {label: 'Billing'});
+            var clickSubscribe = subscribeButton.subscribe(Button.Action.CLICK, function () {
+                redirect.dispatch(Redirect.Action.APP, '{% url "shopify_app:billing" %}');
+            });
+            titleBarOptions.buttons = {primary: subscribeButton};
             var myTitleBar = TitleBar.create(app, titleBarOptions);
         </script>
     </head>
