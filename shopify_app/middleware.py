@@ -1,5 +1,5 @@
-from django.conf import settings
 import shopify
+from django.conf import settings
 
 
 class ConfigurationError(BaseException):

@@ -1,71 +1,154 @@
 {% if shop %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
-    <link rel="stylesheet" href="https://unpkg.com/@shopify/polaris@4.0.0/styles.min.css"/>
-    <script src="https://cdn.shopify.com/s/assets/external/app.js"></script>
-    <script src="https://unpkg.com/@shopify/app-bridge"></script>
-    <script type="text/javascript">
-        var AppBridge = window['app-bridge'];
-        var createApp = AppBridge.default;
-        var app = createApp({
-            apiKey: '{{ api_key }}',
-            shopOrigin: '{{ current_shop }}',
-            forceRedirect: true,
-            debug: true,
-        });
-        var actions = AppBridge.actions;
-        var TitleBar = actions.TitleBar;
-        var titleBarOptions = {
-            title: '{{ page_name }}',
-        };
-        {% if not shop.premium %}
-            var Button = actions.Button;
-            var Redirect = actions.Redirect;
-            var redirect = Redirect.create(app);
-            var subscribeButton = Button.create(app, { label: 'Upgrade to Premium Membership' });
-            var clickSubscribe = subscribeButton.subscribe(Button.Action.CLICK, function () {
-                redirect.dispatch(Redirect.Action.APP, '/shopify/subscribe');
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
+        <link rel="stylesheet" href="https://unpkg.com/@shopify/polaris@4.0.0/styles.min.css"/>
+        <script src="https://cdn.shopify.com/s/assets/external/app.js"></script>
+        <script src="https://unpkg.com/@shopify/app-bridge"></script>
+        <script type="text/javascript">
+            var AppBridge = window['app-bridge'];
+            var createApp = AppBridge.default;
+            var app = createApp({
+                apiKey: '{{ api_key }}',
+                shopOrigin: '{{ current_shop }}',
+                forceRedirect: true,
+                debug: true
             });
-            titleBarOptions.buttons = {primary: subscribeButton};
-        {% endif %}
-        var myTitleBar = TitleBar.create(app, titleBarOptions);
-    </script>
-</head>
-<body>
-<div class="Polaris-Page">
-    <div class="Polaris-Page__Content">
-        <div class="Polaris-Layout">
-            <div class="Polaris-Layout__AnnotatedSection">
-                <div class="Polaris-Layout__AnnotationWrapper">
-                    <div class="Polaris-Layout__Annotation">
-                        <div class="Polaris-TextContainer"><h2 class="Polaris-Heading">All set up!</h2>
-                            <div class="Polaris-Layout__AnnotationDescription"><p>You have successfully generated
-                                your Facebook product feed. You can now add it to your Facebook Catalog.</p></div>
+            var actions = AppBridge.actions;
+            var TitleBar = actions.TitleBar;
+            var titleBarOptions = {
+                title: '{{ page_name }}'
+            };
+            {% if not shop.premium %}
+                var Button = actions.Button;
+                var Redirect = actions.Redirect;
+                var redirect = Redirect.create(app);
+                var subscribeButton = Button.create(app, {label: 'Upgrade to Premium Membership'});
+                var clickSubscribe = subscribeButton.subscribe(Button.Action.CLICK, function () {
+                    redirect.dispatch(Redirect.Action.APP, '/shopify/subscribe');
+                });
+                titleBarOptions.buttons = {primary: subscribeButton};
+            {% endif %}
+            var myTitleBar = TitleBar.create(app, titleBarOptions);
+        </script>
+    </head>
+    <body>
+    <div class="Polaris-Page">
+        <div class="Polaris-Page__Content">
+            <div class="Polaris-Layout">
+                <div class="Polaris-Layout__AnnotatedSection">
+                    <div class="Polaris-Layout__AnnotationWrapper">
+                        <div class="Polaris-Layout__Annotation">
+                            <div class="Polaris-TextContainer"><h2 class="Polaris-Heading">All set up!</h2>
+                                <div class="Polaris-Layout__AnnotationDescription"><p>You have successfully generated
+                                    your Facebook product feed. You can now add it to your Facebook Catalog.</p></div>
+                            </div>
+                        </div>
+                        <div class="Polaris-Layout__AnnotationContent">
+                            <div class="Polaris-Card">
+                                <div class="Polaris-Card__Header"><h2 class="Polaris-Heading">Your Facebook Feed</h2>
+                                </div>
+                                <div class="Polaris-Card__Section">
+                                    <div class="">
+                                        <div class="Polaris-Labelled__LabelWrapper">
+                                            <div class="Polaris-Label"><label id="TextField1Label" for="TextField1"
+                                                                              class="Polaris-Label__Text">URL</label>
+                                            </div>
+                                            <button id="copyButton1" type="button"
+                                                    class="Polaris-Button Polaris-Button--plain"><span
+                                                    class="Polaris-Button__Content"><span>Copy to clipboard</span></span>
+                                            </button>
+                                        </div>
+                                        <div class="Polaris-TextField Polaris-TextField--hasValue Polaris-TextField--readOnly">
+                                            <input id="TextField1" readonly="" class="Polaris-TextField__Input"
+                                                   aria-label="URL" aria-labelledby="TextField1Label"
+                                                   aria-invalid="false"
+                                                   value="https://{{ current_shop }}/a/ytt_feed/facebook.xml">
+                                            <div class="Polaris-TextField__Backdrop"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                    <div class="Polaris-Layout__AnnotationContent">
-                        <div class="Polaris-Card">
-                            <div class="Polaris-Card__Header"><h2 class="Polaris-Heading">Your Facebook Feed</h2></div>
-                            <div class="Polaris-Card__Section">
-                                <div class="">
-                                    <div class="Polaris-Labelled__LabelWrapper">
-                                        <div class="Polaris-Label"><label id="TextField1Label" for="TextField1"
-                                                                          class="Polaris-Label__Text">URL</label>
+                </div>
+            </div>
+        </div>
+        <div class="Polaris-Page__Content">
+            <div class="Polaris-Layout">
+                <div class="Polaris-Layout__AnnotatedSection">
+                    <div class="Polaris-Layout__AnnotationWrapper">
+                        <div class="Polaris-Layout__Annotation">
+                            <div class="Polaris-TextContainer"><h2 class="Polaris-Heading">All set up!</h2>
+                                <div class="Polaris-Layout__AnnotationDescription"><p>You have successfully generated
+                                    your Google product feed. You can now add it to your Google Catalog.</p></div>
+                            </div>
+                        </div>
+                        <div class="Polaris-Layout__AnnotationContent">
+                            <div class="Polaris-Card">
+                                <div class="Polaris-Card__Header"><h2 class="Polaris-Heading">Your Google Feed</h2>
+                                </div>
+                                <div class="Polaris-Card__Section">
+                                    <div class="">
+                                        <div class="Polaris-Labelled__LabelWrapper">
+                                            <div class="Polaris-Label"><label id="TextField1Label" for="TextField1"
+                                                                              class="Polaris-Label__Text">URL</label>
+                                            </div>
+                                            <button id="copyButton2" type="button"
+                                                    class="Polaris-Button Polaris-Button--plain"><span
+                                                    class="Polaris-Button__Content"><span>Copy to clipboard</span></span>
+                                            </button>
                                         </div>
-                                        <button id="copyButton1" type="button" class="Polaris-Button Polaris-Button--plain"><span
-                                                class="Polaris-Button__Content"><span>Copy to clipboard</span></span>
-                                        </button>
+                                        <div class="Polaris-TextField Polaris-TextField--hasValue Polaris-TextField--readOnly">
+                                            <input id="TextField2" readonly="" class="Polaris-TextField__Input"
+                                                   aria-label="URL" aria-labelledby="TextField2Label"
+                                                   aria-invalid="false"
+                                                   value="https://{{ current_shop }}/a/ytt_feed/google.xml">
+                                            <div class="Polaris-TextField__Backdrop"></div>
+                                        </div>
                                     </div>
-                                    <div class="Polaris-TextField Polaris-TextField--hasValue Polaris-TextField--readOnly">
-                                        <input id="TextField1" readonly="" class="Polaris-TextField__Input"
-                                               aria-label="URL" aria-labelledby="TextField1Label"
-                                               aria-invalid="false"
-                                               value="https://{{ current_shop }}/a/ytt_feed/facebook.xml">
-                                        <div class="Polaris-TextField__Backdrop"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="Polaris-Page__Content">
+            <div class="Polaris-Layout">
+                <div class="Polaris-Layout__AnnotatedSection">
+                    <div class="Polaris-Layout__AnnotationWrapper">
+                        <div class="Polaris-Layout__Annotation">
+                            <div class="Polaris-TextContainer"><h2 class="Polaris-Heading">All set up!</h2>
+                                <div class="Polaris-Layout__AnnotationDescription"><p>You have successfully generated
+                                    your Yottos product feed. You can now add it to your Yottos Catalog.</p></div>
+                            </div>
+                        </div>
+                        <div class="Polaris-Layout__AnnotationContent">
+                            <div class="Polaris-Card">
+                                <div class="Polaris-Card__Header"><h2 class="Polaris-Heading">Your Yottos Feed</h2>
+                                </div>
+                                <div class="Polaris-Card__Section">
+                                    <div class="">
+                                        <div class="Polaris-Labelled__LabelWrapper">
+                                            <div class="Polaris-Label"><label id="TextField1Label" for="TextField1"
+                                                                              class="Polaris-Label__Text">URL</label>
+                                            </div>
+                                            <button id="copyButton3" type="button"
+                                                    class="Polaris-Button Polaris-Button--plain"><span
+                                                    class="Polaris-Button__Content"><span>Copy to clipboard</span></span>
+                                            </button>
+                                        </div>
+                                        <div class="Polaris-TextField Polaris-TextField--hasValue Polaris-TextField--readOnly">
+                                            <input id="TextField3" readonly="" class="Polaris-TextField__Input"
+                                                   aria-label="URL" aria-labelledby="TextField3Label"
+                                                   aria-invalid="false"
+                                                   value="https://{{ current_shop }}/a/ytt_feed/yottos.xml">
+                                            <div class="Polaris-TextField__Backdrop"></div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -75,148 +158,71 @@
             </div>
         </div>
     </div>
-    <div class="Polaris-Page__Content">
-        <div class="Polaris-Layout">
-            <div class="Polaris-Layout__AnnotatedSection">
-                <div class="Polaris-Layout__AnnotationWrapper">
-                    <div class="Polaris-Layout__Annotation">
-                        <div class="Polaris-TextContainer"><h2 class="Polaris-Heading">All set up!</h2>
-                            <div class="Polaris-Layout__AnnotationDescription"><p>You have successfully generated
-                                your Google product feed. You can now add it to your Google Catalog.</p></div>
-                        </div>
-                    </div>
-                    <div class="Polaris-Layout__AnnotationContent">
-                        <div class="Polaris-Card">
-                            <div class="Polaris-Card__Header"><h2 class="Polaris-Heading">Your Google Feed</h2></div>
-                            <div class="Polaris-Card__Section">
-                                <div class="">
-                                    <div class="Polaris-Labelled__LabelWrapper">
-                                        <div class="Polaris-Label"><label id="TextField1Label" for="TextField1"
-                                                                          class="Polaris-Label__Text">URL</label>
-                                        </div>
-                                        <button id="copyButton2" type="button" class="Polaris-Button Polaris-Button--plain"><span
-                                                class="Polaris-Button__Content"><span>Copy to clipboard</span></span>
-                                        </button>
-                                    </div>
-                                    <div class="Polaris-TextField Polaris-TextField--hasValue Polaris-TextField--readOnly">
-                                        <input id="TextField2" readonly="" class="Polaris-TextField__Input"
-                                               aria-label="URL" aria-labelledby="TextField2Label"
-                                               aria-invalid="false"
-                                               value="https://{{ current_shop }}/a/ytt_feed/google.xml">
-                                        <div class="Polaris-TextField__Backdrop"></div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="Polaris-Page__Content">
-        <div class="Polaris-Layout">
-            <div class="Polaris-Layout__AnnotatedSection">
-                <div class="Polaris-Layout__AnnotationWrapper">
-                    <div class="Polaris-Layout__Annotation">
-                        <div class="Polaris-TextContainer"><h2 class="Polaris-Heading">All set up!</h2>
-                            <div class="Polaris-Layout__AnnotationDescription"><p>You have successfully generated
-                                your Yottos product feed. You can now add it to your Yottos Catalog.</p></div>
-                        </div>
-                    </div>
-                    <div class="Polaris-Layout__AnnotationContent">
-                        <div class="Polaris-Card">
-                            <div class="Polaris-Card__Header"><h2 class="Polaris-Heading">Your Yottos Feed</h2></div>
-                            <div class="Polaris-Card__Section">
-                                <div class="">
-                                    <div class="Polaris-Labelled__LabelWrapper">
-                                        <div class="Polaris-Label"><label id="TextField1Label" for="TextField1"
-                                                                          class="Polaris-Label__Text">URL</label>
-                                        </div>
-                                        <button id="copyButton3" type="button" class="Polaris-Button Polaris-Button--plain"><span
-                                                class="Polaris-Button__Content"><span>Copy to clipboard</span></span>
-                                        </button>
-                                    </div>
-                                    <div class="Polaris-TextField Polaris-TextField--hasValue Polaris-TextField--readOnly">
-                                        <input id="TextField3" readonly="" class="Polaris-TextField__Input"
-                                               aria-label="URL" aria-labelledby="TextField3Label"
-                                               aria-invalid="false"
-                                               value="https://{{ current_shop }}/a/ytt_feed/yottos.xml">
-                                        <div class="Polaris-TextField__Backdrop"></div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-<script>
-document.getElementById("copyButton1").addEventListener("click", function() {
-    copyToClipboard(document.getElementById("TextField1"));
-});
+    <script>
+        document.getElementById("copyButton1").addEventListener("click", function () {
+            copyToClipboard(document.getElementById("TextField1"));
+        });
 
-document.getElementById("copyButton2").addEventListener("click", function() {
-    copyToClipboard(document.getElementById("TextField2"));
-});
+        document.getElementById("copyButton2").addEventListener("click", function () {
+            copyToClipboard(document.getElementById("TextField2"));
+        });
 
-document.getElementById("copyButton3").addEventListener("click", function() {
-    copyToClipboard(document.getElementById("TextField3"));
-});
+        document.getElementById("copyButton3").addEventListener("click", function () {
+            copyToClipboard(document.getElementById("TextField3"));
+        });
 
 
-function copyToClipboard(elem) {
-	  // create hidden text element, if it doesn't already exist
-    var targetId = "_hiddenCopyText_";
-    var isInput = elem.tagName === "INPUT" || elem.tagName === "TEXTAREA";
-    var origSelectionStart, origSelectionEnd;
-    if (isInput) {
-        // can just use the original source element for the selection and copy
-        target = elem;
-        origSelectionStart = elem.selectionStart;
-        origSelectionEnd = elem.selectionEnd;
-    } else {
-        // must use a temporary form element for the selection and copy
-        target = document.getElementById(targetId);
-        if (!target) {
-            var target = document.createElement("textarea");
-            target.style.position = "absolute";
-            target.style.left = "-9999px";
-            target.style.top = "0";
-            target.id = targetId;
-            document.body.appendChild(target);
+        function copyToClipboard(elem) {
+            // create hidden text element, if it doesn't already exist
+            var targetId = "_hiddenCopyText_";
+            var isInput = elem.tagName === "INPUT" || elem.tagName === "TEXTAREA";
+            var origSelectionStart, origSelectionEnd;
+            if (isInput) {
+                // can just use the original source element for the selection and copy
+                target = elem;
+                origSelectionStart = elem.selectionStart;
+                origSelectionEnd = elem.selectionEnd;
+            } else {
+                // must use a temporary form element for the selection and copy
+                target = document.getElementById(targetId);
+                if (!target) {
+                    var target = document.createElement("textarea");
+                    target.style.position = "absolute";
+                    target.style.left = "-9999px";
+                    target.style.top = "0";
+                    target.id = targetId;
+                    document.body.appendChild(target);
+                }
+                target.textContent = elem.textContent;
+            }
+            // select the content
+            var currentFocus = document.activeElement;
+            target.focus();
+            target.setSelectionRange(0, target.value.length);
+
+            // copy the selection
+            var succeed;
+            try {
+                succeed = document.execCommand("copy");
+            } catch (e) {
+                succeed = false;
+            }
+            // restore original focus
+            if (currentFocus && typeof currentFocus.focus === "function") {
+                currentFocus.focus();
+            }
+
+            if (isInput) {
+                // restore prior selection
+                elem.setSelectionRange(origSelectionStart, origSelectionEnd);
+            } else {
+                // clear temporary content
+                target.textContent = "";
+            }
+            return succeed;
         }
-        target.textContent = elem.textContent;
-    }
-    // select the content
-    var currentFocus = document.activeElement;
-    target.focus();
-    target.setSelectionRange(0, target.value.length);
+    </script>
+    </body>
 
-    // copy the selection
-    var succeed;
-    try {
-    	  succeed = document.execCommand("copy");
-    } catch(e) {
-        succeed = false;
-    }
-    // restore original focus
-    if (currentFocus && typeof currentFocus.focus === "function") {
-        currentFocus.focus();
-    }
-
-    if (isInput) {
-        // restore prior selection
-        elem.setSelectionRange(origSelectionStart, origSelectionEnd);
-    } else {
-        // clear temporary content
-        target.textContent = "";
-    }
-    return succeed;
-}
-</script>
-</body>
-
-</html>
+    </html>
 {% endif %}

@@ -1,15 +1,14 @@
-from django.conf import settings
-from django.shortcuts import reverse
-
-from urllib.parse import urlencode
-import hmac
-import hashlib
 import base64
+import hashlib
+import hmac
 import json
 from time import time
-import math
+from urllib.parse import urlencode
 
+import math
 import shopify
+from django.conf import settings
+from django.shortcuts import reverse
 
 from .models import ShopifyStore
 
@@ -54,8 +53,10 @@ class ShopifyHelper:
 
     def create_webhook(self):
         """Create webhook for listening events for inventory adjustment, product and variant deletion."""
+
         def address(name):
             return "https://" + settings.URL + reverse('shopify_app:' + name)
+
         try:
             webhooks = shopify.Webhook.find()
             if webhooks:
@@ -70,9 +71,9 @@ class ShopifyHelper:
                                 ('products/delete', address('products_delete'))
                                 ]:
                 webhook_data = {
-                        "topic": topic,
-                        "address": link,
-                        "format": "json"
+                    "topic": topic,
+                    "address": link,
+                    "format": "json"
                 }
                 print(webhook_data)
                 w = webhook.create(webhook_data)

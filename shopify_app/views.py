@@ -1,15 +1,16 @@
-from django.shortcuts import render, redirect
-from django.conf import settings
-import shopify
 import json
-from django.template import RequestContext
-from django.views.generic.base import TemplateResponseMixin, View, TemplateView
-from django.views.decorators.csrf import csrf_exempt
-from django.utils.decorators import method_decorator
-from django.utils import timezone
 
-from .models import ShopifyStore
+import shopify
+from django.conf import settings
+from django.shortcuts import render, redirect
+from django.template import RequestContext
+from django.utils import timezone
+from django.utils.decorators import method_decorator
+from django.views.decorators.csrf import csrf_exempt
+from django.views.generic.base import TemplateResponseMixin, View, TemplateView
+
 from .helpers import verify_webhook, route_url
+from .models import ShopifyStore
 
 
 def index(request):
@@ -43,14 +44,14 @@ class Authenticate(View, BaseShop):
             'shop': request.shop, 'hmac': request.hmac, 'timestamp': request.timestamp
         }
         url = route_url('shopify_app:install', _query=_query)
-        print(shop)
-        print(shop.installed)
         if shop and shop.installed:
             try:
                 with shopify.Session.temp(shop.myshopify_domain, settings.SHOPIFY_API_VERSION, shop.access_token):
                     count = shopify.Product.count()
-                    print(count)
                     url = route_url('shopify_app:dashboard', _query=_query)
+                    if count:
+                        shop.offer_count = count
+                        shop.save()
             except Exception as e:
                 print(e)
         return redirect(url)
@@ -60,8 +61,6 @@ class Install(View):
 
     def get(self, request, *args, **kwargs):
         shop = request.shop
-        hmac = request.hmac
-        timestamp = request.timestamp
         _query = {
             'shop': request.shop, 'hmac': request.hmac, 'timestamp': request.timestamp
         }
@@ -84,7 +83,6 @@ class Finalize(View):
             if created:
                 shop = shopify.Shop.current()
                 count = shopify.Product.count()
-                print(count)
                 obj.myshopify_domain = shop.myshopify_domain
                 obj.access_token = token
                 obj.date_installed = timezone.now()
@@ -93,6 +91,8 @@ class Finalize(View):
                 obj.country_name = shop.country_name
                 obj.name = shop.name
                 obj.installed = True
+                if count:
+                    shop.offer_count = count
                 obj.save()
             else:
                 if obj.access_token != token:
@@ -112,13 +112,9 @@ class Finalize(View):
             }
             webhook = shopify.Webhook()
             w = webhook.create(webhook_data)
-            print(w.errors.full_messages(), sep='\n')
-            print(w.to_dict(), sep='\n')
 
     def get(self, request, *args, **kwargs):
         shop = request.shop
-        hmac = request.hmac
-        timestamp = request.timestamp
         _query = {
             'shop': request.shop, 'hmac': request.hmac, 'timestamp': request.timestamp
         }
@@ -147,12 +143,12 @@ class Subscribe(TemplateView, BaseShop):
                 with shopify.Session.temp(shop.myshopify_domain, settings.SHOPIFY_API_VERSION, shop.access_token):
                     rac = shopify.RecurringApplicationCharge()
                     rac.test = True
-                    rac.return_url = request.build_absolute_uri(route_url('shopify_app:subscribe_submit', _query=_query))
+                    rac.return_url = request.build_absolute_uri(
+                        route_url('shopify_app:subscribe_submit', _query=_query))
                     rac.price = 10.00
                     rac.name = "Test name"
                     if rac.save():
                         context['url'] = rac.confirmation_url
-                        print(rac.attributes)
 
         except Exception as e:
             print(e)

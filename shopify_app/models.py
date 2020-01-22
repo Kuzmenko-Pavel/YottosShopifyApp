@@ -14,6 +14,7 @@ class ShopifyStore(models.Model):
     date_paid = models.DateTimeField(help_text='App paid date.', null=True, blank=True)
     date_uninstalled = models.DateTimeField(help_text='App uninstalled date.', null=True, blank=True)
     premium = models.BooleanField(help_text='App premium.', default=False)
+    offer_count = models.IntegerField(help_text='Count offer.', default=0)
 
     def __str__(self):
         """String representation for model object."""
