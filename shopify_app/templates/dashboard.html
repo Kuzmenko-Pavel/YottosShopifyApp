@@ -19,17 +19,31 @@
             });
             var actions = AppBridge.actions;
             var TitleBar = actions.TitleBar;
+            var ButtonGroup = actions.ButtonGroup;
             var titleBarOptions = {
                 title: '{{ page_name }}'
             };
             var Button = actions.Button;
             var Redirect = actions.Redirect;
             var redirect = Redirect.create(app);
-            var subscribeButton = Button.create(app, {label: 'Billing', style: Button.Style.Danger});
+            var subscribeButton = Button.create(app, {label: 'Billing'});
             var clickSubscribe = subscribeButton.subscribe(Button.Action.CLICK, function () {
                 redirect.dispatch(Redirect.Action.APP, '{% url "shopify_app:billing" %}');
             });
-            titleBarOptions.buttons = {primary: subscribeButton};
+
+            var button1 = Button.create(app, { label: 'Facebook Feed' });
+            var button2 = Button.create(app, { label: 'Google Feed' });
+            const moreActions = ButtonGroup.create(app, {
+              label: 'Feeds',
+              buttons: [button1, button2],
+            });
+
+
+
+            titleBarOptions.buttons = {
+                primary: subscribeButton,
+                secondary: [button1, button2],
+            };
             var myTitleBar = TitleBar.create(app, titleBarOptions);
         </script>
     </head>
@@ -81,8 +95,7 @@
                     <div class="Polaris-Layout__AnnotationWrapper">
                         <div class="Polaris-Layout__Annotation">
                             <div class="Polaris-TextContainer"><h2 class="Polaris-Heading">All set up!</h2>
-                                <div class="Polaris-Layout__AnnotationDescription"><p>You have successfully generated
-                                    your Google product feed. You can now add it to your Google Catalog.</p></div>
+                                <div class="Polaris-Layout__AnnotationDescription"><p>You have successfully generated your Google product feed. You can now add it to your Google Catalog.</p></div>
                             </div>
                         </div>
                         <div class="Polaris-Layout__AnnotationContent">
@@ -121,8 +134,7 @@
                     <div class="Polaris-Layout__AnnotationWrapper">
                         <div class="Polaris-Layout__Annotation">
                             <div class="Polaris-TextContainer"><h2 class="Polaris-Heading">All set up!</h2>
-                                <div class="Polaris-Layout__AnnotationDescription"><p>You have successfully generated
-                                    your Yottos product feed. You can now add it to your Yottos Catalog.</p></div>
+                                <div class="Polaris-Layout__AnnotationDescription"><p>You have successfully generated your Yottos product feed. You can now add it to your Yottos Catalog.</p></div>
                             </div>
                         </div>
                         <div class="Polaris-Layout__AnnotationContent">

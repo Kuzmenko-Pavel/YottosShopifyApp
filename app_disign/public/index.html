@@ -1,15 +1,117 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <title>Polaris: webpack example</title>
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
     <script>
-	var Name = 'Хуйня';
+        window.current_shop = {
+            domain: 'test-yottos.myshopify.com',
+            feed: {
+                title: "Facebook product feed set up!",
+                description: "You have successfully generated your Facebook product feed. You can now add it to your Facebook Catalog.",
+                sectioned_title: "Your Facebook Feed",
+                link: 'facebook',
+                offer_count: 2
+            },
+            options: [
+                {
+                    label: 'Up to 1,000 products',
+                    default: true,
+                    premium: false,
+                    active: true
+                },
+                {
+                    label: 'Single Collection Sync',
+                    default: true,
+                    premium: false,
+                    active: true
+                },
+                {
+                    label: 'Image Optimization (up to 50 images)',
+                    default: true,
+                    premium: false,
+                    active: true
+                },
+                {
+                    label: 'Feed for Google Merchant Ads, Facebook, Instagram, Yottos, Pinterest',
+                    default: true,
+                    premium: false,
+                    active: true
+                },
+                {
+                    label: 'UTM tags',
+                    default: false,
+                    premium: true,
+                    active: false
+                },
+                {
+                    label: 'Sorting by Sales Rating',
+                    default: false,
+                    premium: true,
+                    active: false
+                },
+                {
+                    label: 'Display discounts in ads',
+                    default: false,
+                    premium: true,
+                    active: false
+                },
+                {
+                    label: 'Asynchronous feed update',
+                    default: false,
+                    premium: true,
+                    active: false
+                },
+                {
+                    label: 'Scrolling images inside ads',
+                    default: false,
+                    premium: true,
+                    active: false
+                },
+                {
+                    label: 'Sync all products for remarketing',
+                    default: false,
+                    premium: true,
+                    active: false
+                },
+                {
+                    label: '10 feeds with ratings, 1000 products',
+                    default: false,
+                    premium: true,
+                    active: false
+                },
+                {
+                    label: 'Individual names of product variations',
+                    default: false,
+                    premium: true,
+                    active: false
+                },
+                {
+                    label: 'Synchronization of individual collections',
+                    default: false,
+                    premium: true,
+                    active: false
+                },
+
+                {
+                    label: 'Image Optimization (up to 10 000 images)',
+                    default: false,
+                    premium: true,
+                    active: true
+                },
+                {
+                    label: 'Display in ads the availability of goods in the store',
+                    default: false,
+                    premium: true,
+                    active: false
+                },
+
+            ]
+        };
     </script>
-  </head>
-  <body>
-    <div id="root"></div>
-  </body>
+</head>
+<body>
+<div id="root"></div>
+</body>
 </html>
