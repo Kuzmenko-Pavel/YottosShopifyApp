@@ -29,9 +29,46 @@ class BaseShop(object):
 
 class Dashboard(TemplateView, BaseShop):
     template_name = "dashboard.html"
+    feeds = {
+        'fb': {
+            'title': "Facebook product feed set up!",
+            'description': "You have successfully generated your Facebook product feed. You can now add it to your Facebook Catalog.",
+            'sectioned_title': "Your Facebook Feed",
+            'link': 'facebook',
+            'offer_count': 0
+        },
+        'ga': {
+            'title': "Google product feed set up!",
+            'description': "You have successfully generated your Google product feed. You can now add it to your Google Catalog.",
+            'sectioned_title': "Your Google Feed",
+            'link': 'google',
+            'offer_count': 0
+        },
+        'yt': {
+            'title': "Facebook product feed set up!",
+            'description': "You have successfully generated your Yottos product feed. You can now add it to your Yottos Catalog.",
+            'sectioned_title': "Your Yottos Feed",
+            'link': 'yottos',
+            'offer_count': 0
+        },
+        'pi': {
+            'title': "Facebook product feed set up!",
+            'description': "You have successfully generated your Yottos product feed. You can now add it to your Pinterest Catalog.",
+            'sectioned_title': "Your Pinterest Feed",
+            'link': 'pinterest',
+            'offer_count': 0
+        },
+    }
 
     def get(self, request, *args, **kwargs):
-        context = {'page_name': 'Your Feed', 'shop': self.get_shop(request.shop)}
+        feed_name = request.GET.get('feed', 'fb')
+        feed = self.feeds.get(feed_name, self.feeds.get('fb'))
+
+        context = {
+            'page_name': 'Your Feed',
+            'shop': self.get_shop(request.shop),
+            'feed': feed
+        }
 
         return self.render_to_response(context)
 

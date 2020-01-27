@@ -1,4 +1,5 @@
 {% load static %}
+{% load to_json %}
 {% if shop %}
     <!DOCTYPE html>
     <html lang="en">
@@ -17,13 +18,7 @@
                 dashboard: '{% url "shopify_app:dashboard" %}',
                 forceRedirect: true,
                 debug: true,
-                feed: {
-                    title: "Facebook product feed set up!",
-                    description: "You have successfully generated your Facebook product feed. You can now add it to your Facebook Catalog.",
-                    sectioned_title: "Your Facebook Feed",
-                    link: 'facebook',
-                    offer_count: 2
-                },
+                feed: {{ feed|to_json }},
                 options: [
                     {
                         label: 'Up to 1,000 products',
