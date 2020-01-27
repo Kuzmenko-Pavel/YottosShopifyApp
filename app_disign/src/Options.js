@@ -1,32 +1,6 @@
 import React, {Component} from "react";
 import {Badge, Card, Layout, Link, List} from "@shopify/polaris";
 
-class ListItem extends Component {
-    render() {
-        let badge = [];
-        if (this.props.option.default) {
-            badge.push(<Badge progress="complete" >default</Badge>);
-        }
-        if (this.props.option.premium && !this.props.option.active) {
-            badge.push(<Link url="https://help.shopify.com/manual">
-                    <Badge status="success" progress="incomplete">premium</Badge>
-                </Link>
-            );
-            badge.push(<Link url="https://help.shopify.com/manual">Activated</Link>);
-        }
-        if (this.props.option.premium && this.props.option.active) {
-            badge.push(<Link url="https://help.shopify.com/manual">
-                    <Badge status="success" progress="complete">premium</Badge>
-                </Link>
-            );
-        }
-        return (
-            <List.Item key={this.props.index}>{this.props.option.label}
-                {badge}
-            </List.Item>
-        );
-    }
-}
 
 class Options extends Component {
     render() {
@@ -36,10 +10,29 @@ class Options extends Component {
                 <Card sectioned title='You app options'
                       actions={[{content: 'Upgrade to Premium Membership'}]}>
                     <List type="bullet">
-                        {this.props.current_shop.options.map((
-                            option,
-                            index
-                        ) => <ListItem key={index} index={index} option={option || {}}></ListItem>)}
+                        {this.props.current_shop.options.map(
+                            function (option,
+                            index) {
+                                let badge = [];
+                                if (option.default) {
+                                    badge.push(<Badge key={ 'olibd' + index } progress="complete" >default</Badge>);
+                                }
+                                if (option.premium && !option.active) {
+                                    badge.push(<Link key={ 'olibpl' + index } url="https://help.shopify.com/manual">
+                                            <Badge key={ 'olibp' + index } status="success" progress="incomplete">premium</Badge>
+                                        </Link>
+                                    );
+                                    badge.push(<Link key={ 'olibl' + index } url="https://help.shopify.com/manual">Activated</Link>);
+                                }
+                                if (option.premium && option.active) {
+                                    badge.push(<Link key={ 'olibpla' + index } url="https://help.shopify.com/manual">
+                                            <Badge key={ 'olibpa' + index } status="success" progress="complete">premium</Badge>
+                                        </Link>
+                                    );
+                                }
+                                return <List.Item key={ 'oli' + index } id={ 'oli' +  index}>{option.label}{badge}</List.Item>;
+                            }
+                        )}
                     </List>
                 </Card>
             </Layout.AnnotatedSection>

@@ -4,7 +4,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 module.exports = {
     entry: {
         index: join(__dirname, 'src/index.js'),
-        billing: join(__dirname, 'src/billing.js')
+        // billing: join(__dirname, 'src/billing.js')
     },
     output: {
         path: join(__dirname, 'build'),
@@ -16,11 +16,11 @@ module.exports = {
             template: './public/index.html',
             chunks: ['index'],
         }),
-        new HtmlWebpackPlugin({
-            filename: 'billing.html',
-            template: './public/billing.html',
-            chunks: ['billing'],
-        })
+        // new HtmlWebpackPlugin({
+        //     filename: 'billing.html',
+        //     template: './public/billing.html',
+        //     chunks: ['billing'],
+        // })
     ],
     module: {
         rules: [
