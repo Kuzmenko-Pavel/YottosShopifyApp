@@ -6,6 +6,9 @@ module.exports = {
         index: join(__dirname, 'src/index.js'),
         // billing: join(__dirname, 'src/billing.js')
     },
+    optimization: {
+        minimize: false
+      },
     output: {
         path: join(__dirname, 'build'),
         filename: '[name].bundle.js'
