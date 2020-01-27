@@ -11,8 +11,8 @@ export default function App() {
     const app = createApp({
         apiKey: window.current_shop.apiKey,
         shopOrigin: window.current_shop.domain,
-        forceRedirect: false,
-        debug: true
+        forceRedirect: window.current_shop.forceRedirect,
+        debug: window.current_shop.debug
     });
     const redirect = Redirect.create(app);
     const subscribeButton = Button.create(app, {label: 'Upgrade to Premium Membershi'});

@@ -36,14 +36,6 @@ class Dashboard(TemplateView, BaseShop):
         return self.render_to_response(context)
 
 
-class Billing(TemplateView, BaseShop):
-    template_name = "billing.html"
-
-    def get(self, request, *args, **kwargs):
-        context = {'page_name': 'Billing', 'shop': self.get_shop(request.shop)}
-
-        return self.render_to_response(context)
-
 class Authenticate(View, BaseShop):
 
     def get(self, request, *args, **kwargs):

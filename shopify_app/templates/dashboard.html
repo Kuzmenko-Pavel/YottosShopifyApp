@@ -1,3 +1,4 @@
+{% load static %}
 {% if shop %}
     <!DOCTYPE html>
     <html lang="en">
@@ -5,15 +6,16 @@
         <meta charset="UTF-8"/>
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
         <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
-        <link rel="stylesheet" href="https://unpkg.com/@shopify/polaris@4.0.0/styles.min.css"/>
-        <script src="https://cdn.shopify.com/s/assets/external/app.js"></script>
-        <script src="https://unpkg.com/@shopify/app-bridge"></script>
         <script>
             window.current_shop = {
                 domain: '{{ current_shop }}',
                 apiKey: '{{ api_key }}',
                 shopOrigin: '{{ current_shop }}',
-                premium: false,
+                title: '{{ page_name }}',
+                billing: '{% url "shopify_app:subscribe" %}',
+                premium: {{ shop.premium|yesno:"true,false" }},
+                forceRedirect: true,
+                debug: true,
                 feed: {
                     title: "Facebook product feed set up!",
                     description: "You have successfully generated your Facebook product feed. You can now add it to your Facebook Catalog.",
@@ -161,47 +163,10 @@
                 ]
             };
         </script>
-        <script type="text/javascript">
-            var AppBridge = window['app-bridge'];
-            var createApp = AppBridge.default;
-            var app = createApp({
-                apiKey: '{{ api_key }}',
-                shopOrigin: '{{ current_shop }}',
-                forceRedirect: true,
-                debug: true
-            });
-            var actions = AppBridge.actions;
-            var TitleBar = actions.TitleBar;
-            var ButtonGroup = actions.ButtonGroup;
-            var titleBarOptions = {
-                title: '{{ page_name }}'
-            };
-            var Button = actions.Button;
-            var Redirect = actions.Redirect;
-            var redirect = Redirect.create(app);
-            var subscribeButton = Button.create(app, {label: 'Billing'});
-            var clickSubscribe = subscribeButton.subscribe(Button.Action.CLICK, function () {
-                redirect.dispatch(Redirect.Action.APP, '{% url "shopify_app:billing" %}');
-            });
-
-            var button1 = Button.create(app, { label: 'Facebook Feed' });
-            var button2 = Button.create(app, { label: 'Google Feed' });
-            const moreActions = ButtonGroup.create(app, {
-              label: 'Feeds',
-              buttons: [button1, button2],
-            });
-
-
-
-            titleBarOptions.buttons = {
-                primary: subscribeButton,
-                secondary: [button1, button2],
-            };
-            var myTitleBar = TitleBar.create(app, titleBarOptions);
-        </script>
     </head>
     <body>
     <div id="root"></div>
+    <script type="text/javascript" src="{% static "index.bundle.js" %}"></script>
     </body>
     </html>
 {% endif %}

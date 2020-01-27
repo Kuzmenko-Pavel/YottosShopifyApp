@@ -126,4 +126,5 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "yottos_shopify/static"),
+    os.path.join(BASE_DIR, "shopify_app/static"),
 ]
