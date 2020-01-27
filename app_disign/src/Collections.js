@@ -13,6 +13,7 @@ import {
     Checkbox,
     Icon, Badge
 } from '@shopify/polaris';
+import {Redirect} from '@shopify/app-bridge/actions';
 import {MobileCancelMajorMonotone, CirclePlusMinor} from '@shopify/polaris-icons';
 
 
@@ -64,6 +65,10 @@ export default function Collections(props) {
             toggleSheetClose();
             handleChange();
         }
+    }
+
+    function upgrade() {
+        props.redirect.dispatch(Redirect.Action.APP, props.current_shop.billing);
     }
 
     return (
@@ -185,7 +190,7 @@ export default function Collections(props) {
                 title="Upgrade to Premium Membershi"
                 primaryAction={{
                     content: 'Upgrade to Premium Membership',
-                    onAction: handleChange
+                    onAction: upgrade
                 }}
                 secondaryActions={[
                     {

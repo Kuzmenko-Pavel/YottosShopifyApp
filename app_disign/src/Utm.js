@@ -12,6 +12,7 @@ import {
     TextField
 } from '@shopify/polaris';
 import {MobileCancelMajorMonotone} from '@shopify/polaris-icons';
+import * as Redirect from "@shopify/app-bridge/actions/Navigation/Redirect";
 
 
 export default function UTM(props) {
@@ -61,6 +62,10 @@ export default function UTM(props) {
             toggleSheetClose();
             handleChange();
         }
+    }
+
+    function upgrade() {
+        props.redirect.dispatch(Redirect.Action.APP, props.current_shop.billing);
     }
 
     return (
@@ -163,7 +168,7 @@ export default function UTM(props) {
                 title="Upgrade to Premium Membershi"
                 primaryAction={{
                     content: 'Upgrade to Premium Membership',
-                    onAction: handleChange
+                    onAction: upgrade
                 }}
                 secondaryActions={[
                     {

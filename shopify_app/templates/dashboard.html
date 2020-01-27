@@ -8,6 +8,159 @@
         <link rel="stylesheet" href="https://unpkg.com/@shopify/polaris@4.0.0/styles.min.css"/>
         <script src="https://cdn.shopify.com/s/assets/external/app.js"></script>
         <script src="https://unpkg.com/@shopify/app-bridge"></script>
+        <script>
+            window.current_shop = {
+                domain: '{{ current_shop }}',
+                apiKey: '{{ api_key }}',
+                shopOrigin: '{{ current_shop }}',
+                premium: false,
+                feed: {
+                    title: "Facebook product feed set up!",
+                    description: "You have successfully generated your Facebook product feed. You can now add it to your Facebook Catalog.",
+                    sectioned_title: "Your Facebook Feed",
+                    link: 'facebook',
+                    offer_count: 2
+                },
+                options: [
+                    {
+                        label: 'Up to 1,000 products',
+                        default: true,
+                        premium: false,
+                        active: true
+                    },
+                    {
+                        label: 'Single Collection Sync',
+                        default: true,
+                        premium: false,
+                        active: true
+                    },
+                    {
+                        label: 'Image Optimization (up to 50 images)',
+                        default: true,
+                        premium: false,
+                        active: true
+                    },
+                    {
+                        label: 'Feed for Google Merchant Ads, Facebook, Instagram, Yottos, Pinterest',
+                        default: true,
+                        premium: false,
+                        active: true
+                    },
+                    {
+                        label: 'UTM tags',
+                        default: false,
+                        premium: true,
+                        active: false
+                    },
+                    {
+                        label: 'Sorting by Sales Rating',
+                        default: false,
+                        premium: true,
+                        active: false
+                    },
+                    {
+                        label: 'Display discounts in ads',
+                        default: false,
+                        premium: true,
+                        active: false
+                    },
+                    {
+                        label: 'Asynchronous feed update',
+                        default: false,
+                        premium: true,
+                        active: false
+                    },
+                    {
+                        label: 'Scrolling images inside ads',
+                        default: false,
+                        premium: true,
+                        active: false
+                    },
+                    {
+                        label: 'Sync all products for remarketing',
+                        default: false,
+                        premium: true,
+                        active: false
+                    },
+                    {
+                        label: '10 feeds with ratings, 1000 products',
+                        default: false,
+                        premium: true,
+                        active: false
+                    },
+                    {
+                        label: 'Individual names of product variations',
+                        default: false,
+                        premium: true,
+                        active: false
+                    },
+                    {
+                        label: 'Synchronization of individual collections',
+                        default: false,
+                        premium: true,
+                        active: false
+                    },
+
+                    {
+                        label: 'Image Optimization (up to 10 000 images)',
+                        default: false,
+                        premium: true,
+                        active: true
+                    },
+                    {
+                        label: 'Display in ads the availability of goods in the store',
+                        default: false,
+                        premium: true,
+                        active: false
+                    },
+
+                ],
+                utm: [
+                    {
+                        value: 'facebook',
+                        label: 'Campaign Source'
+                    },
+                    {
+                        value: 'cpc',
+                        label: 'Campaign Medium'
+                    },
+                    {
+                        value: 'test-yottos.myshopify.com',
+                        label: 'Campaign Name'
+                    }
+                ],
+                collections: [
+                    {
+                        value: true,
+                        label: 'All Product'
+                    },
+                    {
+                        value: false,
+                        label: 'Test'
+                    },
+                    {
+                        value: false,
+                        label: 'Test2'
+                    },
+                    {
+                        value: false,
+                        label: 'Test3'
+                    },
+                    {
+                        value: false,
+                        label: 'Test4'
+                    },
+                    {
+                        value: false,
+                        label: 'Test5'
+                    },
+                    {
+                        value: false,
+                        label: 'Test6'
+                    }
+                ]
+            };
+        </script>
         <script type="text/javascript">
             var AppBridge = window['app-bridge'];
             var createApp = AppBridge.default;
@@ -48,191 +201,7 @@
         </script>
     </head>
     <body>
-    <div class="Polaris-Page">
-        <div class="Polaris-Page__Content">
-            <div class="Polaris-Layout">
-                <div class="Polaris-Layout__AnnotatedSection">
-                    <div class="Polaris-Layout__AnnotationWrapper">
-                        <div class="Polaris-Layout__Annotation">
-                            <div class="Polaris-TextContainer"><h2 class="Polaris-Heading">All set up!</h2>
-                                <div class="Polaris-Layout__AnnotationDescription"><p>You have successfully generated
-                                    your Facebook product feed. You can now add it to your Facebook Catalog.</p></div>
-                            </div>
-                        </div>
-                        <div class="Polaris-Layout__AnnotationContent">
-                            <div class="Polaris-Card">
-                                <div class="Polaris-Card__Header"><h2 class="Polaris-Heading">Your Facebook Feed</h2>
-                                </div>
-                                <div class="Polaris-Card__Section">
-                                    <div class="">
-                                        <div class="Polaris-Labelled__LabelWrapper">
-                                            <div class="Polaris-Label"><label id="TextField1Label" for="TextField1"
-                                                                              class="Polaris-Label__Text">URL</label>
-                                            </div>
-                                            <button id="copyButton1" type="button"
-                                                    class="Polaris-Button Polaris-Button--plain"><span
-                                                    class="Polaris-Button__Content"><span>Copy to clipboard</span></span>
-                                            </button>
-                                        </div>
-                                        <div class="Polaris-TextField Polaris-TextField--hasValue Polaris-TextField--readOnly">
-                                            <input id="TextField1" readonly="" class="Polaris-TextField__Input"
-                                                   aria-label="URL" aria-labelledby="TextField1Label"
-                                                   aria-invalid="false"
-                                                   value="https://{{ current_shop }}/a/ytt_feed/facebook.xml">
-                                            <div class="Polaris-TextField__Backdrop"></div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="Polaris-Page__Content">
-            <div class="Polaris-Layout">
-                <div class="Polaris-Layout__AnnotatedSection">
-                    <div class="Polaris-Layout__AnnotationWrapper">
-                        <div class="Polaris-Layout__Annotation">
-                            <div class="Polaris-TextContainer"><h2 class="Polaris-Heading">All set up!</h2>
-                                <div class="Polaris-Layout__AnnotationDescription"><p>You have successfully generated your Google product feed. You can now add it to your Google Catalog.</p></div>
-                            </div>
-                        </div>
-                        <div class="Polaris-Layout__AnnotationContent">
-                            <div class="Polaris-Card">
-                                <div class="Polaris-Card__Header"><h2 class="Polaris-Heading">Your Google Feed</h2>
-                                </div>
-                                <div class="Polaris-Card__Section">
-                                    <div class="">
-                                        <div class="Polaris-Labelled__LabelWrapper">
-                                            <div class="Polaris-Label"><label id="TextField1Label" for="TextField1"
-                                                                              class="Polaris-Label__Text">URL</label>
-                                            </div>
-                                            <button id="copyButton2" type="button"
-                                                    class="Polaris-Button Polaris-Button--plain"><span
-                                                    class="Polaris-Button__Content"><span>Copy to clipboard</span></span>
-                                            </button>
-                                        </div>
-                                        <div class="Polaris-TextField Polaris-TextField--hasValue Polaris-TextField--readOnly">
-                                            <input id="TextField2" readonly="" class="Polaris-TextField__Input"
-                                                   aria-label="URL" aria-labelledby="TextField2Label"
-                                                   aria-invalid="false"
-                                                   value="https://{{ current_shop }}/a/ytt_feed/google.xml">
-                                            <div class="Polaris-TextField__Backdrop"></div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="Polaris-Page__Content">
-            <div class="Polaris-Layout">
-                <div class="Polaris-Layout__AnnotatedSection">
-                    <div class="Polaris-Layout__AnnotationWrapper">
-                        <div class="Polaris-Layout__Annotation">
-                            <div class="Polaris-TextContainer"><h2 class="Polaris-Heading">All set up!</h2>
-                                <div class="Polaris-Layout__AnnotationDescription"><p>You have successfully generated your Yottos product feed. You can now add it to your Yottos Catalog.</p></div>
-                            </div>
-                        </div>
-                        <div class="Polaris-Layout__AnnotationContent">
-                            <div class="Polaris-Card">
-                                <div class="Polaris-Card__Header"><h2 class="Polaris-Heading">Your Yottos Feed</h2>
-                                </div>
-                                <div class="Polaris-Card__Section">
-                                    <div class="">
-                                        <div class="Polaris-Labelled__LabelWrapper">
-                                            <div class="Polaris-Label"><label id="TextField1Label" for="TextField1"
-                                                                              class="Polaris-Label__Text">URL</label>
-                                            </div>
-                                            <button id="copyButton3" type="button"
-                                                    class="Polaris-Button Polaris-Button--plain"><span
-                                                    class="Polaris-Button__Content"><span>Copy to clipboard</span></span>
-                                            </button>
-                                        </div>
-                                        <div class="Polaris-TextField Polaris-TextField--hasValue Polaris-TextField--readOnly">
-                                            <input id="TextField3" readonly="" class="Polaris-TextField__Input"
-                                                   aria-label="URL" aria-labelledby="TextField3Label"
-                                                   aria-invalid="false"
-                                                   value="https://{{ current_shop }}/a/ytt_feed/yottos.xml">
-                                            <div class="Polaris-TextField__Backdrop"></div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <script>
-        document.getElementById("copyButton1").addEventListener("click", function () {
-            copyToClipboard(document.getElementById("TextField1"));
-        });
-
-        document.getElementById("copyButton2").addEventListener("click", function () {
-            copyToClipboard(document.getElementById("TextField2"));
-        });
-
-        document.getElementById("copyButton3").addEventListener("click", function () {
-            copyToClipboard(document.getElementById("TextField3"));
-        });
-
-
-        function copyToClipboard(elem) {
-            // create hidden text element, if it doesn't already exist
-            var targetId = "_hiddenCopyText_";
-            var isInput = elem.tagName === "INPUT" || elem.tagName === "TEXTAREA";
-            var origSelectionStart, origSelectionEnd;
-            if (isInput) {
-                // can just use the original source element for the selection and copy
-                target = elem;
-                origSelectionStart = elem.selectionStart;
-                origSelectionEnd = elem.selectionEnd;
-            } else {
-                // must use a temporary form element for the selection and copy
-                target = document.getElementById(targetId);
-                if (!target) {
-                    var target = document.createElement("textarea");
-                    target.style.position = "absolute";
-                    target.style.left = "-9999px";
-                    target.style.top = "0";
-                    target.id = targetId;
-                    document.body.appendChild(target);
-                }
-                target.textContent = elem.textContent;
-            }
-            // select the content
-            var currentFocus = document.activeElement;
-            target.focus();
-            target.setSelectionRange(0, target.value.length);
-
-            // copy the selection
-            var succeed;
-            try {
-                succeed = document.execCommand("copy");
-            } catch (e) {
-                succeed = false;
-            }
-            // restore original focus
-            if (currentFocus && typeof currentFocus.focus === "function") {
-                currentFocus.focus();
-            }
-
-            if (isInput) {
-                // restore prior selection
-                elem.setSelectionRange(origSelectionStart, origSelectionEnd);
-            } else {
-                // clear temporary content
-                target.textContent = "";
-            }
-            return succeed;
-        }
-    </script>
+    <div id="root"></div>
     </body>
-
     </html>
 {% endif %}
