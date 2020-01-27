@@ -55,6 +55,4 @@ def to_json(obj):
         obj = dict(obj)
     # apply formatting in debug mode for ease of development
     indent = None
-    if settings.DEBUG:
-        indent = 2
     return mark_safe(escape_script_tags(json.dumps(obj, default=json_handler, indent=indent)))

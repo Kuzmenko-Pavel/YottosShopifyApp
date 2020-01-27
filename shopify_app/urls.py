@@ -6,6 +6,7 @@ app_name = 'shopify_app'
 urlpatterns = [
     path('', views.index, name='index'),
     path('dashboard/', views.Dashboard.as_view(), name='dashboard'),
+    path('dashboard/<str:feed>/', views.Dashboard.as_view(), name='dashboard_feeds'),
     path('install/', views.Install.as_view(), name='install'),
     path('authenticate/', views.Authenticate.as_view(), name='authenticate'),
     path('finalize/', views.Finalize.as_view(), name='finalize'),

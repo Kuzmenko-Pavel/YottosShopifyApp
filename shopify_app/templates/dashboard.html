@@ -1,5 +1,5 @@
 {% load static %}
-{% load to_json %}
+{% load json_tags %}
 {% if shop %}
     <!DOCTYPE html>
     <html lang="en">
@@ -48,68 +48,68 @@
                         label: 'UTM tags',
                         default: false,
                         premium: true,
-                        active: false
+                        active: {{ shop.premium|yesno:"true,false" }}
                     },
                     {
                         label: 'Sorting by Sales Rating',
                         default: false,
                         premium: true,
-                        active: false
+                        active: {{ shop.premium|yesno:"true,false" }}
                     },
                     {
                         label: 'Display discounts in ads',
                         default: false,
                         premium: true,
-                        active: false
+                        active: {{ shop.premium|yesno:"true,false" }}
                     },
                     {
                         label: 'Asynchronous feed update',
                         default: false,
                         premium: true,
-                        active: false
+                        active: {{ shop.premium|yesno:"true,false" }}
                     },
                     {
                         label: 'Scrolling images inside ads',
                         default: false,
                         premium: true,
-                        active: false
+                        active: {{ shop.premium|yesno:"true,false" }}
                     },
                     {
                         label: 'Sync all products for remarketing',
                         default: false,
                         premium: true,
-                        active: false
+                        active: {{ shop.premium|yesno:"true,false" }}
                     },
                     {
                         label: '10 feeds with ratings, 1000 products',
                         default: false,
                         premium: true,
-                        active: false
+                        active: {{ shop.premium|yesno:"true,false" }}
                     },
                     {
                         label: 'Individual names of product variations',
                         default: false,
                         premium: true,
-                        active: false
+                        active: {{ shop.premium|yesno:"true,false" }}
                     },
                     {
                         label: 'Synchronization of individual collections',
                         default: false,
                         premium: true,
-                        active: false
+                        active: {{ shop.premium|yesno:"true,false" }}
                     },
 
                     {
                         label: 'Image Optimization (up to 10 000 images)',
                         default: false,
                         premium: true,
-                        active: true
+                        active: {{ shop.premium|yesno:"true,false" }}
                     },
                     {
                         label: 'Display in ads the availability of goods in the store',
                         default: false,
                         premium: true,
-                        active: false
+                        active: {{ shop.premium|yesno:"true,false" }}
                     },
 
                 ],

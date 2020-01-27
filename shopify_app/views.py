@@ -31,6 +31,7 @@ class Dashboard(TemplateView, BaseShop):
     template_name = "dashboard.html"
     feeds = {
         'fb': {
+            'page_name': 'Your Facebook Feed',
             'title': "Facebook product feed set up!",
             'description': "You have successfully generated your Facebook product feed. You can now add it to your Facebook Catalog.",
             'sectioned_title': "Your Facebook Feed",
@@ -38,6 +39,7 @@ class Dashboard(TemplateView, BaseShop):
             'offer_count': 0
         },
         'ga': {
+            'page_name': 'Your Google Feed',
             'title': "Google product feed set up!",
             'description': "You have successfully generated your Google product feed. You can now add it to your Google Catalog.",
             'sectioned_title': "Your Google Feed",
@@ -45,14 +47,16 @@ class Dashboard(TemplateView, BaseShop):
             'offer_count': 0
         },
         'yt': {
-            'title': "Facebook product feed set up!",
+            'page_name': 'Your Yottos Feed',
+            'title': "Yottos product feed set up!",
             'description': "You have successfully generated your Yottos product feed. You can now add it to your Yottos Catalog.",
             'sectioned_title': "Your Yottos Feed",
             'link': 'yottos',
             'offer_count': 0
         },
         'pi': {
-            'title': "Facebook product feed set up!",
+            'page_name': 'Your Pinterest Feed',
+            'title': "Pinterest product feed set up!",
             'description': "You have successfully generated your Yottos product feed. You can now add it to your Pinterest Catalog.",
             'sectioned_title': "Your Pinterest Feed",
             'link': 'pinterest',
@@ -61,11 +65,11 @@ class Dashboard(TemplateView, BaseShop):
     }
 
     def get(self, request, *args, **kwargs):
-        feed_name = request.GET.get('feed', 'fb')
+        feed_name = kwargs.get('feed', 'fb')
         feed = self.feeds.get(feed_name, self.feeds.get('fb'))
 
         context = {
-            'page_name': 'Your Feed',
+            'page_name': feed['page_name'],
             'shop': self.get_shop(request.shop),
             'feed': feed
         }

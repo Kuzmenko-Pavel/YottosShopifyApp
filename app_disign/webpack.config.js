@@ -7,7 +7,7 @@ module.exports = {
         // billing: join(__dirname, 'src/billing.js')
     },
     optimization: {
-        minimize: false
+        // minimize: false
       },
     output: {
         path: join(__dirname, 'build'),
