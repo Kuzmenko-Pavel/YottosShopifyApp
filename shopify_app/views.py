@@ -84,11 +84,13 @@ class Dashboard(TemplateView, BaseShop):
 
     def get(self, request, *args, **kwargs):
         utm = []
+        collection = []
         feed_name = kwargs.get('feed', 'fb')
         feed = self.feeds.get(feed_name, self.feeds.get('fb'))
         shop = self.get_shop(request.shop)
         if shop:
             feed_option = shop.feeds.get(feed_name, shop.feeds.get('fb'))
+            collection = feed_option.get('collection', [])
             for item in self.utm:
                 utm_val = feed_option.get('utm', {}).get(item.get('name'))
                 if utm_val:
@@ -99,7 +101,8 @@ class Dashboard(TemplateView, BaseShop):
             'page_name': feed['page_name'],
             'shop': shop,
             'feed': feed,
-            'utm': utm
+            'utm': utm,
+            'collection': collection
         }
 
         return self.render_to_response(context)

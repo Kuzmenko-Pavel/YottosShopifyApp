@@ -114,43 +114,7 @@
 
                 ],
                 utm: {{ utm|to_json }},
-                collections: [
-                    {
-                        value: true,
-                        label: 'All Product',
-                        name: 'all',
-                    },
-                    {
-                        value: false,
-                        label: 'Test',
-                        name: 'test',
-                    },
-                    {
-                        value: false,
-                        label: 'Test2',
-                        name: 'test',
-                    },
-                    {
-                        value: false,
-                        label: 'Test3',
-                        name: 'test',
-                    },
-                    {
-                        value: false,
-                        label: 'Test4',
-                        name: 'test',
-                    },
-                    {
-                        value: false,
-                        label: 'Test5',
-                        name: 'test',
-                    },
-                    {
-                        value: false,
-                        label: 'Test6',
-                        name: 'test',
-                    }
-                ]
+                collections: {{ collection|to_json }}
             };
         </script>
     </head>
