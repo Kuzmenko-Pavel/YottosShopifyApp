@@ -20,17 +20,26 @@ def index(request):
 
 
 def save(request):
-    if request.is_ajax():
-        if request.method == 'POST':
-            save_type = request.GET.get('type')
-            json_data = json.loads(request.body)
-            data = json_data.get('data')
-            domain = json_data.get('shop')
-            feed_name = json_data.get('feed_name', 'fb')
-            shop = ShopifyStore.objects.get(myshopify_domain=domain)
-            if shop and shop.premium:
-                print(shop.feeds.get(feed_name, {'utm': {}, 'collection': []}))
-            print(save_type, data, domain, shop)
+    if request.method == 'POST':
+        save_type = request.GET.get('type')
+        json_data = json.loads(request.body.decode('utf-8'))
+        data = json_data.get('data')
+        domain = json_data.get('shop')
+        feed_name = json_data.get('feed_name', 'fb')
+        shop = ShopifyStore.objects.get(myshopify_domain=domain)
+        if shop and shop.premium:
+            if save_type == 'collections':
+                feed_data = shop.feeds.get(feed_name, {'utm': {}, 'collection': []})
+                feed_data['collection'] = data
+                shop.feeds[feed_name] = feed_data
+                shop.save()
+
+            if save_type == 'utm':
+                feed_data = shop.feeds.get(feed_name, {'utm': {}, 'collection': []})
+                feed_data['utm'] = {i['name']: i['value'] for i in data}
+                shop.feeds[feed_name] = feed_data
+                shop.save()
+
     return HttpResponse("OK")
 
 

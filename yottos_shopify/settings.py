@@ -27,6 +27,10 @@ SECRET_KEY = 'npx%y+rpbraa=duy&m5h=yiu@_^sn#$#=rocxe+@=3nn!h4-68'
 DEBUG = True
 
 ALLOWED_HOSTS = [URL, 'localhost', '127.0.0.1', 'shopify-app.yottos.com']
+CSRF_COOKIE_DOMAIN = URL
+CSRF_COOKIE_SAMESITE = None
+CSRF_COOKIE_SECURE = True
+CSRF_TRUSTED_ORIGINS = ALLOWED_HOSTS
 
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
@@ -138,3 +142,4 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "shopify_app/static"),
 ]
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+
