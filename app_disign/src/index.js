@@ -60,7 +60,19 @@ button4.subscribe(Button.Action.CLICK, function () {
     const link = window.current_shop.dashboard + 'pi/';
     redirect.dispatch(Redirect.Action.APP, link);
 });
-
+const pathname = document.location.pathname;
+if(pathname.includes('/fb/')){
+    button1.disabled = true;
+}
+else if (pathname.includes('/ga/')) {
+    button2.disabled = true;
+}
+else if (pathname.includes('/yt/')) {
+    button3.disabled = true;
+}
+else if (pathname.includes('/pi/')) {
+    button4.disabled = true;
+}
 const buttons = {
     secondary: [
         button1,

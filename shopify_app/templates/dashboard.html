@@ -113,23 +113,7 @@
                     },
 
                 ],
-                utm: [
-                    {
-                        value: 'facebook',
-                        label: 'Campaign Source',
-                        name: 'cs'
-                    },
-                    {
-                        value: 'cpc',
-                        label: 'Campaign Medium',
-                        name: 'cm'
-                    },
-                    {
-                        value: 'test-yottos.myshopify.com',
-                        label: 'Campaign Name',
-                        name: 'cn'
-                    }
-                ],
+                utm: {{ utm|to_json }},
                 collections: [
                     {
                         value: true,

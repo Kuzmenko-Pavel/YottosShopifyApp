@@ -64,15 +64,42 @@ class Dashboard(TemplateView, BaseShop):
             'offer_count': 0
         },
     }
+    utm = [
+        {
+            'value': 'facebook',
+            'label': 'Campaign Source',
+            'name': 'cs'
+        },
+        {
+            'value': 'cpc',
+            'label': 'Campaign Medium',
+            'name': 'cm'
+        },
+        {
+            'value': 'test-yottos.myshopify.com',
+            'label': 'Campaign Name',
+            'name': 'cn'
+        }
+    ]
 
     def get(self, request, *args, **kwargs):
+        utm = []
         feed_name = kwargs.get('feed', 'fb')
         feed = self.feeds.get(feed_name, self.feeds.get('fb'))
+        shop = self.get_shop(request.shop)
+        if shop:
+            feed_option = shop.feeds.get(feed_name, shop.feeds.get('fb'))
+            for item in self.utm:
+                utm_val = feed_option.get('utm', {}).get(item.get('name'))
+                if utm_val:
+                    item['value'] = utm_val
+                utm.append(item)
 
         context = {
             'page_name': feed['page_name'],
-            'shop': self.get_shop(request.shop),
-            'feed': feed
+            'shop': shop,
+            'feed': feed,
+            'utm': utm
         }
 
         return self.render_to_response(context)
