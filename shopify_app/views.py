@@ -235,8 +235,8 @@ class Subscribe(TemplateView, BaseShop):
                     rac.test = True
                     rac.return_url = request.build_absolute_uri(
                         route_url('shopify_app:subscribe_submit', _query=_query))
-                    rac.price = 10.00
-                    rac.name = "Test name"
+                    rac.price = 29.00
+                    rac.name = "Premium"
                     if rac.save():
                         context['url'] = rac.confirmation_url
 
