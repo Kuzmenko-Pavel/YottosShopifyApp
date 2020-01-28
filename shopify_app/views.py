@@ -89,6 +89,8 @@ class Authenticate(View, BaseShop):
             try:
                 with shopify.Session.temp(shop.myshopify_domain, settings.SHOPIFY_API_VERSION, shop.access_token):
                     count = shopify.Product.count()
+                    collections = shopify.CollectionListing.find()
+                    print(collections)
                     url = route_url('shopify_app:dashboard', _query=_query)
                     if count:
                         shop.offer_count = count
@@ -121,7 +123,11 @@ class Finalize(View):
     def create_shopify_store(self, shop_url, token):
         with shopify.Session.temp(shop_url, settings.SHOPIFY_API_VERSION, token):
             obj, created = ShopifyStore.objects.get_or_create(myshopify_domain=shop_url)
-            print(obj.feeds)
+            feeds = obj.feeds
+            feeds['fb']['utm']['cn'] = shop_url
+            feeds['ga']['utm']['cn'] = shop_url
+            feeds['yt']['utm']['cn'] = shop_url
+            feeds['pi']['utm']['cn'] = shop_url
             if created:
                 shop = shopify.Shop.current()
                 count = shopify.Product.count()
@@ -135,14 +141,17 @@ class Finalize(View):
                 obj.installed = True
                 if count:
                     shop.offer_count = count
+                obj.feeds = feeds
                 obj.save()
             else:
                 if obj.access_token != token:
                     obj.access_token = token
                     obj.installed = True
+                    obj.feeds = feeds
                     obj.save()
                 if not obj.installed:
                     obj.installed = True
+                    obj.feeds = feeds
                     obj.save()
 
     def webhook_create(self, request, shop_url, token):
