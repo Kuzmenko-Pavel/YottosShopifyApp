@@ -239,3 +239,4 @@ fabric.properties
 /app_disign/package-lock.json
 /app_disign/node_modules/
 /app_disign/build/
+/yottos_shopify/app_settings.py
