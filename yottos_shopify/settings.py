@@ -137,3 +137,4 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "yottos_shopify/static"),
     os.path.join(BASE_DIR, "shopify_app/static"),
 ]
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
