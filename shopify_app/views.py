@@ -121,6 +121,7 @@ class Finalize(View):
     def create_shopify_store(self, shop_url, token):
         with shopify.Session.temp(shop_url, settings.SHOPIFY_API_VERSION, token):
             obj, created = ShopifyStore.objects.get_or_create(myshopify_domain=shop_url)
+            print(obj.feeds)
             if created:
                 shop = shopify.Shop.current()
                 count = shopify.Product.count()

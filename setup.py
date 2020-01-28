@@ -23,6 +23,7 @@ install_requires = [
     'mysqlclient',
     'pyactiveresource',
     'ShopifyAPI',
+    'django-mysql'
 ]
 
 setup(

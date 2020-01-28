@@ -18,3 +18,12 @@
 
 
 <a href="/collections/all?page=17">Next »</a>
+
+mysql -u root -p
+CREATE DATABASE shopify CHARACTER SET utf8;
+CREATE USER 'shopify_yottos'@'%' IDENTIFIED BY 'shopify_yottos';
+GRANT ALL PRIVILEGES ON * . * TO 'shopify_yottos'@'%';
+FLUSH PRIVILEGES;
+
+GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' IDENTIFIED BY 'vthjdbyu';
+FLUSH PRIVILEGES;

@@ -1,7 +1,69 @@
 from django.db import models
+from django_mysql.models import JSONField, Model
 
 
-class ShopifyStore(models.Model):
+def feeds_default():
+    return {
+        'fb': {
+            'utm': {
+                'cs': 'facebook',
+                'cm': 'cpc',
+                'cn': 'shop',
+            },
+            'collection': [
+                {
+                    'value': True,
+                    'label': 'All Product',
+                    'name': 'all',
+                },
+            ]
+        },
+        'ga': {
+            'utm': {
+                'cs': 'google',
+                'cm': 'cpc',
+                'cn': 'shop',
+            },
+            'collection': [
+                {
+                    'value': True,
+                    'label': 'All Product',
+                    'name': 'all',
+                },
+            ]
+        },
+        'yt': {
+            'utm': {
+                'cs': 'yottos',
+                'cm': 'cpc',
+                'cn': 'shop',
+            },
+            'collection': [
+                {
+                    'value': True,
+                    'label': 'All Product',
+                    'name': 'all',
+                },
+            ]
+        },
+        'pi': {
+            'utm': {
+                'cs': 'pinterest',
+                'cm': 'cpc',
+                'cn': 'shop',
+            },
+            'collection': [
+                {
+                    'value': True,
+                    'label': 'All Product',
+                    'name': 'all',
+                },
+            ]
+        },
+    }
+
+
+class ShopifyStore(Model):
     """Model representing shopify stores which have installed this app."""
     name = models.CharField(max_length=100, help_text='Shopify store name.', null=True, blank=True)
     myshopify_domain = models.CharField(max_length=100, help_text='Shopify store domain.', unique=True)
@@ -15,6 +77,7 @@ class ShopifyStore(models.Model):
     date_uninstalled = models.DateTimeField(help_text='App uninstalled date.', null=True, blank=True)
     premium = models.BooleanField(help_text='App premium.', default=False)
     offer_count = models.IntegerField(help_text='Count offer.', default=0)
+    feeds = JSONField(default=feeds_default)
 
     def __str__(self):
         """String representation for model object."""
