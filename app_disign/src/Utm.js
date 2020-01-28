@@ -13,6 +13,7 @@ import {
 } from '@shopify/polaris';
 import {MobileCancelMajorMonotone} from '@shopify/polaris-icons';
 import * as Redirect from "@shopify/app-bridge/actions/Navigation/Redirect";
+import axios from "axios";
 
 
 export default function UTM(props) {
@@ -56,6 +57,13 @@ export default function UTM(props) {
                         }
                         return object;
                     }));
+            });
+            axios.defaults.xsrfCookieName = 'csrftoken';
+            axios.defaults.xsrfHeaderName = "X-CSRFTOKEN";
+            axios.post('/shopify/save?type=utm', {
+                feed_name: props.current_shop.feed_name,
+                data: salesChannels,
+                shop: props.current_shop.domain
             });
         }
         else {

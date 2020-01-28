@@ -1,21 +1,20 @@
 import React, {useCallback, useState} from "react";
+import axios from 'axios';
 import {
+    Badge,
     Button,
     Card,
+    Checkbox,
     Heading,
     Layout,
     List,
     Modal,
     Scrollable,
     Sheet,
-    TextContainer,
-    TextField,
-    Checkbox,
-    Icon, Badge
+    TextContainer
 } from '@shopify/polaris';
 import {Redirect} from '@shopify/app-bridge/actions';
-import {MobileCancelMajorMonotone, CirclePlusMinor} from '@shopify/polaris-icons';
-
+import {MobileCancelMajorMonotone} from '@shopify/polaris-icons';
 
 
 export default function Collections(props) {
@@ -60,6 +59,13 @@ export default function Collections(props) {
                         return object;
                     }));
             });
+            axios.defaults.xsrfCookieName = 'csrftoken';
+            axios.defaults.xsrfHeaderName = "X-CSRFTOKEN";
+            axios.post('/shopify/save?type=collections', {
+                feed_name: props.current_shop.feed_name,
+                data: salesChannels,
+                shop: props.current_shop.domain
+            });
         }
         else {
             toggleSheetClose();
@@ -89,13 +95,16 @@ export default function Collections(props) {
                                 channel,
                                 index
                             ) => {
-                                var badge = <Badge key={ 'olibpa' + index } status="default" progress="incomplete">premium</Badge>;
-                                if (channel.value){
-                                    badge = <Badge key={ 'olibpa' + index } status="success" progress="complete">on</Badge>;
+                                var badge = <Badge key={'olibpa' + index} status="default"
+                                                   progress="incomplete">premium</Badge>;
+                                if (channel.value) {
+                                    badge =
+                                        <Badge key={'olibpa' + index} status="success" progress="complete">on</Badge>;
                                 }
-                                else{
-                                    if(premium){
-                                        badge = <Badge key={ 'olibpa' + index } status="success" progress="incomplete">off</Badge>;
+                                else {
+                                    if (premium) {
+                                        badge = <Badge key={'olibpa' + index} status="success"
+                                                       progress="incomplete">off</Badge>;
                                     }
                                 }
                                 return <List.Item key={index}>{channel.label}{badge}</List.Item>;
@@ -143,25 +152,25 @@ export default function Collections(props) {
                                 return <List.Item key={index + 1} id={index + 1}>
                                     <Checkbox
                                         key={index + 1}
-                                      label={channel.label}
-                                      checked={channel.value}
-                                      onChange={(v) => {
-                                        setData(salesChannels.map(
-                                            object => {
-                                                if (object.label === channel.label) {
-                                                    var oldValue = channel.value;
-                                                    if(channel.oldValue !== undefined){
-                                                        oldValue = channel.oldValue;
+                                        label={channel.label}
+                                        checked={channel.value}
+                                        onChange={(v) => {
+                                            setData(salesChannels.map(
+                                                object => {
+                                                    if (object.label === channel.label) {
+                                                        var oldValue = channel.value;
+                                                        if (channel.oldValue !== undefined) {
+                                                            oldValue = channel.oldValue;
+                                                        }
+                                                        return {
+                                                            ...object,
+                                                            oldValue: oldValue,
+                                                            value: v
+                                                        }
                                                     }
-                                                    return {
-                                                        ...object,
-                                                        oldValue: oldValue,
-                                                        value: v
-                                                    }
-                                                }
-                                                else return object;
-                                            }))
-                                    }}
+                                                    else return object;
+                                                }))
+                                        }}
                                     />
                                 </List.Item>;
                             })}

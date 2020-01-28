@@ -8,7 +8,7 @@ from django.template import RequestContext
 from django.utils import timezone
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
-from django.views.generic.base import TemplateResponseMixin, View, TemplateView
+from django.views.generic.base import TemplateResponseMixin, View, TemplateView, HttpResponse
 
 from .helpers import verify_webhook, route_url
 from .models import ShopifyStore
@@ -17,6 +17,21 @@ from .models import ShopifyStore
 def index(request):
     context = {'SHOPIFY_API_SCOPE': settings.SHOPIFY_API_SCOPE, 'request': RequestContext(request)}
     return render(request, 'index.html', context)
+
+
+def save(request):
+    if request.is_ajax():
+        if request.method == 'POST':
+            save_type = request.GET.get('type')
+            json_data = json.loads(request.body)
+            data = json_data.get('data')
+            domain = json_data.get('shop')
+            feed_name = json_data.get('feed_name', 'fb')
+            shop = ShopifyStore.objects.get(myshopify_domain=domain)
+            if shop and shop.premium:
+                print(shop.feeds.get(feed_name, {'utm': {}, 'collection': []}))
+            print(save_type, data, domain, shop)
+    return HttpResponse("OK")
 
 
 class BaseShop(object):
@@ -102,7 +117,8 @@ class Dashboard(TemplateView, BaseShop):
             'shop': shop,
             'feed': feed,
             'utm': utm,
-            'collection': collection
+            'collection': collection,
+            'feed_name': feed_name
         }
 
         return self.render_to_response(context)
