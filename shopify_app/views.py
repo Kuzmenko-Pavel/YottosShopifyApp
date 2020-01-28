@@ -1,4 +1,5 @@
 import json
+import re
 
 import shopify
 from django.conf import settings
@@ -97,6 +98,14 @@ class Authenticate(View, BaseShop):
                         shop.save()
             except Exception as e:
                 print(e)
+        return redirect(url)
+
+    def post(self, request, *args, **kwargs):
+        shop = request.GET.get('shop') or request.POST.get('shop')
+        _query = {
+            'shop': re.sub(r'.*://?([^/?]+).*', '\g<1>', shop)
+        }
+        url = route_url('shopify_app:authenticate', _query=_query)
         return redirect(url)
 
 

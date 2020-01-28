@@ -1,9 +1,9 @@
-from django.views.generic.base import HttpResponse, View
+from django.views.generic.base import TemplateView
 
 
-class Index(View):
-    template_name = "dashboard.html"
+class Index(TemplateView):
+    template_name = "index.html"
 
     def get(self, request, *args, **kwargs):
-        response = HttpResponse()
-        return response
+        context = {}
+        return self.render_to_response(context)
