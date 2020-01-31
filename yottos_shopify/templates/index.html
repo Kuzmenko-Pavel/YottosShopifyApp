@@ -1,5 +1,4 @@
 {% load static %}
-{% csrf_token %}
 <!doctype html>
 <html lang="en">
 <head>
@@ -53,6 +52,7 @@
                 <div class="m-3"><p class="">Подключай каналы с помощью Feed-Product</p>
                     <p class="">Кодирование не требуется</p></div>
                 <form class="form-inline justify-content-between" action="{% url 'shopify_app:authenticate' %}" method="post">
+                    {% csrf_token %}
                     <div class="form-group m-2 flex-grow-1"><label for="shop" class="sr-only">Ссылка на ваш
                         магазин</label> <input class="form-control form-control-lg flex-fill" name="shop" id="shop"
                                                placeholder="Ссылка на ваш магазин"></div>
