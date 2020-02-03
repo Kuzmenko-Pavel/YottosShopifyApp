@@ -20,6 +20,7 @@ from yottos_shopify import views
 
 urlpatterns = [
     path('', views.Index.as_view()),
+    path('privacy.html', views.Privacy.as_view()),
     path('admin/', admin.site.urls),
     path('shopify/', include('shopify_app.urls')),
 ]
