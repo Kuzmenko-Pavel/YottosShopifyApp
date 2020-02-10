@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {AppProvider, Spinner} from '@shopify/polaris';
+import {AppProvider} from '@shopify/polaris';
 import enTranslations from '@shopify/polaris/locales/en.json';
 import '@shopify/polaris/styles.css';
 
@@ -24,6 +24,11 @@ function WrappedApp(props) {
     );
 }
 
+window.ga = window.ga || function () {
+    (ga.q = ga.q || []).push(arguments)
+};
+ga.l = +new Date;
+
 const app = createApp({
     apiKey: window.current_shop.apiKey,
     shopOrigin: window.current_shop.domain,
@@ -37,26 +42,59 @@ const button2 = Button.create(app, {label: 'Google Feed'});
 const button3 = Button.create(app, {label: 'Yottos Feed'});
 const button4 = Button.create(app, {label: 'Pinterest Feed'});
 subscribeButton.subscribe(Button.Action.CLICK, function () {
+    window.ga('send', 'event', 'Order', 'Upgrade', 'BigButton');
+    window.ga('ec:addProduct', {
+        'id': '1',
+        'name': 'Premium',
+        'price': '29.00',
+        'variant': 'BigButton',
+        'quantity': 1
+    });
+    // Add the step number and additional info about the checkout to the action.
+    window.ga('ec:setAction', 'checkout', {
+        'step': 1,
+        'id': window.t
+    });
+    if (window.fbq) {
+        fbq('track', 'InitiateCheckout', {
+            content_ids: [1],
+            content_name: 'Premium',
+            content_type: 'product',
+            content_category: 'BigButton',
+            contents: [
+                {
+                    'id': '1',
+                    'quantity': 1
+                }
+            ],
+            currency: "USD",
+            value: 29.00
+        });
+    }
     const link = window.current_shop.billing;
     redirect.dispatch(Redirect.Action.APP, link);
 });
 button1.subscribe(Button.Action.CLICK, function () {
     ReactDOM.render(<SpinnerApp/>, document.getElementById('root'));
+    window.ga('send', 'event', 'Feed', 'Open', 'Facebook');
     const link = window.current_shop.dashboard + 'fb/';
     redirect.dispatch(Redirect.Action.APP, link);
 });
 button2.subscribe(Button.Action.CLICK, function () {
     ReactDOM.render(<SpinnerApp/>, document.getElementById('root'));
+    window.ga('send', 'event', 'Feed', 'Open', 'Google');
     const link = window.current_shop.dashboard + 'ga/';
     redirect.dispatch(Redirect.Action.APP, link);
 });
 button3.subscribe(Button.Action.CLICK, function () {
     ReactDOM.render(<SpinnerApp/>, document.getElementById('root'));
+    window.ga('send', 'event', 'Feed', 'Open', 'Yottos');
     const link = window.current_shop.dashboard + 'yt/';
     redirect.dispatch(Redirect.Action.APP, link);
 });
 button4.subscribe(Button.Action.CLICK, function () {
     ReactDOM.render(<SpinnerApp/>, document.getElementById('root'));
+    window.ga('send', 'event', 'Feed', 'Open', 'Pinterest');
     const link = window.current_shop.dashboard + 'pi/';
     redirect.dispatch(Redirect.Action.APP, link);
 });
@@ -90,3 +128,25 @@ const titleBarOptions = {
 };
 const myTitleBar = TitleBar.create(app, titleBarOptions);
 ReactDOM.render(<WrappedApp redirect={redirect}/>, document.getElementById('root'));
+if (!window.current_shop.premium) {
+    window.ga('ec:addImpression', {
+        'id': '1',
+        'name': 'Premium',
+        'price': '29.00'
+    });
+    if (window.fbq) {
+        fbq('track', 'ViewContent', {
+            content_ids: [1],
+            content_name: 'Premium',
+            content_type: 'product',
+            contents: [
+                {
+                    'id': '1',
+                    'quantity': 1
+                }
+            ],
+            currency: "USD",
+            value: 29.00
+        });
+    }
+}

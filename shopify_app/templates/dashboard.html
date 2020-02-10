@@ -9,6 +9,8 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
         <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
         <script>
+            window.premium = {{ premium|yesno:"true,false" }};
+            window.t = 'T{{ csrf_token }}';
             window.current_shop = {
                 feed_name: '{{ feed_name }}',
                 domain: '{{ current_shop }}',
@@ -119,11 +121,12 @@
                 collections: {{ collection|to_json }}
             };
         </script>
+        {% include "analytics/google.html" %}
+        {% include "analytics/facebook.html" %}
     </head>
     <body>
     <div id="root"></div>
     <script type="text/javascript" src="{% static "index.bundle.js" %}"></script>
-    {% include "analytics/google.html" %}
     {% include "analytics/hotjar.html" %}
     </body>
     </html>

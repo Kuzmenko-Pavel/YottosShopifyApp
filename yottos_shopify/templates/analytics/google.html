@@ -4,6 +4,7 @@
     };
     ga.l = +new Date;
     ga('create', 'UA-157935710-1', 'auto');
+    ga('require', 'ec');
     ga('require', 'displayfeatures');
     ga('set', 'transport', 'beacon');
     ga('send', 'pageview');
@@ -57,5 +58,11 @@
         }
         return false;
     };
+    if (window.premium && window.t) {
+        ga('ec:setAction', 'purchase', {
+            'id': window.t,
+            'revenue': '29.00'
+        });
+    }
 </script>
 <script async src='https://www.google-analytics.com/analytics.js'></script>

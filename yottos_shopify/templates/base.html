@@ -69,10 +69,11 @@
     </div>
     <small class="text-uppercase">&copy;&nbsp;2006&nbsp;&ndash;&nbsp;{% now "Y" %}&nbsp;Feed Product</small>
 </footer>
+{% include "analytics/google.html" %}
+{% include "analytics/facebook.html" %}
 <script src="{% static 'js/runtime.js' %}"></script>
 <script src="{% static 'js/vendor.js' %}"></script>
 <script src="{% static 'js/main.js' %}"></script>
-{% include "analytics/google.html" %}
 {% include "analytics/hotjar.html" %}
 </body>
 </html>

@@ -110,6 +110,7 @@ class Dashboard(TemplateView, BaseShop):
         utm = []
         collection = []
         feed_name = kwargs.get('feed', 'fb')
+        premium = True if request.GET.get('premium', 'not_active') == 'active' else False
         feed = self.feeds.get(feed_name, self.feeds.get('fb'))
         shop = self.get_shop(request.shop)
         if shop:
@@ -123,6 +124,7 @@ class Dashboard(TemplateView, BaseShop):
 
         context = {
             'page_name': feed['page_name'],
+            'premium': premium,
             'shop': shop,
             'feed': feed,
             'utm': utm,
@@ -309,7 +311,7 @@ class SubmitSubscribe(View, BaseShop):
 
     def get(self, request, *args, **kwargs):
         _query = {
-            'shop': request.shop, 'hmac': request.hmac, 'timestamp': request.timestamp
+            'shop': request.shop, 'hmac': request.hmac, 'timestamp': request.timestamp, 'premium': 'not_active'
         }
         charge_id = request.GET.get('charge_id')
         shop = self.get_shop(request.shop)
@@ -321,6 +323,7 @@ class SubmitSubscribe(View, BaseShop):
                     shop.premium = True
                     shop.date_paid = timezone.now()
                     shop.save()
+                    _query['premium'] = 'active'
         url = request.build_absolute_uri(route_url('shopify_app:dashboard', _query=_query))
         return redirect(url)
 

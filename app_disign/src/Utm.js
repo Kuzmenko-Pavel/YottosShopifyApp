@@ -73,6 +73,34 @@ export default function UTM(props) {
     }
 
     function upgrade() {
+        window.ga('send', 'event', 'Order', 'Upgrade', 'UTM');
+        window.ga('ec:addProduct', {
+            'id': '1',
+            'name': 'Premium',
+            'price': '29.00',
+            'variant': 'UTM',
+            'quantity': 1
+        });
+        window.ga('ec:setAction', 'checkout', {
+            'step': 1,
+            'id': window.t
+        });
+        if (window.fbq) {
+            fbq('track', 'InitiateCheckout', {
+                content_ids: [1],
+                content_name: 'Premium',
+                content_type: 'product',
+                content_category: 'UTM',
+                contents: [
+                    {
+                        'id': '1',
+                        'quantity': 1
+                    }
+                ],
+                currency: "USD",
+                value: 29.00
+            });
+        }
         props.redirect.dispatch(Redirect.Action.APP, props.current_shop.billing);
     }
 
