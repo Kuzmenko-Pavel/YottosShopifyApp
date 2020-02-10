@@ -145,10 +145,45 @@ class Authenticate(View, BaseShop):
             try:
                 with shopify.Session.temp(shop.myshopify_domain, settings.SHOPIFY_API_VERSION, shop.access_token):
                     count = shopify.Product.count()
-                    collections = shopify.CollectionListing.find()
-                    print(collections)
+                    coll = [{'name': 'yt__all', 'label': 'All Product', 'value': ('', True)}]
+                    collections = shopify.CustomCollection.find()
+                    for collection in collections:
+                        coll.append({'label': collection.title, 'name': collection.handle})
+                    collections = shopify.SmartCollection.find()
+                    for collection in collections:
+                        coll.append({'label': collection.title, 'name': collection.handle})
+
                     url = route_url('shopify_app:dashboard', _query=_query)
                     if count:
+                        old_coll_fb = {x['name']: (x['label'], x['value']) for x in
+                                       shop.feeds.get('fb', {}).get('collection', [])}
+                        old_coll_ga = {x['name']: (x['label'], x['value']) for x in
+                                       shop.feeds.get('ga', {}).get('collection', [])}
+                        old_coll_yt = {x['name']: (x['label'], x['value']) for x in
+                                       shop.feeds.get('yt', {}).get('collection', [])}
+                        old_coll_pi = {x['name']: (x['label'], x['value']) for x in
+                                       shop.feeds.get('pi', {}).get('collection', [])}
+                        new_coll_fb = []
+                        new_coll_ga = []
+                        new_coll_yt = []
+                        new_coll_pi = []
+                        for c in coll:
+                            value = old_coll_fb.get(c['name'], c.get('value', ('', False)))[1]
+                            new_coll_fb.append({'value': value, 'label': c['label'], 'name': c['name']})
+
+                            value = old_coll_ga.get(c['name'], c.get('value', ('', False)))[1]
+                            new_coll_ga.append({'value': value, 'label': c['label'], 'name': c['name']})
+
+                            value = old_coll_yt.get(c['name'], c.get('value', ('', False)))[1]
+                            new_coll_yt.append({'value': value, 'label': c['label'], 'name': c['name']})
+
+                            value = old_coll_pi.get(c['name'], c.get('value', ('', False)))[1]
+                            new_coll_pi.append({'value': value, 'label': c['label'], 'name': c['name']})
+
+                        shop.feeds['fb']['collection'] = new_coll_fb
+                        shop.feeds['ga']['collection'] = new_coll_ga
+                        shop.feeds['yt']['collection'] = new_coll_yt
+                        shop.feeds['pi']['collection'] = new_coll_pi
                         shop.offer_count = count
                         shop.save()
             except Exception as e:

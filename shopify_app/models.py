@@ -14,7 +14,7 @@ def feeds_default():
                 {
                     'value': True,
                     'label': 'All Product',
-                    'name': 'all',
+                    'name': 'yt__all',
                 },
             ]
         },
@@ -28,7 +28,7 @@ def feeds_default():
                 {
                     'value': True,
                     'label': 'All Product',
-                    'name': 'all',
+                    'name': 'yt__all',
                 },
             ]
         },
@@ -42,7 +42,7 @@ def feeds_default():
                 {
                     'value': True,
                     'label': 'All Product',
-                    'name': 'all',
+                    'name': 'yt__all',
                 },
             ]
         },
@@ -56,7 +56,7 @@ def feeds_default():
                 {
                     'value': True,
                     'label': 'All Product',
-                    'name': 'all',
+                    'name': 'yt__all',
                 },
             ]
         },
