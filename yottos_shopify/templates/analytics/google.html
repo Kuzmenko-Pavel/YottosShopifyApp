@@ -1,0 +1,61 @@
+<script>
+    window.ga = window.ga || function () {
+        (ga.q = ga.q || []).push(arguments)
+    };
+    ga.l = +new Date;
+    ga('create', 'UA-157935710-1', 'auto');
+    ga('require', 'displayfeatures');
+    ga('set', 'transport', 'beacon');
+    ga('send', 'pageview');
+    var performance = window.performance || {};
+    performance.now = (function () {
+        var _now = Date.now();
+        return performance.now ||
+            performance.webkitNow ||
+            performance.msNow ||
+            performance.oNow ||
+            performance.mozNow ||
+            function () {
+                return Date.now() - _now;
+            };
+    })();
+    ga('send', 'timing', 'Analytic Load', 'load', Math.round(performance.now()));
+    window.onbeforeunload = function (e) {
+        if (ga && performance) {
+            ga('send', 'timing', 'Close Page', 'load', Math.round(performance.now()), {transport: 'beacon'});
+        }
+    };
+    var originalWindowErrorCallback = window.onerror;
+    window.onerror = function customErrorHandler(
+        errorMessage,
+        url,
+        lineNumber,
+        columnNumber,
+        errorObject
+    ) {
+        if (typeof window.ga === 'function') {
+            var exceptionDescription = errorMessage;
+            if (typeof errorObject !== 'undefined' && typeof errorObject.message !== 'undefined') {
+                exceptionDescription = errorObject.message;
+            }
+            exceptionDescription += ' @ ' + url + ':' + lineNumber + ':' + columnNumber;
+
+            window.ga('send', 'exception', {
+                'exDescription': exceptionDescription,
+                'exFatal': false,
+                'transport': 'beacon'
+            });
+            window.ga('send', 'event', {
+                eventCategory: 'Error',
+                eventAction: 'JS',
+                eventLabel: exceptionDescription,
+                transport: 'beacon'
+            });
+        }
+        if (typeof originalWindowErrorCallback === 'function') {
+            return originalWindowErrorCallback(errorMessage, url, lineNumber, columnNumber, errorObject);
+        }
+        return false;
+    };
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>

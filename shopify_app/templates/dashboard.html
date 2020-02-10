@@ -123,6 +123,8 @@
     <body>
     <div id="root"></div>
     <script type="text/javascript" src="{% static "index.bundle.js" %}"></script>
+    {% include "analytics/google.html" %}
+    {% include "analytics/hotjar.html" %}
     </body>
     </html>
 {% endif %}
