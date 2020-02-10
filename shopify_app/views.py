@@ -3,6 +3,7 @@ import re
 
 import shopify
 from django.conf import settings
+from django.contrib.messages import get_messages, add_message, INFO
 from django.shortcuts import render, redirect
 from django.template import RequestContext
 from django.utils import timezone
@@ -110,7 +111,11 @@ class Dashboard(TemplateView, BaseShop):
         utm = []
         collection = []
         feed_name = kwargs.get('feed', 'fb')
-        premium = True if request.GET.get('premium', 'not_active') == 'active' else False
+        premium = False
+        storage = get_messages(request)
+        for message in storage:
+            if message == 'premium_active':
+                premium = True
         feed = self.feeds.get(feed_name, self.feeds.get('fb'))
         shop = self.get_shop(request.shop)
         if shop:
@@ -311,8 +316,9 @@ class SubmitSubscribe(View, BaseShop):
 
     def get(self, request, *args, **kwargs):
         _query = {
-            'shop': request.shop, 'hmac': request.hmac, 'timestamp': request.timestamp, 'premium': 'not_active'
+            'shop': request.shop, 'hmac': request.hmac, 'timestamp': request.timestamp
         }
+        msg = 'premium_not_active'
         charge_id = request.GET.get('charge_id')
         shop = self.get_shop(request.shop)
         if shop and charge_id:
@@ -323,7 +329,8 @@ class SubmitSubscribe(View, BaseShop):
                     shop.premium = True
                     shop.date_paid = timezone.now()
                     shop.save()
-                    _query['premium'] = 'active'
+                    msg = 'premium_active'
+        add_message(request, INFO, msg)
         url = request.build_absolute_uri(route_url('shopify_app:dashboard', _query=_query))
         return redirect(url)
 

@@ -25,6 +25,10 @@ export default function UTM(props) {
     const handleChange = useCallback(() => setActive(!active), [active]);
     const toggleSheetOpen = useCallback(
         () => {
+            window.ga('send', 'event', 'Click', 'Open', 'UTM');
+            if (window.fbq) {
+                fbq('trackCustom', 'Open_UTM');
+            }
             setSheetActive((sheetActive) => !sheetActive);
         },
         []

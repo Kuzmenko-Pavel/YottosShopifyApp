@@ -26,6 +26,10 @@ export default function Collections(props) {
     const handleChange = useCallback(() => setActive(!active), [active]);
     const toggleSheetOpen = useCallback(
         () => {
+            window.ga('send', 'event', 'Click', 'Open', 'Collections');
+            if (window.fbq) {
+                fbq('trackCustom', 'Open_Collections');
+            }
             setSheetActive((sheetActive) => !sheetActive);
         },
         []
