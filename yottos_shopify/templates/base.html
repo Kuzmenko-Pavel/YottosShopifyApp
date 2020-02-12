@@ -6,19 +6,23 @@
     <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
     <meta name="description" content="">
     <meta name="author" content="">
-    <title>{% block title %}Feed Product{% endblock %}</title>
+    <title>{% block title %}Feed Product | Synchronize your Shopify products with advertising
+        services{% endblock %}</title>
     <meta name="google-site-verification" content="g4tYg5N0MLWLCa70juGFZ_K1jjal6g6AHRocfxZ8E-0"/>
     <link href="{% static 'css/main.css' %}" rel="stylesheet">
     <link as="style" href="{% static 'css/main.css' %}" rel="preload">
     <link as="script" href="{% static 'js/main.js' %}" rel="preload">
     <link as="script" href="{% static 'js/runtime.js' %}" rel="preload">
     <link as="script" href="{% static 'js/vendor.js' %}" rel="preload">
+    {% include "ld_json.html" %}
 </head>
 <body>
 <header class="fixed-top">
     <div class="container">
-        <nav class="navbar navbar-expand-lg navbar-light justify-content-between"><a class="navbar-brand text-uppercase"
-                                                                                     href="/#top">Feed Product</a>
+        <nav class="navbar navbar-expand-lg navbar-light justify-content-between">
+            <a class="navbar-brand text-uppercase" href="/#top">Feed Product
+                <small class="text-lowercase text-success" style="font-size: 14px;">ads app shopify</small>
+            </a>
             <div class="dropdown">
                 <button type="button" class="btn" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true"
                         aria-expanded="false">
@@ -29,34 +33,35 @@
                               clip-rule="evenodd"/>
                     </svg>
                 </button>
-                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuLink"><a
-                        class="dropdown-item text-break text-wrap" href="/#c1">Используй проверенные каналы</a>
-                    <div class="dropdown-divider"></div>
-                    <a class="dropdown-item text-break text-wrap" href="/#c2">Улучшение изображений</a>
-                    <div class="dropdown-divider"></div>
-                    <a class="dropdown-item text-break text-wrap" href="/#c3">Синхронизация всех товаров для
-                        ремаркетинга</a>
-                    <div class="dropdown-divider"></div>
-                    <a class="dropdown-item text-break text-wrap" href="/#c4">Синхронизация тематических feeds
-                        коллекций</a>
-                    <div class="dropdown-divider"></div>
-                    <a class="dropdown-item text-break text-wrap" href="/#c5">Обновление feeds с продуктами в реальном
-                        времени</a>
-                    <div class="dropdown-divider"></div>
-                    <a class="dropdown-item text-break text-wrap" href="/#c6">Прокрутка нескольких изображений внутри
-                        одного рекламного объявления</a>
-                    <div class="dropdown-divider"></div>
-                    <a class="dropdown-item text-break text-wrap" href="/#c7">Отображение актуальности наличия товаров в
-                        магазине</a>
-                    <div class="dropdown-divider"></div>
-                    <a class="dropdown-item text-break text-wrap" href="/#c8">Сортировка по категориям товаров</a>
-                    <div class="dropdown-divider"></div>
-                    <a class="dropdown-item text-break text-wrap" href="/#c9">Отображение скидки в объявлении</a>
-                    <div class="dropdown-divider"></div>
-                    <a class="dropdown-item text-break text-wrap" href="/#c10">Выгрузка по рейтингу продаваемости</a>
-                    <div class="dropdown-divider"></div>
-                    <a class="dropdown-item text-break text-wrap" href="/#c11">Интеллектуальное формирование и
-                        отслеживание Utm-меток</a></div>
+                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuLink">
+                    <div id="menu_hv_wrap"><a class="dropdown-item text-break text-wrap" href="/#Verified_channels">Verified
+                        channels</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item text-break text-wrap" href="/#Image_enhancement">Image enhancement</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item text-break text-wrap" href="/#Synchronize_Remarketing_products">Remarketing
+                            product</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item text-break text-wrap" href="/#Sync_thematic_feeds_collections">Themed
+                            feeds collection</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item text-break text-wrap" href="/#Online_update_feeds">Online update
+                            feeds</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item text-break text-wrap" href="/#Image_slide_show">Image slide show</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item text-break text-wrap"
+                           href="/#Actual_availability_of_goods_in_the_store">Actual availability of goods</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item text-break text-wrap" href="/#Product_Categories">Product Categories</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item text-break text-wrap" href="/#Discounts_in_ads">Discounts in ads</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item text-break text-wrap" href="/#Rating_by_Sales">Sales Rating</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item text-break text-wrap" href="/#Intelligent_Utm_tagging_and_tracking">Formation
+                            of Utm-tags</a></div>
+                </div>
             </div>
         </nav>
     </div>

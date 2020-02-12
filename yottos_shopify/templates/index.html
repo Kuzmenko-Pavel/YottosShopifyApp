@@ -1,26 +1,20 @@
 {% extends "base.html" %}
 {% load static %}
-{% block title %}Feed Product{% endblock %}
+{% block title %}Feed Product | Synchronize your Shopify products with advertising services{% endblock %}
 {% block content %}
     <section id="top" class="main section-fullheight">
         <div class="auto-shadow">
             <div class="container">
                 <div class="main-bg-color">
-                    <div class="row justify-content-xl-between mb-3 justify-content-between">
-                        <div class="col-xl-2 align-self-start d-flex justify-content-center text-white text-center">
-                            <figure class="figure p-3">
-                                <figcaption class="figure-caption text-white text-center">Приложение для <span
-                                        class="figure-caption-name">Shopify</span></figcaption>
-                                <img src="{% static 'images/shopify_glyph.svg' %}"
-                                     class="shopify_logo figure-img img-fluid rounded mx-auto d-block" alt=""></figure>
-                        </div>
-                        <div class="col-xl-8 align-self-center d-flex justify-content-center flex-column text-white text-center">
-                            <div class="m-2"><h1 class="">Синхронизируйте продукты вашего магазина Shopify с рекламными
-                                сервисами</h1></div>
+                    <div class="row mb-3">
+                        <div class="col-xl-12 align-self-center d-flex justify-content-center flex-column text-white text-center">
+                            <div class="m-2"><h1 class="">Synchronize your Shopify products with advertising
+                                services</h1>
+                            </div>
                             <div class="m-2">
-                                <button type="button" class="btn rounded-circle video_play btn-light"
-                                        data-toggle="modal"
-                                        data-target="#videoModal" aria-haspopup="true" aria-expanded="false">
+                                <button id="videoButton" type="button" class="btn rounded-circle video_play btn-light"
+                                        data-toggle="modal" data-target="#videoModal" aria-haspopup="true"
+                                        aria-expanded="false">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
                                         <path d="M2 24v-24l20 12-20 12z"/>
                                     </svg>
@@ -46,315 +40,318 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="m-2"><p class="">Подключай каналы с помощью Feed-Product</p>
-                                <p class="">Кодирование не требуется</p></div>
+                            <div class="m-2"><p class="">Connect feeds with Feed Product</p>
+                                <p class="">No coding required</p></div>
                             <div>
                                 <form class="form-inline justify-content-between shop_start"
                                       action="{% url 'shopify_app:authenticate' %}" method="post">
                                     {% csrf_token %}
-                                    <div class="form-group m-2 flex-grow-1"><label for="shop" class="sr-only">Ссылка на
-                                        ваш
-                                        магазин</label> <input class="form-control flex-fill" name="shop" id="shop"
-                                                               placeholder="Ссылка на ваш магазин"></div>
-                                    <button type="submit" class="btn btn-dark m-2 text-uppercase">Начать бесплатно
-                                    </button>
+                                    <div class="form-group m-2 flex-grow-1"><label for="shop" class="sr-only">Your
+                                        store's
+                                        link</label> <input class="form-control flex-fill" name="shop" id="shop"
+                                                            placeholder="Your store's link"></div>
+                                    <button type="submit" class="btn btn-dark m-2 text-uppercase">Start Free</button>
                                 </form>
                             </div>
                             <div class="m-2">
-                                <small>Возьмите навсегда свободную бесплатную версию! Кредитная карта не требуется!
-                                </small>
+                                <small>Get yourself the free version for good! No credit card required!</small>
                             </div>
                         </div>
-                        <div class="col-md-2 d-flex justify-content-center"></div>
                     </div>
                 </div>
             </div>
             <div class="container">
                 <div class="main-bg-image"><img class="rounded mx-auto d-block"
-                                                src="{% static 'images/adjust-ad-blocks.png' %}"
-                                                alt="Remarketing allocation"></div>
+                                                src="{% static 'images/adjust-ad-blocks.png' %}"></div>
             </div>
         </div>
     </section>
-    <section class="case section-fullheight" id="c1">
-        <div class="container"><h2 class="base row auto-shadow">КАКИЕ ЛУЧШИЕ ПРАКТИКИ FEED-PRODUCT ПРИВОДЯТ К
-            ПОЛОЖИТЕЛЬНОМУ
-            ROAS</h2>
+    <section class="case section-fullheight" id="Verified_channels">
+        <div class="container">
+            <div class="row auto-shadow text-center" style="margin-bottom: 10px"><h2 class="base">WHAT FEED PRODUCT'S
+                BEST
+                PRACTICES LEAD TO POSITIVE ROAS</h2></div>
             <div class="row auto-height auto-shadow">
                 <div class="row align-items-center m-0 p-0">
-                    <div class="col-md-6 col-lg-4"><h2>Используйте проверенные каналы</h2>
+                    <div class="col-md-6 col-lg-4"><h2>Use proven channels</h2>
                         <p><b>Facebook Ads</b>, <b>Google Ads</b>, <b>Google Shopping</b>, <b>Instagram Shopping</b>,
                             <b>Yottos
-                                AdLoad</b>, <b>Pinterest</b>. Рекомендуя вам каналы, мы руководствуемся 14 летним опытом
-                            работы
-                            в интернет маркетинге. Рекомендуем только те каналы, которые принесут вам максимальный охват
-                            как
-                            на десктопах, так и мобайл платформах. Которые вам позволят привлечь, охватив максимальное
-                            количество потребителей.</p><a href="#" class="more-link">Начать бесплатно</a></div>
+                                AdLoad</b>, <b>Pinterest</b>. Recommending you channels, we are guided by 14 years of
+                            internet
+                            experience marketing. We recommend you only those channels that will bring you the maximum
+                            coverage both on desktops and mobile platforms and that will allow you to cover and attract
+                            the
+                            maximum amount of consumers.</p><a href="#" class="more-link">Install app for free</a></div>
                     <div class="col-md-6 col-lg-8"><img class="roll-up" src="{% static 'images/remarketing.jpg' %}"
-                                                        alt="Remarketing allocation"></div>
+                                                        alt="Use proven channels"></div>
                 </div>
             </div>
         </div>
     </section>
-    <section class="case section-fullheight" id="c2">
+    <section class="case section-fullheight" id="Image_enhancement">
         <div class="container">
             <div class="row auto-height auto-shadow">
                 <div class="row align-items-center m-0 p-0">
-                    <div class="col-sm-6 col-md-4"><h2>Улучшение изображений</h2>
-                        <p>При запуске рекламной кампании необходимо помнить о важности качества изображений продукта.
-                            Изображения - это лицо продукта. Мы обрабатываем его под определенный формат, который будет
-                            представлять ваш продукт клиенту в лучшем виде. Это приведет к большей кликабельности по
-                            предложению, повышению ctr и понижению цены за клик или показ. Приводите больше
-                            потенциальных
-                            клиентов, конвертируя их в покупателей.</p><a href="#" class="more-link">Начать
-                            бесплатно</a>
-                    </div>
+                    <div class="col-sm-6 col-md-4"><h2>Image enhancement</h2>
+                        <p>When you launch an advertising campaign, remember importance of product's image quality.
+                            Images
+                            are the face of the product. We format it in the special way, so your client will see the
+                            product in the best lights possible.This will lead to greater clickability on offer,
+                            increase
+                            ctr and lower CPCs or impressions. Bring more leads by converting them to buyers.</p><a
+                                href="#"
+                                class="more-link">Install
+                            app for free</a></div>
                     <div class="col-sm-6 col-md-8"><img class="roll-up" src="{% static 'images/remarketing.jpg' %}"
-                                                        alt="Remarketing allocation"></div>
+                                                        alt="Image enhancement"></div>
                 </div>
             </div>
         </div>
     </section>
-    <section class="case section-fullheight" id="c3">
+    <section class="case section-fullheight" id="Synchronize_Remarketing_products">
         <div class="container">
             <div class="row auto-height auto-shadow">
                 <div class="row align-items-center m-0 p-0">
-                    <div class="col-sm-6 col-md-4 col-md-pull-8"><h2>Синхронизация всех товаров для ремаркетинга</h2>
-                        <p>Как показывает наш опыт, ремаркетинг позволяет увеличить конверсию на 30-70%. Правильный
-                            подход к
-                            настройке сценариев ремаркетинга начинается с подготовки файла со всеми товарами, которыми
-                            интересуются в вашем магазине потенциальные покупатели. Очень важно при построении рекламной
-                            стратегии общения с потенциальными клиентами выделить ремаркетинг в отдельную рекламную
-                            кампанию. Для этого вам и будет нужен данный файл выгрузки.</p><a href="#"
-                                                                                              class="more-link">Начать
-                            бесплатно</a></div>
+                    <div class="col-sm-6 col-md-4 col-md-pull-8"><h2>Synchronize all products for remarketing</h2>
+                        <p>Our experience shows, that remarketing can increase conversion by 30-70%. The right approach
+                            to
+                            customization remarketing starts with creating a file with all the products, that your
+                            potential
+                            buyers are interested in. It's very important to make remarketing a separate advertising
+                            campaign when you are building an advertising communication strategy with potential
+                            customers.
+                            This is why you need this product feed file.</p><a href="#" class="more-link">Install app
+                            for
+                            free</a></div>
                     <div class="col-sm-6 col-md-8 col-md-push-4"><img class="roll-up"
                                                                       src="{% static 'images/remarketing.jpg' %}"
-                                                                      alt="Remarketing allocation"></div>
-                </div>
-            </div>
-        </div>
-    </section>
-    <section class="case section-fullheight" id="c4">
-        <div class="container">
-            <div class="row auto-height auto-shadow">
-                <div class="row align-items-center m-0 p-0">
-                    <div class="col-sm-6 col-md-4 col-md-pull-8 col-sm-pull-6"><h2>Синхронизация тематических feeds
-                        коллекций</h2>
-                        <p>Что отличает успешную рекламную стратегию от не успешной? Ее планирование и создание
-                            индивидуальных рекламных кампаний с разделением на тематики. Это позволяет настроить
-                            таргетинг и
-                            подобрать узкую заинтересованную аудиторию в определенной тематике, приводя целевую
-                            аудиторию на
-                            конкретный раздел или карточку товара. Также появляется возможность собирать похожую
-                            аудиторию
-                            на тех, кто уже покупал в данной тематике. Этот способ позволяет точнее обучить свои
-                            рекламные
-                            кампании и повысить их эффективность.</p><a href="#" class="more-link">Начать бесплатно</a>
+                                                                      alt="Synchronize all products for remarketing">
                     </div>
-                    <div class="col-sm-6 col-md-8 col-md-push-4 col-sm-push-6"><img class="roll-up"
-                                                                                    src="{% static 'images/remarketing.jpg' %}"
-                                                                                    alt="Remarketing allocation"></div>
                 </div>
             </div>
         </div>
     </section>
-    <section class="case section-fullheight" id="c5">
+    <section class="case section-fullheight" id="Sync_thematic_feeds_collections">
         <div class="container">
             <div class="row auto-height auto-shadow">
                 <div class="row align-items-center m-0 p-0">
-                    <div class="col-sm-6 col-md-4 col-md-pull-8 col-sm-pull-6"><h2>Обновление feeds с продуктами в
-                        реальном
-                        времени</h2>
-                        <p>Статистика показывает, что пользователи лучше всего конвертируются на 1, 2, 3 день после
-                            посещения карточки товара, например, если вы используете ремаркетинг. Для этого мы
-                            реализовали
-                            обновление файлов выгрузки продуктов в реальном времени, что позволяет автоматически
-                            обновлять
-                            товары в каталогах рекламных сервисов после изменения их актуальности в вашем магазине. Это
-                            дает
-                            возможность всегда использовать актуальные товары в ваших рекламных кампаниях.</p><a
-                                href="#"
-                                class="more-link">Начать
-                            бесплатно</a></div>
+                    <div class="col-sm-6 col-md-4 col-md-pull-8 col-sm-pull-6"><h2>Sync thematic feeds collections</h2>
+                        <p>What distinguishes a successful advertising strategy from not successful? Its planning and
+                            creating individual advertising campaigns with division into subjects. This allows you to
+                            target
+                            and pick a narrow interested audience in a certain subject, leading the target audience to a
+                            specific section or product card. You will also have opportunity to collect a similar
+                            audience
+                            to those who have already bought in this subject. This method allows you to train your ad
+                            campaigns better and increase their effectiveness.</p><a href="#" class="more-link">Install
+                            app
+                            for free</a></div>
                     <div class="col-sm-6 col-md-8 col-md-push-4 col-sm-push-6"><img class="roll-up"
                                                                                     src="{% static 'images/remarketing.jpg' %}"
-                                                                                    alt="Remarketing allocation"></div>
-                </div>
-            </div>
-        </div>
-    </section>
-    <section class="case section-fullheight" id="c6">
-        <div class="container">
-            <div class="row auto-height auto-shadow">
-                <div class="row align-items-center m-0 p-0">
-                    <div class="col-sm-6 col-md-4 col-md-pull-8 col-sm-pull-6"><h2>Прокрутка нескольких изображений
-                        внутри
-                        одного рекламного объявления</h2>
-                        <p>Данная практика одновременно эффективна и экономически выгодна при проведении рекламных
-                            кампаний.
-                            Во-первых, она позволяет показать продукт с разных ракурсов, что эффективнее привлекает
-                            внимание
-                            пользователей и повышает вовлеченность. Во-вторых, это экономит ваш бюджет при использовании
-                            рекламных стратегий, применяемых исчисление CPM (оплата за показы) или CPC (оплата за
-                            клики).</p><a href="#" class="more-link">Начать бесплатно</a></div>
-                    <div class="col-sm-6 col-md-8 col-md-push-4 col-sm-push-6"><img class="roll-up"
-                                                                                    src="{% static 'images/remarketing.jpg' %}"
-                                                                                    alt="Remarketing allocation"></div>
-                </div>
-            </div>
-        </div>
-    </section>
-    <section class="case section-fullheight" id="c7">
-        <div class="container">
-            <div class="row auto-height auto-shadow">
-                <div class="row align-items-center m-0 p-0">
-                    <div class="col-sm-6 col-md-4 col-md-pull-8 col-sm-pull-6"><h2>Отображение актуальности наличия
-                        товаров
-                        в магазине</h2>
-                        <p>Функция управляющая ожиданием потенциальных покупателей. Вам больше не придется объяснять
-                            клиенту, что его размер закончился или завтра он снова появится в продаже. Достаточно будет
-                            просто включить автоматическую настройку наличия товаров в ваших рекламных кампаниях и
-                            вопрос
-                            решен. Если товар закончился и его нет в наличии в магазине, то после автоматического
-                            обновления
-                            фида будет выгружен статус "Нет в наличии" и в рекламе эти предложения показываться не
-                            будут.
-                            Что убережет рекламный бюджет от неэффективных расстрат. Рекламируйте только товары, которые
-                            есть в наличии и не упускайте клиентов!</p><a href="#" class="more-link">Начать
-                            бесплатно</a>
+                                                                                    alt="Sync thematic feeds collections">
                     </div>
-                    <div class="col-sm-6 col-md-8 col-md-push-4 col-sm-push-6"><img class="roll-up"
-                                                                                    src="{% static 'images/remarketing.jpg' %}"
-                                                                                    alt="Remarketing allocation"></div>
                 </div>
             </div>
         </div>
     </section>
-    <section class="case section-fullheight" id="c8">
+    <section class="case section-fullheight" id="Online_update_feeds">
         <div class="container">
             <div class="row auto-height auto-shadow">
                 <div class="row align-items-center m-0 p-0">
-                    <div class="col-sm-6 col-md-4 col-md-pull-8 col-sm-pull-6"><h2>Сортировка по категориям товаров</h2>
-                        <p>Лучший подход в продажах - это индивидуальный подход. Но как это сделать, когда это
-                            e-commerce,
-                            писать объявления вручную и под каждый товар достаточно кропотливая и трудоемкая работа.
-                            Решение
-                            есть, Вы просто заполняете все поля в карточке товара в вашем магазине Shopify, а
-                            feed-product
-                            на основе этих данных собирает индивидуальные объявления для товаров разных категорий
-                            (например,
-                            по размеру, расцветке, ценовому диапазону и так далее). Вам достаточно будет создать
-                            индивидуальный файл коллекции по определенным фильтрам и синхронизировать его с каталогами в
-                            рекламных сервисах.</p><a href="#" class="more-link">Начать бесплатно</a></div>
+                    <div class="col-sm-6 col-md-4 col-md-pull-8 col-sm-pull-6"><h2>Real-time feeds update</h2>
+                        <p>According to statistics, users are the best converted on 1-3 day after visiting the card
+                            product
+                            if you, for example, use remarketing. To do this, we implemented a real-time product-feed
+                            updating that allows you to automatically update products in catalogs advertising services
+                            after
+                            their relevance changes in your store. This lets you always use relevant products in your ad
+                            campaigns.</p><a href="#" class="more-link">Install app for free</a></div>
                     <div class="col-sm-6 col-md-8 col-md-push-4 col-sm-push-6"><img class="roll-up"
                                                                                     src="{% static 'images/remarketing.jpg' %}"
-                                                                                    alt="Remarketing allocation"></div>
+                                                                                    alt="Real-time feeds update"></div>
                 </div>
             </div>
         </div>
     </section>
-    <section class="case section-fullheight" id="c9">
+    <section class="case section-fullheight" id="Image_slide_show">
         <div class="container">
             <div class="row auto-height auto-shadow">
                 <div class="row align-items-center m-0 p-0">
-                    <div class="col-sm-6 col-md-4 col-md-pull-8 col-sm-pull-6"><h2>Отображение скидки в объявлении</h2>
-                        <p>Ничто так не стимулирует продажи, как снижение цены (скидка)! Объедините несколько правильных
-                            маркетинговых сценариев, таких как</p>
+                    <div class="col-sm-6 col-md-4 col-md-pull-8 col-sm-pull-6"><h2>Scrolling multiple images inside one
+                        advertisement</h2>
+                        <p>This practice is both effective and cost-effective when conducting advertising campaigns.
+                            Firstly, it allows you to show the product with different angles, which more effectively
+                            attracts user's attention and increases engagement. Secondly, it saves your budget when you
+                            use
+                            advertising strategies applied CPM (cost-per-impression) or CPC (cost-per-click)
+                            pricing.</p><a
+                                href="#" class="more-link">Install app for free</a></div>
+                    <div class="col-sm-6 col-md-8 col-md-push-4 col-sm-push-6"><img class="roll-up"
+                                                                                    src="{% static 'images/remarketing.jpg' %}"
+                                                                                    alt="Scrolling multiple images inside one advertisement">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="case section-fullheight" id="Actual_availability_of_goods_in_the_store">
+        <div class="container">
+            <div class="row auto-height auto-shadow">
+                <div class="row align-items-center m-0 p-0">
+                    <div class="col-sm-6 col-md-4 col-md-pull-8 col-sm-pull-6"><h2>Display of relevance of the
+                        availability
+                        of goods in the store</h2>
+                        <p>The function that controls the expectation of potential buyers. You no longer have to explain
+                            to
+                            the client that their size is over or tomorrow it will reappear in sale. Enough to just turn
+                            on
+                            the automatic setting up the availability of goods in your advertising campaigns and the
+                            issue
+                            is resolved. If the product has run out and is not available in the store, then after
+                            automatic
+                            updates the feed will be reloaded and these offers will not be shown, which will save
+                            advertising budget from inefficient spending. Promote only products that are in stock and do
+                            not
+                            miss customers!</p><a href="#" class="more-link">Install app for free</a></div>
+                    <div class="col-sm-6 col-md-8 col-md-push-4 col-sm-push-6"><img class="roll-up"
+                                                                                    src="{% static 'images/remarketing.jpg' %}"
+                                                                                    alt="Display of relevance of the
+                        availability
+                        of goods in the store"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="case section-fullheight" id="Product_Categories">
+        <div class="container">
+            <div class="row auto-height auto-shadow">
+                <div class="row align-items-center m-0 p-0">
+                    <div class="col-sm-6 col-md-4 col-md-pull-8 col-sm-pull-6"><h2>Sort by category of goods</h2>
+                        <p>The best approach in sales is an individual approach. But how to do it when it's e-commerce?
+                            Making ads manually and for each product is quite painstaking and laborious work. There is a
+                            solution, just fill in all the fields in the product card in your Shopify store, and the
+                            feed
+                            product based on this data collects customized ads for products in different categories
+                            (e.g.,
+                            size, color, price range and so on). You just need to create an individual collection file
+                            by
+                            certain filters and synchronize it with catalogs in advertising services.</p><a href="#"
+                                                                                                            class="more-link">Install
+                            app for free</a></div>
+                    <div class="col-sm-6 col-md-8 col-md-push-4 col-sm-push-6"><img class="roll-up"
+                                                                                    src="{% static 'images/remarketing.jpg' %}"
+                                                                                    alt="Sort by category of goods">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="case section-fullheight" id="Discounts_in_ads">
+        <div class="container">
+            <div class="row auto-height auto-shadow">
+                <div class="row align-items-center m-0 p-0">
+                    <div class="col-sm-6 col-md-4 col-md-pull-8 col-sm-pull-6"><h2>Display discounts in ad</h2>
+                        <p>Nothing drives sales like a price reduction (discount)! Combine a few correct marketing
+                            scenarios
+                            such as:</p>
                         <ul>
-                            <li>создание фида индивидуальной коллекции для привлечение новых потенциальных клиентов</li>
-                            <li>индивидуальные вариации товаров в связке с ремаркетингом</li>
-                            <li>СКИДКИ</li>
+                            <li>creating a feed of individual collection to attract new potential customers</li>
+                            <li>individual product variations in conjunction with remarketing</li>
+                            <li>DISCOUNTS.</li>
                         </ul>
-                        <p>В результате ваши постоянные или потенциальные клиенты всегда будут в курсе актуальных акций.
-                            А
-                            ваши продажи вырастут.</p><a href="#" class="more-link">Начать бесплатно</a></div>
+                        <p>As a result, your regular or potential customers will always be up to date with current
+                            promotions. And your sales will grow.</p><a href="#" class="more-link">Install app for
+                            free</a>
+                    </div>
                     <div class="col-sm-6 col-md-8 col-md-push-4 col-sm-push-6"><img class="roll-up"
                                                                                     src="{% static 'images/remarketing.jpg' %}"
-                                                                                    alt="Remarketing allocation"></div>
+                                                                                    alt="Display discounts in ad"></div>
                 </div>
             </div>
         </div>
     </section>
-    <section class="case section-fullheight" id="c10">
+    <section class="case section-fullheight" id="Rating_by_Sales">
         <div class="container">
             <div class="row auto-height auto-shadow">
                 <div class="row align-items-center m-0 p-0">
-                    <div class="col-sm-6 col-md-4 col-md-pull-8 col-sm-pull-6"><h2>Выгрузка по рейтингу
-                        продаваемости</h2>
-                        <p>Тенденция в продажах может быть подвержена различным факторам таким, как погода, время года,
-                            время суток, выходные, скидки, мода, конкуренция похожих брендов, тематик и так далее. Как
-                            уследить, что сегодня рекламировать, если у вас большой выбор товаров? Feed-Product содержит
-                            функцию рейтингов, которая самостоятельно будет формировать файл от самых продаваемых до
-                            менее
-                            продаваемых позиций. Параллельно с автоматическим обновлением фида в реальном времени, вы
-                            загружаете и рекламируете то, что продается лучше всего.</p><a href="#" class="more-link">Начать
-                            бесплатно</a></div>
+                    <div class="col-sm-6 col-md-4 col-md-pull-8 col-sm-pull-6"><h2>Rating by Sales</h2>
+                        <p>Sales trends may be affected by various factors such as weather, season, time of day,
+                            weekend,
+                            discounts, fashion, competition of similar brands, topics and so on. How to keep track of
+                            what
+                            to advertise today if you have large selection of goods? Feed Product contains rating
+                            function
+                            which will form a file on its own in order from the best selling to less selling items.
+                            While
+                            automatic feed updates in real time, you upload and advertise goods that sell best.</p><a
+                                href="#" class="more-link">Install app for free</a></div>
                     <div class="col-sm-6 col-md-8 col-md-push-4 col-sm-push-6"><img class="roll-up"
                                                                                     src="{% static 'images/remarketing.jpg' %}"
-                                                                                    alt="Remarketing allocation"></div>
+                                                                                    alt="Rating by Sales"></div>
                 </div>
             </div>
         </div>
     </section>
-    <section class="case section-fullheight" id="c11">
+    <section class="case section-fullheight" id="Intelligent_Utm_tagging_and_tracking">
         <div class="container">
             <div class="row auto-height auto-shadow">
                 <div class="row align-items-center m-0 p-0">
-                    <div class="col-sm-6 col-md-4 col-md-pull-8 col-sm-pull-6"><h2>Интеллектуальное формирование и
-                        отслеживание Utm-меток</h2>
-                        <p>Статистика и ее анализ - это ключ к оперативному выявлению и оптимизации. Данная практика
-                            позволяет узнать, какой канал продает эффективнее, например, в какой рекламной кампании
-                            следует
-                            увеличить бюджет, а какую и вовсе отключить. Но все это невозможно отследить, если данные по
-                            каналам не отображаются, например, в Google Analytics. В Feed-Product мы настроили
-                            интеллектуальное формирование Utm-меток, которые помогут вам проанализировать в различных
-                            разрезах статистику продаж по каналам и принять правильные решения по оптимизации стратегии
-                            и
-                            ведения рекламных кампаний.</p><a href="#" class="more-link">Начать бесплатно</a></div>
+                    <div class="col-sm-6 col-md-4 col-md-pull-8 col-sm-pull-6"><h2>Intelligent Utm tagging and
+                        tracking</h2>
+                        <p>Statistics and its analysis are the key to operational identification and optimization. This
+                            practice allows you to find out which channel sells more efficiently. For example, it shows
+                            which advertising campaign should increase it's budget, and which one should be completely
+                            disabled. But all of this cannot be tracked if channel data doesn’t appear, for example, in
+                            Google Analytics. In Feed Product we set up utm-tagging that helps you to analyze channel
+                            sales
+                            statistics in various cross-sections and take the right solutions to optimize strategy and
+                            advertising campaigns management.</p><a href="#" class="more-link">Install app for free</a>
+                    </div>
                     <div class="col-sm-6 col-md-8 col-md-push-4 col-sm-push-6"><img class="roll-up"
                                                                                     src="{% static 'images/remarketing.jpg' %}"
-                                                                                    alt="Remarketing allocation"></div>
+                                                                                    alt="Intelligent Utm tagging and
+                        tracking"></div>
                 </div>
             </div>
         </div>
     </section>
     <section class="case align-items-stretch section-fullheight">
         <div class="container row">
-            <div class="row align-items-center m-0 p-0">
-                <div class="feature auto-shadow">
-                    <div class="feature-text"><h3>Почему Feed-Product предпочитают среди других?</h3>
-                        <div class="d-flex justify-content-around mb-4 mt-4">
-                            <button type="button" class="btn btn-primary">установок приложение <span
+            <div class="row align-items-center m-0 p-0 w-100">
+                <div class="feature auto-shadow w-100">
+                    <div class="feature-text"><h3>Why is Feed Product preferred among others?</h3>
+                        <div class="d-flex justify-content-around mb-4 mt-4 badgets">
+                            <button type="button" class="btn btn-primary">installations app <span
                                     class="badge badge-warning">63 421</span></button>
-                            <button type="button" class="btn btn-primary">создано файлов <span
+                            <button type="button" class="btn btn-primary">created files <span
                                     class="badge badge-success">253 684</span>
                             </button>
-                            <button type="button" class="btn btn-primary">обновлено предложений <span
-                                    class="badge badge-light">62 525 600</span></button>
+                            <button type="button" class="btn btn-primary">updated offers <span
+                                    class="badge badge-light">62 525 600</span>
+                            </button>
                         </div>
-                        <p>Разнообразные функции не единственное, что вам понравится в приложении Feed-Product для
-                            Shopify.
-                            Чтобы предоставить вашему магазину самые эффективные функции для синхронизации продукции с
-                            рекламными каналами, наши специалисты постоянно обновляют и совершенствуют приложение,
-                            используя
-                            лучшие практики, полученные за 14-летний опыт в интернет-маркетинге.</p></div>
+                        <p>A variety of functions is not the only feature you will like about Feed Product for Shopify.
+                            To
+                            provide your store with the most effective features for synchronizing products with
+                            advertising
+                            channels, our specialists are constantly updating and improving the application, using the
+                            best
+                            practices gained from 14 years of experience in Internet marketing.</p></div>
                 </div>
             </div>
-            <div class="row align-items-center m-0 p-0">
-                <div class="feature auto-shadow form text-white">
-                    <div class="feature-text"><h3>Присоединяйтесь к миллионам предприятий Shopify c Feed-Product</h3>
+            <div class="row align-items-center m-0 p-0 w-100">
+                <div class="feature auto-shadow form text-white w-100">
+                    <div class="feature-text"><h3>Join Millions of Shopify partners with Feed Product</h3>
                         <form class="form-inline justify-content-between shop_start"
                               action="{% url 'shopify_app:authenticate' %}" method="post">
                             {% csrf_token %}
-                            <div class="form-group m-2 flex-grow-1"><label for="shop_f" class="sr-only">Ссылка на ваш
-                                магазин</label> <input class="form-control flex-fill" name="shop" id="shop_f"
-                                                       placeholder="Ссылка на ваш магазин"></div>
-                            <button type="submit" class="btn btn-dark m-2 text-uppercase">Начать бесплатно</button>
+                            <div class="form-group m-2 flex-grow-1"><label for="shop_f" class="sr-only">Your store's
+                                link</label> <input class="form-control flex-fill" name="shop" id="shop_f"
+                                                    placeholder="Your store's link"></div>
+                            <button type="submit" class="btn btn-dark m-2 text-uppercase">Start Free</button>
                         </form>
                         <div class="m-2">
-                            <small>Возьмите навсегда свободную бесплатную версию! Кредитная карта не требуется!</small>
+                            <small>Get yourself the free version for good! No credit card required!</small>
                         </div>
                     </div>
                 </div>
@@ -366,19 +363,21 @@
          aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
-                <div class="modal-header border-0 pb-0">
+                <div class="modal-header border-0 pb-0"><h5 class="modal-title text-center text-white flex-fill">Install
+                    app
+                    Feed Product</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
                             aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body">
-                    <form class="justify-content-between shop_start" action="{% url 'shopify_app:authenticate' %}"
-                          method="post">
+                    <form class="form-inline justify-content-between shop_start"
+                          action="{% url 'shopify_app:authenticate' %}" method="post">
                         {% csrf_token %}
-                        <div class="form-group m-2 flex-grow-1 w-100"><label for="shop_m" class="sr-only">Ссылка на ваш
-                            магазин</label> <input class="form-control flex-fill" name="shop" id="shop_m"
-                                                   placeholder="Ссылка на ваш магазин"></div>
-                        <button type="submit" class="btn btn-dark m-2 text-uppercase w-100">Начать бесплатно</button>
+                        <div class="form-group m-2 flex-grow-1 w-100"><label for="shop_m" class="sr-only">Your store's
+                            link</label> <input class="form-control flex-fill" name="shop" id="shop_m"
+                                                placeholder="Your store's link"></div>
+                        <button type="submit" class="btn btn-dark m-2 text-uppercase w-100">Start Free</button>
                     </form>
                 </div>
             </div>
