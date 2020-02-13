@@ -1,0 +1,22 @@
+{
+    "name": "Connect feeds with Feed Product",
+    "short_name": "Feed Product",
+    "description": "Feed Product - Synchronize your Shopify products with advertising services",
+    "icons": [
+        {
+            "src": "/static/images/android-chrome-192x192.png",
+            "sizes": "192x192",
+            "type": "image/png"
+        },
+        {
+            "src": "/static/images/android-chrome-256x256.png",
+            "sizes": "256x256",
+            "type": "image/png"
+        }
+    ],
+    "start_url": "/",
+    "scope": "/",
+    "theme_color": "#ffffff",
+    "background_color": "#ffffff",
+    "display": "standalone"
+}
