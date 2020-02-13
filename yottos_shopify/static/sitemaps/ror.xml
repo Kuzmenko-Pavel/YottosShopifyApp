@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:ror="http://rorweb.com/0.1/">
+    <channel>
+        <title>ROR Sitemap for https://feed-product.com/</title>
+        <link>https://feed-product.com/</link>
+
+        <item>
+            <link>https://feed-product.com/</link>
+            <title>Feed Product | Synchronize your Shopify products with advertising services</title>
+            <description>Sync your Shopify store with your Facebook Ads, Google Ads, Google Shopping, Instagram
+                Shopping, Yottos AdLoad, Pinterest with Feed Product
+            </description>
+            <ror:updatePeriod></ror:updatePeriod>
+            <ror:sortOrder>0</ror:sortOrder>
+            <ror:resourceOf>sitemap</ror:resourceOf>
+        </item>
+        <item>
+            <link>https://feed-product.com/privacy.html</link>
+            <title>Feed Product - Privacy Policies</title>
+            <description>Sync your Shopify store with your Facebook Ads, Google Ads, Google Shopping, Instagram
+                Shopping, Yottos AdLoad, Pinterest with Feed Product
+            </description>
+            <ror:updatePeriod></ror:updatePeriod>
+            <ror:sortOrder>1</ror:sortOrder>
+            <ror:resourceOf>sitemap</ror:resourceOf>
+        </item>
+    </channel>
+</rss>
+  
