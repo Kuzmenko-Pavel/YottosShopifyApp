@@ -70,7 +70,7 @@
                 https://feed-product.com/static/video/mov_bbb.mp4
             </video:content_loc>
             <video:player_loc>
-                https://feed-product.com/
+                https://feed-product.com/static/video/mov_bbb.mp4
             </video:player_loc>
             <video:duration>600</video:duration>
             <video:expiration_date>2021-11-05T19:20:30+08:00</video:expiration_date>
