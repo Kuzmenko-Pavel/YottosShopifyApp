@@ -303,6 +303,8 @@ class Subscribe(TemplateView, BaseShop):
                     rac.return_url = request.build_absolute_uri(
                         route_url('shopify_app:subscribe_submit', _query=_query))
                     rac.price = 29.00
+                    rac.trial_days = 60
+                    rac.trial_ends_on = timezone.now() + timezone.timedelta(days=60)
                     rac.name = "Premium"
                     if rac.save():
                         context['url'] = rac.confirmation_url
