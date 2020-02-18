@@ -23,3 +23,51 @@ class Cookie(TemplateView):
     def get(self, request, *args, **kwargs):
         context = {}
         return self.render_to_response(context)
+
+
+class FAQ(TemplateView):
+    template_name = "faq.html"
+
+    def get(self, request, *args, **kwargs):
+        context = {}
+        return self.render_to_response(context)
+
+
+class HowInstall(TemplateView):
+    template_name = "how_install.html"
+
+    def get(self, request, *args, **kwargs):
+        context = {}
+        return self.render_to_response(context)
+
+
+class HowSetupGoogle(TemplateView):
+    template_name = "how_setup_google.html"
+
+    def get(self, request, *args, **kwargs):
+        context = {}
+        return self.render_to_response(context)
+
+
+class HowSetupFacebook(TemplateView):
+    template_name = "how_setup_facebook.html"
+
+    def get(self, request, *args, **kwargs):
+        context = {}
+        return self.render_to_response(context)
+
+
+class HowSetupYottos(TemplateView):
+    template_name = "how_setup_yottos.html"
+
+    def get(self, request, *args, **kwargs):
+        context = {}
+        return self.render_to_response(context)
+
+
+class HowSetupPinterest(TemplateView):
+    template_name = "how_setup_pinterest.html"
+
+    def get(self, request, *args, **kwargs):
+        context = {}
+        return self.render_to_response(context)

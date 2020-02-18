@@ -14,14 +14,29 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
+from django.shortcuts import redirect
 from django.urls import path, include
 
 from yottos_shopify import views
 
 urlpatterns = [
-    path('', views.Index.as_view()),
+    path('', views.Index.as_view(), name='index'),
     path('privacy.html', views.Privacy.as_view()),
     path('cookie-policy.html', views.Cookie.as_view()),
+    path('faq.html', views.FAQ.as_view()),
+    path('faq/how_install.html', views.HowInstall.as_view()),
+    path('faq/how_setup_google_merchant_feed.html', views.HowSetupGoogle.as_view()),
+    path('faq/how_setup_facebook_catalog_feed.html', views.HowSetupFacebook.as_view()),
+    path('faq/how_setup_yottos_adload_feed.html', views.HowSetupYottos.as_view()),
+    path('faq/how_setup_pinterest_feed.html', views.HowSetupPinterest.as_view()),
     path('admin/', admin.site.urls),
     path('shopify/', include('shopify_app.urls')),
 ]
+
+
+def response_error_handler(request, exception=None):
+    return redirect('/')
+
+
+handler404 = response_error_handler
+handler500 = response_error_handler
