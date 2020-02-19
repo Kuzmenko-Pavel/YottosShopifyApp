@@ -41,6 +41,14 @@ class HowInstall(TemplateView):
         return self.render_to_response(context)
 
 
+class HowConfigure(TemplateView):
+    template_name = "how_configure.html"
+
+    def get(self, request, *args, **kwargs):
+        context = {}
+        return self.render_to_response(context)
+
+
 class HowSetupGoogle(TemplateView):
     template_name = "how_setup_google.html"
 

@@ -27,3 +27,5 @@ FLUSH PRIVILEGES;
 
 GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' IDENTIFIED BY 'vthjdbyu';
 FLUSH PRIVILEGES;
+
+./webp-convert.sh yottos_shopify/static/images/
