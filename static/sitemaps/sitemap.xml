@@ -13,7 +13,47 @@
         <priority>1.00</priority>
     </url>
     <url>
+        <loc>https://feed-product.com/cookie-policy.html</loc>
+        <lastmod>2020-02-13T13:49:29+00:00</lastmod>
+        <priority>0.80</priority>
+    </url>
+    <url>
         <loc>https://feed-product.com/privacy.html</loc>
+        <lastmod>2020-02-13T13:49:29+00:00</lastmod>
+        <priority>0.80</priority>
+    </url>
+    <url>
+        <loc>https://feed-product.com/help_center.html</loc>
+        <lastmod>2020-02-13T13:49:29+00:00</lastmod>
+        <priority>0.80</priority>
+    </url>
+    <url>
+        <loc>https://feed-product.com/help_center/how_install.html</loc>
+        <lastmod>2020-02-13T13:49:29+00:00</lastmod>
+        <priority>0.80</priority>
+    </url>
+    <url>
+        <loc>https://feed-product.com/help_center/how_configure.html</loc>
+        <lastmod>2020-02-13T13:49:29+00:00</lastmod>
+        <priority>0.80</priority>
+    </url>
+    <url>
+        <loc>https://feed-product.com/help_center/how_setup_google_merchant_feed.html</loc>
+        <lastmod>2020-02-13T13:49:29+00:00</lastmod>
+        <priority>0.80</priority>
+    </url>
+    <url>
+        <loc>https://feed-product.com/help_center/how_setup_facebook_catalog_feed.html</loc>
+        <lastmod>2020-02-13T13:49:29+00:00</lastmod>
+        <priority>0.80</priority>
+    </url>
+    <url>
+        <loc>https://feed-product.com/help_center/how_setup_yottos_adload_feed.html</loc>
+        <lastmod>2020-02-13T13:49:29+00:00</lastmod>
+        <priority>0.80</priority>
+    </url>
+    <url>
+        <loc>https://feed-product.com/help_center/how_setup_pinterest_feed.html</loc>
         <lastmod>2020-02-13T13:49:29+00:00</lastmod>
         <priority>0.80</priority>
     </url>
@@ -67,10 +107,10 @@
                 AdLoad, Pinterest with Feed Product
             </video:description>
             <video:content_loc>
-                https://feed-product.com/static/video/mov_bbb.mp4
+                https://feed-product.com/static/video/feed_product.mp4
             </video:content_loc>
             <video:player_loc>
-                https://feed-product.com/static/video/mov_bbb.mp4
+                https://feed-product.com/
             </video:player_loc>
             <video:duration>600</video:duration>
             <video:expiration_date>2021-11-05T19:20:30+08:00</video:expiration_date>

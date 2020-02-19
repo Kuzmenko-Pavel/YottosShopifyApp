@@ -21,7 +21,7 @@
     <meta name="msapplication-config" content="{% static 'browserconfig.xml' %}">
     <meta name="msapplication-TileColor" content="#9f00a7">
     <meta name="theme-color" content="#ffffff">
-    {% include "ld_json.html" %}
+    {% block ld_json %}{% include "ld_json.html" %}{% endblock %}
     <meta name="description"
           content="Sync your Shopify store with your Facebook Ads, Google Ads, Google Shopping, Instagram Shopping, Yottos AdLoad, Pinterest with Feed Product">
     <meta name="keywords"

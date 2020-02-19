@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 {% load static %}
 {% block title %}Feed Product | Synchronize your Shopify products with advertising services{% endblock %}
+{% block ld_json %}{% include "ld_json.html" %}{% endblock %}
 {% block content %}
     <section id="top" class="main section-fullheight">
         <div class="auto-shadow">
@@ -29,10 +30,14 @@
                                                     <span aria-hidden="true">&times;</span></button>
                                             </div>
                                             <div class="modal-body">
-                                                <video autoplay muted loop plays-inline preload
+                                                <video autoplay muted loop plays-inline preload controls
                                                        class="embed-responsive">
-                                                    <source src="{% static 'video/mov_bbb.mp4' %}" type="video/mp4">
-                                                    <source src="{% static 'video/mov_bbb.ogv' %}" type="video/ogg">
+                                                    <source src="{% static 'video/feed_product.mp4' %}"
+                                                            type="video/mp4">
+                                                    <source src="{% static 'video/feed_product.ogv' %}"
+                                                            type="video/ogg">
+                                                    <source src="{% static 'video/feed_product.webm' %}"
+                                                            type="video/webm">
                                                     Your browser does not support HTML5 video.
                                                 </video>
                                             </div>
@@ -47,6 +52,7 @@
                                       action="{% url 'shopify_app:authenticate' %}" method="post">
                                     {% csrf_token %}
                                     <div class="form-group m-2 flex-grow-1"><label for="shop" class="sr-only">Your
+                                        shopify
                                         store's
                                         link</label> <input class="form-control flex-fill" name="shop" id="shop"
                                                             placeholder="Your shopify store's link"></div>
@@ -350,7 +356,7 @@
                             <div class="form-group m-2 flex-grow-1"><label for="shop_f" class="sr-only">Your shopify
                                 store's
                                 link</label> <input class="form-control flex-fill" name="shop" id="shop_f"
-                                                    placeholder="Your store's link"></div>
+                                                    placeholder="Your shopify store's link"></div>
                             <button type="submit" class="btn btn-dark m-2 text-uppercase">Start Free</button>
                         </form>
                         <div class="m-2">
@@ -380,7 +386,7 @@
                         <div class="form-group m-2 flex-grow-1 w-100"><label for="shop_m" class="sr-only">Your shopify
                             store's
                             link</label> <input class="form-control flex-fill" name="shop" id="shop_m"
-                                                placeholder="Your store's link"></div>
+                                                placeholder="Your shopify store's link"></div>
                         <button type="submit" class="btn btn-dark m-2 text-uppercase w-100">Start Free</button>
                     </form>
                 </div>
