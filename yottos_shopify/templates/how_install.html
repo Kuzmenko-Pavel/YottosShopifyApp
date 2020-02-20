@@ -1,9 +1,49 @@
 {% extends "base.html" %}
 {% load static %}
 {% block title %}Feed Product - How Install{% endblock %}
-{% block ld_json %}{% endblock %}
+{% block ld_json %}
+    <script type="application/ld+json">
+    {
+      "@context": "http://schema.org",
+      "@type": "HowTo",
+      "image": {
+        "@type": "ImageObject",
+        "url": "{% static 'images/help_center/1.png' %}"
+      },
+      "name": "Feed Product - How Install",
+      "description": "Install Feed Product",
+      "step": [
+        {
+          "@type": "HowToStep",
+          "name": "Enter your shopify store link",
+          "text": "Paste the link to your store into the form and click on the start free button.",
+          "image": "{% static 'images/help_center/1.png' %}",
+          "url": "https://feed-product.com/help_center/how_install.html#enter_your_shopify_store_link",
+        },
+        {
+          "@type": "HowToStep",
+          "name": "Confirm Installation",
+          "text": "Confirm the installation of the application in your store.",
+          "image": "{% static 'images/help_center/2.png' %}",
+          "url": "https://feed-product.com/help_center/how_install.html#confirm_installation",
+        },
+        {
+          "@type": "HowToStep",
+          "name": "Enjoy",
+          "text": "Enjoy the application, simplify your life.",
+          "image": "{% static 'images/help_center/3.png' %}",
+          "url": "https://feed-product.com/help_center/how_install.html#enjoy",
+        }
+      ]
+    }
+
+
+    </script>
+
+
+{% endblock %}
 {% block content %}
-    <section class="case section-fullheight" id="Enter your shopify store link">
+    <section class="case section-fullheight" id="enter_your_shopify_store_link">
         <div class="container">
             <div class="row auto-height auto-shadow">
                 <div style="width: 100%"><a href="/" class="faq-item-more-link">Install app for free</a></div>
@@ -18,7 +58,7 @@
             </div>
         </div>
     </section>
-    <section class="case section-fullheight" id="Confirm Installation">
+    <section class="case section-fullheight" id="confirm_installation">
         <div class="container">
             <div class="row auto-height auto-shadow">
                 <div style="width: 100%"><a href="/" class="faq-item-more-link">Install app for free</a></div>
@@ -33,7 +73,7 @@
             </div>
         </div>
     </section>
-    <section class="case section-fullheight" id="Enjoy">
+    <section class="case section-fullheight" id="enjoy">
         <div class="container">
             <div class="row auto-height auto-shadow">
                 <div style="width: 100%"><a href="/" class="faq-item-more-link">Install app for free</a></div>
