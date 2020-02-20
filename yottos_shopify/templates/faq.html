@@ -5,13 +5,15 @@
 {% block content %}
     <section class="case align-items-stretch section-fullheight">
         <div class="container row">
-            <div class="row align-items-center m-0 p-0 w-100">
-                <div class="faq auto-shadow w-100">
-                    <div class="faq-text"><h3>Help Center</h3>
-                        <p>Here you will find out how to work with Feed Product App for Shopify</p></div>
+            <div class="row align-items-center p-0 mx-0 mt-0 mb-1 w-100">
+                <div style="width: 100%"><a href="/" class="faq-more-link">Install app for free</a></div>
+                <div class="faq faq-bg-color auto-shadow w-100">
+                    <div class="faq-text"><h3 class="text-white">Help Center</h3>
+                        <p class="text-white">Here you will find out how to work with Feed Product App for Shopify</p>
+                    </div>
                 </div>
             </div>
-            <div class="row align-items-center m-0 p-0 w-100">
+            <div class="row align-items-center my-2 mx-0 p-0 w-100">
                 <div class="faq auto-shadow w-100">
                     <div class="faq-text"><a href="/help_center/how_install.html" class="btn btn-outline-dark">HOW TO
                         INSTALL FEED
@@ -19,14 +21,14 @@
                         IN SHOPIFY</a></div>
                 </div>
             </div>
-            <div class="row align-items-center m-0 p-0 w-100">
+            <div class="row align-items-center my-2 mx-0 p-0 w-100">
                 <div class="faq auto-shadow w-100">
                     <div class="faq-text"><a href="/help_center/how_configure.html" class="btn btn-outline-dark">HOW TO
                         CONFIGURE FEED
                         PRODUCT IN SHOPIFY</a></div>
                 </div>
             </div>
-            <div class="row align-items-center m-0 p-0 w-100">
+            <div class="row align-items-center my-2 mx-0 p-0 w-100">
                 <div class="faq auto-shadow w-100">
                     <div class="faq-text"><a href="/help_center/how_setup_facebook_catalog_feed.html"
                                              class="btn btn-outline-dark">HOW TO CONNECT FEED
@@ -34,7 +36,7 @@
                         TO FACEBOOK</a></div>
                 </div>
             </div>
-            <div class="row align-items-center m-0 p-0 w-100">
+            <div class="row align-items-center my-2 mx-0 p-0 w-100">
                 <div class="faq auto-shadow w-100">
                     <div class="faq-text"><a href="/help_center/how_setup_google_merchant_feed.html"
                                              class="btn btn-outline-dark">HOW TO CONNECT FEED
@@ -42,7 +44,7 @@
                         TO GOOGLE</a></div>
                 </div>
             </div>
-            <div class="row align-items-center m-0 p-0 w-100">
+            <div class="row align-items-center my-2 mx-0 p-0 w-100">
                 <div class="faq auto-shadow w-100">
                     <div class="faq-text"><a href="/help_center/how_install.html" class="btn btn-outline-dark">HOW TO
                         CONNECT FEED
@@ -50,7 +52,7 @@
                         TO INSTAGRAM</a></div>
                 </div>
             </div>
-            <div class="row align-items-center m-0 p-0 w-100">
+            <div class="row align-items-center my-2 mx-0 p-0 w-100">
                 <div class="faq auto-shadow w-100">
                     <div class="faq-text"><a href="/help_center/how_setup_yottos_adload_feed.html"
                                              class="btn btn-outline-dark">HOW TO CONNECT FEED
@@ -58,12 +60,30 @@
                         TO YOTTOS</a></div>
                 </div>
             </div>
-            <div class="row align-items-center m-0 p-0 w-100">
+            <div class="row align-items-center my-2 mx-0 p-0 w-100">
                 <div class="faq auto-shadow w-100">
                     <div class="faq-text"><a href="/help_center/how_setup_pinterest_feed.html"
                                              class="btn btn-outline-dark">HOW TO CONNECT FEED
                         PRODUCT
                         TO PINTEREST</a></div>
+                </div>
+            </div>
+            <div class="row align-items-center my-2 mx-0 p-0 w-100">
+                <div class="feature auto-shadow form text-white w-100">
+                    <div class="feature-text"><h3>Join Millions of Shopify partners with Feed Product</h3>
+                        <form class="form-inline justify-content-between shop_start"
+                              action="{% url 'shopify_app:authenticate' %}" method="post">
+                            {% csrf_token %}
+                            <div class="form-group m-2 flex-grow-1"><label for="shop_f" class="sr-only">Your shopify
+                                store's
+                                link</label> <input class="form-control flex-fill" name="shop" id="shop_f"
+                                                    placeholder="Your store's link"></div>
+                            <button type="submit" class="btn btn-dark m-2 text-uppercase">Start Free</button>
+                        </form>
+                        <div class="m-2">
+                            <small>Get yourself the free version for good! No credit card required!</small>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

@@ -6,6 +6,7 @@
     <section class="case section-fullheight" id="Enter your shopify store link">
         <div class="container">
             <div class="row auto-height auto-shadow">
+                <div style="width: 100%"><a href="/" class="faq-item-more-link">Install app for free</a></div>
                 <div class="row align-items-center m-0 p-0">
                     <div class="col-sm-6 col-md-4 col-md-pull-8 col-sm-pull-6"><h2>Log in to the app</h2>
                         <p>Log in to the app and copy the feed link</p></div>
@@ -19,6 +20,7 @@
     <section class="case section-fullheight" id="Confirm Installation">
         <div class="container">
             <div class="row auto-height auto-shadow">
+                <div style="width: 100%"><a href="/" class="faq-item-more-link">Install app for free</a></div>
                 <div class="row align-items-center m-0 p-0">
                     <div class="col-sm-6 col-md-4 col-md-pull-8 col-sm-pull-6"><h2>Log in to the Google Merchant
                         Center</h2>
@@ -34,6 +36,7 @@
     <section class="case section-fullheight" id="Enjoy">
         <div class="container">
             <div class="row auto-height auto-shadow">
+                <div style="width: 100%"><a href="/" class="faq-item-more-link">Install app for free</a></div>
                 <div class="row align-items-center m-0 p-0">
                     <div class="col-sm-6 col-md-4 col-md-pull-8 col-sm-pull-6"><h2>Have any questions</h2>
                         <p>Pay money to professionals, do not flatter yourself. We will do everything.</p></div>
@@ -45,5 +48,24 @@
             </div>
         </div>
     </section>
-    <div class=""></div>
+    <div class="container row auto-shadow mb-2">
+        <div class="row align-items-center w-100">
+            <div class="feature form w-100">
+                <div class="feature-text text-center"><h3>Join Millions of Shopify partners with Feed Product</h3>
+                    <form class="form-inline justify-content-between shop_start"
+                          action="{% url 'shopify_app:authenticate' %}" method="post">
+                        {% csrf_token %}
+                        <div class="form-group m-2 flex-grow-1"><label for="shop_f" class="sr-only">Your shopify store's
+                            link</label> <input class="form-control flex-fill" name="shop" id="shop_f"
+                                                placeholder="Your store's link"></div>
+                        <button type="submit" class="btn btn-dark m-2 text-uppercase">Start Free</button>
+                    </form>
+                    <div class="m-2">
+                        <small>Get yourself the free version for good! No credit card required!</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="scroller"></div>
 {% endblock %}
