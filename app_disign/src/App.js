@@ -56,6 +56,8 @@ export default function App(props) {
         },
         []
     );
+    const h3Style = {textAlign: 'center'};
+    const title = <div style={h3Style} className="Polaris-Heading">Activate 60 day PREMIUM PLAN for free!</div>;
     return (
         <Page>
             <Layout>
@@ -66,9 +68,9 @@ export default function App(props) {
                 <Modal
                     open={active}
                     onClose={handleChange}
-                    title="Upgrade to Premium Membership"
+                    title={title}
                     primaryAction={{
-                        content: 'Upgrade to Premium Membership',
+                        content: 'Activate Premium plan',
                         onAction: upgrade
                     }}
                 >
@@ -93,7 +95,7 @@ export default function App(props) {
                                                         </Link>
                                                     );
                                                     badge.push(<Link key={'olibl' + index}
-                                                                     onClick={upgrade}>Activated</Link>);
+                                                                     onClick={upgrade}>Activate Premium plan</Link>);
                                                     return <List.Item key={'oli' + index}
                                                                       id={'oli' + index}>{option.label}{badge}</List.Item>;
                                                 }
