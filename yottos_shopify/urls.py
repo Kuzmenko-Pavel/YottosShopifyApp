@@ -28,6 +28,7 @@ urlpatterns = [
     path('help_center/how_configure.html', views.HowConfigure.as_view()),
     path('help_center/how_setup_google_merchant_feed.html', views.HowSetupGoogle.as_view()),
     path('help_center/how_setup_facebook_catalog_feed.html', views.HowSetupFacebook.as_view()),
+    path('help_center/how_setup_instagram_feed.html', views.HowSetupInstagram.as_view()),
     path('help_center/how_setup_yottos_adload_feed.html', views.HowSetupYottos.as_view()),
     path('help_center/how_setup_pinterest_feed.html', views.HowSetupPinterest.as_view()),
     path('admin/', admin.site.urls),

@@ -65,6 +65,14 @@ class HowSetupFacebook(TemplateView):
         return self.render_to_response(context)
 
 
+class HowSetupInstagram(TemplateView):
+    template_name = "how_setup_instagram.html"
+
+    def get(self, request, *args, **kwargs):
+        context = {}
+        return self.render_to_response(context)
+
+
 class HowSetupYottos(TemplateView):
     template_name = "how_setup_yottos.html"
 
