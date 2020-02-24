@@ -62,7 +62,9 @@ class Dashboard(TemplateView, BaseShop):
             'description': "You have successfully generated your Facebook product feed. You can now add it to your Facebook Catalog.",
             'sectioned_title': "Your Facebook Feed",
             'link': 'facebook',
-            'offer_count': 0
+            'offer_count': 0,
+            "catalog_title": "Facebook Catalog",
+            "catalog_link": 'https://facebook.com/products/'
         },
         'ga': {
             'page_name': 'Your Google Feed',
@@ -70,7 +72,9 @@ class Dashboard(TemplateView, BaseShop):
             'description': "You have successfully generated your Google product feed. You can now add it to your Google Catalog.",
             'sectioned_title': "Your Google Feed",
             'link': 'google',
-            'offer_count': 0
+            'offer_count': 0,
+            "catalog_title": "Google Merchants",
+            "catalog_link": 'https://merchants.google.com/'
         },
         'yt': {
             'page_name': 'Your Yottos Feed',
@@ -78,7 +82,9 @@ class Dashboard(TemplateView, BaseShop):
             'description': "You have successfully generated your Yottos product feed. You can now add it to your Yottos Catalog.",
             'sectioned_title': "Your Yottos Feed",
             'link': 'yottos',
-            'offer_count': 0
+            'offer_count': 0,
+            "catalog_title": "Yottos",
+            "catalog_link": 'https://adload.yottos.com/'
         },
         'pi': {
             'page_name': 'Your Pinterest Feed',
@@ -86,7 +92,9 @@ class Dashboard(TemplateView, BaseShop):
             'description': "You have successfully generated your Yottos product feed. You can now add it to your Pinterest Catalog.",
             'sectioned_title': "Your Pinterest Feed",
             'link': 'pinterest',
-            'offer_count': 0
+            'offer_count': 0,
+            "catalog_title": "Pinterest Catalog",
+            "catalog_link": 'https://pinterest.com/product-catalogs/'
         },
     }
     utm = [
