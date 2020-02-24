@@ -57,13 +57,13 @@ class Dashboard(TemplateView, BaseShop):
     template_name = "dashboard.html"
     feeds = {
         'fb': {
-            'page_name': 'Your Facebook Feed',
-            'title': "Facebook product feed set up!",
+            'page_name': 'Your Facebook (Instagram) Feed',
+            'title': "Facebook (Instagram) product feed set up!",
             'description': "You have successfully generated your Facebook product feed. You can now add it to your Facebook Catalog.",
-            'sectioned_title': "Your Facebook Feed",
+            'sectioned_title': "Your Facebook (Instagram) Feed",
             'link': 'facebook',
             'offer_count': 0,
-            "catalog_title": "Facebook Catalog",
+            "catalog_title": "Facebook (Instagram) Catalog",
             "catalog_link": 'https://facebook.com/products/'
         },
         'ga': {

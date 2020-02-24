@@ -37,7 +37,7 @@ const app = createApp({
 });
 const redirect = Redirect.create(app);
 const subscribeButton = Button.create(app, {label: 'Upgrade to Premium Membershi'});
-const button1 = Button.create(app, {label: 'Facebook Feed'});
+const button1 = Button.create(app, {label: 'Facebook (Instagram) Feed'});
 const button2 = Button.create(app, {label: 'Google Feed'});
 const button3 = Button.create(app, {label: 'Yottos Feed'});
 const button4 = Button.create(app, {label: 'Pinterest Feed'});
