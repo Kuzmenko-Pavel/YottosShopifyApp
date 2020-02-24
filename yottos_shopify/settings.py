@@ -24,8 +24,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'npx%y+rpbraa=duy&m5h=yiu@_^sn#$#=rocxe+@=3nn!h4-68'
 MESSAGE_STORAGE = 'django.contrib.messages.storage.cookie.CookieStorage'
 
-
-ALLOWED_HOSTS = [URL, 'localhost', '127.0.0.1', 'shopify-app.yottos.com']
+ALLOWED_HOSTS = [URL, 'localhost', '127.0.0.1', 'shopify-app.yottos.com', '10.0.0.108']
 CSRF_COOKIE_DOMAIN = URL
 CSRF_COOKIE_SAMESITE = None
 CSRF_COOKIE_SECURE = True
