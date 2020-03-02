@@ -37,6 +37,7 @@ const app = createApp({
 });
 const redirect = Redirect.create(app);
 const subscribeButton = Button.create(app, {label: 'Upgrade to Premium Membershi'});
+const unSubscribeButton = Button.create(app, {label: 'Downgrade to free Membership'});
 const button1 = Button.create(app, {label: 'Facebook (Instagram) Feed'});
 const button2 = Button.create(app, {label: 'Google Feed'});
 const button3 = Button.create(app, {label: 'Yottos Feed'});
@@ -72,6 +73,11 @@ subscribeButton.subscribe(Button.Action.CLICK, function () {
         });
     }
     const link = window.current_shop.billing;
+    redirect.dispatch(Redirect.Action.APP, link);
+});
+unSubscribeButton.subscribe(Button.Action.CLICK, function () {
+    window.ga('send', 'event', 'Order', 'Downgrade', 'BigButton');
+    const link = window.current_shop.downgrade;
     redirect.dispatch(Redirect.Action.APP, link);
 });
 button1.subscribe(Button.Action.CLICK, function () {
@@ -121,6 +127,9 @@ const buttons = {
 };
 if (!window.current_shop.premium) {
     buttons.primary = subscribeButton;
+}
+else {
+    buttons.primary = unSubscribeButton;
 }
 const titleBarOptions = {
     title: window.current_shop.title,

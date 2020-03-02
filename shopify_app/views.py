@@ -148,6 +148,18 @@ class Dashboard(TemplateView, BaseShop):
         return self.render_to_response(context)
 
 
+class Downgrade(TemplateView, BaseShop):
+    template_name = "downgrade.html"
+
+    def get(self, request, *args, **kwargs):
+        shop = self.get_shop(request.shop)
+        context = {
+            'shop': shop,
+        }
+
+        return self.render_to_response(context)
+
+
 class Authenticate(View, BaseShop):
 
     def get(self, request, *args, **kwargs):
@@ -320,6 +332,16 @@ class Subscribe(TemplateView, BaseShop):
         except Exception as e:
             print(e)
         return self.render_to_response(context)
+
+
+class UnSubscribe(TemplateView, BaseShop):
+
+    def get(self, request, *args, **kwargs):
+        _query = {
+            'shop': request.shop, 'hmac': request.hmac, 'timestamp': request.timestamp
+        }
+        url = request.build_absolute_uri(route_url('shopify_app:dashboard', _query=_query))
+        return redirect(url)
 
 
 class SubmitSubscribe(View, BaseShop):

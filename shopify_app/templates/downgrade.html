@@ -1,0 +1,36 @@
+{% load static %}
+{% load json_tags %}
+{% csrf_token %}
+{% if shop %}
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
+        <script>
+            window.premium = {{ premium|yesno:"true,false" }};
+            window.t = 'T{{ csrf_token }}';
+            window.current_shop = {
+                domain: '{{ current_shop }}',
+                apiKey: '{{ api_key }}',
+                shopOrigin: '{{ current_shop }}',
+                title: '{{ page_name }}',
+                billing: '{% url "shopify_app:subscribe" %}',
+                downgrade: '{% url "shopify_app:downgrade" %}',
+                premium: {{ shop.premium|yesno:"true,false" }},
+                dashboard: '{% url "shopify_app:dashboard" %}',
+                forceRedirect: true,
+                debug: true
+            };
+        </script>
+        {% include "analytics/google.html" %}
+        {% include "analytics/facebook.html" %}
+    </head>
+    <body>
+    <div id="root"></div>
+    <script type="text/javascript" src="{% static "unsub.bundle.js" %}?v1.1"></script>
+    {% include "analytics/hotjar.html" %}
+    </body>
+    </html>
+{% endif %}
