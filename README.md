@@ -29,3 +29,6 @@ GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' IDENTIFIED BY 'vthjdbyu';
 FLUSH PRIVILEGES;
 
 ./webp-convert.sh yottos_shopify/static/images/
+
+
+ssh root@205.196.80.10
