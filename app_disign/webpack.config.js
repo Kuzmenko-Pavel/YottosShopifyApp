@@ -2,12 +2,13 @@ const {join} = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
+    mode: 'production',
     entry: {
         index: join(__dirname, 'src/index.js'),
         // billing: join(__dirname, 'src/billing.js')
     },
     optimization: {
-        // minimize: false
+        minimize: true
       },
     output: {
         path: join(__dirname, 'build'),

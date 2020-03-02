@@ -243,7 +243,7 @@ export default function Collections(props) {
                 <Modal.Section>
                     <TextContainer>
                         <p>
-                            Эта опуия доступна только в премиум.
+                            This option is available only in premium.
                         </p>
                     </TextContainer>
                 </Modal.Section>

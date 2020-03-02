@@ -40,7 +40,7 @@ export default function Options(props) {
         <Layout.AnnotatedSection
             title='You app options'>
             <Card sectioned title='You app options'
-                  actions={[
+                  actions={props.current_shop.premium ? null : [
                       {
                           content: 'Upgrade to Premium Membership',
                           onAction: upgrade
@@ -65,10 +65,8 @@ export default function Options(props) {
                                                  onClick={upgrade}>Activated</Link>);
                             }
                             if (option.premium && option.active) {
-                                badge.push(<Link key={'olibpla' + index} onClick={upgrade}>
-                                        <Badge key={'olibpa' + index} status="success" progress="complete">premium</Badge>
-                                    </Link>
-                                );
+                                badge.push(<Badge key={'olibpa' + index} status="success"
+                                                  progress="complete">premium</Badge>);
                             }
                             return <List.Item key={'oli' + index} id={'oli' + index}>{option.label}{badge}</List.Item>;
                         }

@@ -356,12 +356,21 @@ class WebhookAppUninstalled(TemplateView, BaseShop):
             data = json.loads(request.body.decode('utf-8'))
             if topic == 'app/uninstalled':
                 shop = self.get_shop(shop_url)
+                print('WebhookAppUninstalled', shop)
                 if shop:
                     shop.installed = False
                     shop.premium = False
                     shop.date_uninstalled = timezone.now()
                     shop.save()
 
+        return self.render_to_response({})
+
+
+@method_decorator(csrf_exempt, name='dispatch')
+class WebhookGDPR(TemplateView, BaseShop):
+    template_name = "webhook.html"
+
+    def post(self, request, *args, **kwargs):
         return self.render_to_response({})
 
 

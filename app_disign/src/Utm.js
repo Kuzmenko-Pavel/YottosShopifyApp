@@ -220,7 +220,7 @@ export default function UTM(props) {
                 <Modal.Section>
                     <TextContainer>
                         <p>
-                            Эта опуия доступна только в премиум.
+                            This option is available only in premium.
                         </p>
                     </TextContainer>
                 </Modal.Section>
