@@ -5,7 +5,7 @@ module.exports = {
     mode: 'production',
     entry: {
         index: join(__dirname, 'src/index.js'),
-        // billing: join(__dirname, 'src/billing.js')
+        unsub: join(__dirname, 'src/unsub.js')
     },
     optimization: {
         minimize: true
@@ -20,11 +20,11 @@ module.exports = {
             template: './public/index.html',
             chunks: ['index'],
         }),
-        // new HtmlWebpackPlugin({
-        //     filename: 'billing.html',
-        //     template: './public/billing.html',
-        //     chunks: ['billing'],
-        // })
+        new HtmlWebpackPlugin({
+            filename: 'unsub.html',
+            template: './public/unsub.html',
+            chunks: ['unsub']
+        })
     ],
     module: {
         rules: [
