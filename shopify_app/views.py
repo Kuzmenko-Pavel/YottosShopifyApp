@@ -154,6 +154,7 @@ class Downgrade(TemplateView, BaseShop):
     def get(self, request, *args, **kwargs):
         shop = self.get_shop(request.shop)
         context = {
+            'page_name': 'Downgrade to free Membership',
             'shop': shop,
         }
 
@@ -340,6 +341,14 @@ class UnSubscribe(TemplateView, BaseShop):
         _query = {
             'shop': request.shop, 'hmac': request.hmac, 'timestamp': request.timestamp
         }
+        shop = self.get_shop(request.shop)
+        if shop:
+            with shopify.Session.temp(shop.myshopify_domain, settings.SHOPIFY_API_VERSION, shop.access_token):
+                rac = shopify.RecurringApplicationCharge.current()
+                if rac:
+                    rac.destroy()
+                    shop.premium = False
+                    shop.save()
         url = request.build_absolute_uri(route_url('shopify_app:dashboard', _query=_query))
         return redirect(url)
 

@@ -19,7 +19,7 @@ function SpinnerApp() {
 function WrappedApp(props) {
     return (
         <AppProvider i18n={enTranslations}>
-            <UnsubApp redirect={props.redirect}/>
+            <UnsubApp current_shop={window.current_shop} redirect={props.redirect}/>
         </AppProvider>
     );
 }
@@ -37,6 +37,7 @@ const app = createApp({
 });
 const redirect = Redirect.create(app);
 const subscribeButton = Button.create(app, {label: 'Upgrade to Premium Membershi'});
+const dashboard = Button.create(app, {label: 'Remain on premium membership'});
 const button1 = Button.create(app, {label: 'Facebook (Instagram) Feed'});
 const button2 = Button.create(app, {label: 'Google Feed'});
 const button3 = Button.create(app, {label: 'Yottos Feed'});
@@ -72,6 +73,10 @@ subscribeButton.subscribe(Button.Action.CLICK, function () {
         });
     }
     const link = window.current_shop.billing;
+    redirect.dispatch(Redirect.Action.APP, link);
+});
+dashboard.subscribe(Button.Action.CLICK, function () {
+    const link = window.current_shop.dashboard;
     redirect.dispatch(Redirect.Action.APP, link);
 });
 button1.subscribe(Button.Action.CLICK, function () {
@@ -122,31 +127,12 @@ const buttons = {
 if (!window.current_shop.premium) {
     buttons.primary = subscribeButton;
 }
+else {
+    buttons.primary = dashboard;
+}
 const titleBarOptions = {
     title: window.current_shop.title,
     buttons: buttons
 };
 const myTitleBar = TitleBar.create(app, titleBarOptions);
 ReactDOM.render(<WrappedApp redirect={redirect}/>, document.getElementById('root'));
-if (!window.current_shop.premium) {
-    window.ga('ec:addImpression', {
-        'id': '1',
-        'name': 'Premium',
-        'price': '29.00'
-    });
-    if (window.fbq) {
-        fbq('track', 'ViewContent', {
-            content_ids: [1],
-            content_name: 'Premium',
-            content_type: 'product',
-            contents: [
-                {
-                    'id': '1',
-                    'quantity': 1
-                }
-            ],
-            currency: "USD",
-            value: 29.00
-        });
-    }
-}

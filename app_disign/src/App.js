@@ -7,7 +7,7 @@ import Collections from './Collections';
 import * as Redirect from "@shopify/app-bridge/actions/Navigation/Redirect";
 
 export default function App(props) {
-    const premium = window.current_shop.premium;
+    const premium = props.current_shop.premium;
     const [active, setActive] = useState(false);
     const handleChange = useCallback(() => {
         setActive(!active);
@@ -61,10 +61,10 @@ export default function App(props) {
     return (
         <Page>
             <Layout>
-                <Feed current_shop={window.current_shop} redirect={props.redirect} />
-                <Collections current_shop={window.current_shop} redirect={props.redirect} />
-                <UTM current_shop={window.current_shop} redirect={props.redirect} />
-                <Options current_shop={window.current_shop} redirect={props.redirect}/>
+                <Feed current_shop={props.current_shop} redirect={props.redirect}/>
+                <Collections current_shop={props.current_shop} redirect={props.redirect}/>
+                <UTM current_shop={props.current_shop} redirect={props.redirect}/>
+                <Options current_shop={props.current_shop} redirect={props.redirect}/>
                 <Modal
                     open={active}
                     onClose={handleChange}
@@ -82,7 +82,7 @@ export default function App(props) {
                                         You can activate a premium account and get additional features.
                                     </p>
                                     <List type="bullet">
-                                        {window.current_shop.options.map(
+                                        {props.current_shop.options.map(
                                             function (
                                                 option,
                                                 index

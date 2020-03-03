@@ -17,11 +17,12 @@
                 shopOrigin: '{{ current_shop }}',
                 title: '{{ page_name }}',
                 billing: '{% url "shopify_app:subscribe" %}',
+                unsubscribe: '{% url "shopify_app:unsubscribe" %}',
                 downgrade: '{% url "shopify_app:downgrade" %}',
                 premium: {{ shop.premium|yesno:"true,false" }},
                 dashboard: '{% url "shopify_app:dashboard" %}',
                 forceRedirect: true,
-                debug: true
+                debug: false
             };
         </script>
         {% include "analytics/google.html" %}

@@ -19,7 +19,7 @@ function SpinnerApp() {
 function WrappedApp(props) {
     return (
         <AppProvider i18n={enTranslations}>
-            <App redirect={props.redirect}/>
+            <App redirect={props.redirect} current_shop={window.current_shop}/>
         </AppProvider>
     );
 }

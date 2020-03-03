@@ -22,7 +22,7 @@
                 premium: {{ shop.premium|yesno:"true,false" }},
                 dashboard: '{% url "shopify_app:dashboard" %}',
                 forceRedirect: true,
-                debug: true,
+                debug: false,
                 feed: {{ feed|to_json }},
                 options: [
                     {
