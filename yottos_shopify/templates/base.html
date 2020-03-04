@@ -99,9 +99,9 @@
     </div>
     <small class="text-uppercase">&copy;&nbsp;2006&nbsp;&ndash;&nbsp;{% now "Y" %}&nbsp;Feed Product</small>
 </footer>
-<script async src="{% static_push 'js/runtime.js' %}?v2.0"></script>
-<script async src="{% static_push 'js/vendor.js' %}?v2.0"></script>
-<script async src="{% static_push 'js/main.js' %}?v2.0"></script>
+<script async src="{% static 'js/runtime.js' %}?v2.0"></script>
+<script async src="{% static 'js/vendor.js' %}?v2.0"></script>
+<script async src="{% static 'js/main.js' %}?v2.0"></script>
 {% include "analytics/google.html" %}
 {% include "analytics/facebook.html" %}
 {% include "analytics/hotjar.html" %}
