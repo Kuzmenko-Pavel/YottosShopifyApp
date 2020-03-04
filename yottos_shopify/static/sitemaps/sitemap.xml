@@ -3,7 +3,6 @@
         xmlns="https://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:xsi="https://www.w3.org/2001/XMLSchema-instance"
         xmlns:image="https://www.google.com/schemas/sitemap-image/1.1"
-        xmlns:video="https://www.google.com/schemas/sitemap-video/1.1"
         xsi:schemaLocation="https://www.sitemaps.org/schemas/sitemap/0.9
             https://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
 
@@ -44,6 +43,11 @@
     </url>
     <url>
         <loc>https://feed-product.com/help_center/how_setup_facebook_catalog_feed.html</loc>
+        <lastmod>2020-02-13T13:49:29+00:00</lastmod>
+        <priority>0.80</priority>
+    </url>
+    <url>
+        <loc>https://feed-product.com/help_center/how_setup_instagram_feed.html</loc>
         <lastmod>2020-02-13T13:49:29+00:00</lastmod>
         <priority>0.80</priority>
     </url>
@@ -96,36 +100,4 @@
             <image:license>http://creativecommons.org/licenses/by-nd/3.0/legalcode</image:license>
         </image:image>
     </url>
-    <url>
-        <loc>https://feed-product.com/</loc>
-        <video:video>
-            <video:thumbnail_loc>https://feed-product.com/static/images/connect_feeds_with_feed_product.png
-            </video:thumbnail_loc>
-            <video:title>Feed Product</video:title>
-            <video:description>
-                Sync your Shopify store with your Facebook Ads, Google Ads, Google Shopping, Instagram Shopping, Yottos
-                AdLoad, Pinterest with Feed Product
-            </video:description>
-            <video:content_loc>
-                https://feed-product.com/static/video/feed_product.mp4
-            </video:content_loc>
-            <video:player_loc>
-                https://feed-product.com/
-            </video:player_loc>
-            <video:duration>600</video:duration>
-            <video:expiration_date>2021-11-05T19:20:30+08:00</video:expiration_date>
-            <video:rating>4.2</video:rating>
-            <video:view_count>12345</video:view_count>
-            <video:publication_date>2007-11-05T19:20:30+08:00</video:publication_date>
-            <video:family_friendly>yes</video:family_friendly>
-            <video:restriction relationship="allow">IE GB US CA</video:restriction>
-            <video:price currency="USD">29.00</video:price>
-            <video:requires_subscription>no</video:requires_subscription>
-            <video:uploader
-                    info="https://feed-product.com/">Feed Product
-            </video:uploader>
-            <video:live>no</video:live>
-        </video:video>
-    </url>
-
 </urlset>
