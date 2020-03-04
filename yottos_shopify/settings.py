@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'shopify_app.apps.ShopifyAppConfig',
     'django_mysql',
+    "django_http2_push",
 ]
 
 MIDDLEWARE = [
@@ -55,6 +56,7 @@ MIDDLEWARE = [
     'shopify_app.middleware.LoginProtection',
     'shopify_app.middleware.StripWhitespaceMiddleware',
     # 'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    "django_http2_push.middleware.PushHttp2Middleware",
 ]
 
 ROOT_URLCONF = 'yottos_shopify.urls'

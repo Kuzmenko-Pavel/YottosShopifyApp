@@ -1,4 +1,5 @@
 {% load static %}
+{% load static_push %}
 <!doctype html>
 <html lang="en">
 <head>
@@ -12,11 +13,11 @@
     <link rel="icon" type="image/png" sizes="16x16" href="{% static 'images/favicon-16x16.png' %}">
     <link rel="mask-icon" href="{% static 'images/safari-pinned-tab.svg' %}" color="#5bbad5">
     <link rel="manifest" href="{% static 'site.webmanifest' %}">
-    <link as="style" href="{% static 'css/main.css' %}v2.0" rel="preload">
-    <link as="script" href="{% static 'js/main.js' %}v2.0" rel="preload">
-    <link as="script" href="{% static 'js/runtime.js' %}v2.0" rel="preload">
-    <link as="script" href="{% static 'js/vendor.js' %}v2.0" rel="preload">
-    <link href="{% static 'css/main.css' %}v2.0" rel="stylesheet">
+    <link as="style" href="{% static 'css/main.css' %}?v2.0" rel="preload">
+    <link as="script" href="{% static 'js/main.js' %}?v2.0" rel="preload">
+    <link as="script" href="{% static 'js/runtime.js' %}?v2.0" rel="preload">
+    <link as="script" href="{% static 'js/vendor.js' %}?v2.0" rel="preload">
+    <link href="{% static_push 'css/main.css' %}?v2.0" rel="stylesheet">
     <link rel="sitemap" href="{% static 'sitemaps/sitemap.xml' %}"/>
     <meta name="msapplication-config" content="{% static 'browserconfig.xml' %}">
     <meta name="msapplication-TileColor" content="#9f00a7">
@@ -98,9 +99,9 @@
     </div>
     <small class="text-uppercase">&copy;&nbsp;2006&nbsp;&ndash;&nbsp;{% now "Y" %}&nbsp;Feed Product</small>
 </footer>
-<script async src="{% static 'js/runtime.js' %}v2.0"></script>
-<script async src="{% static 'js/vendor.js' %}v2.0"></script>
-<script async src="{% static 'js/main.js' %}v2.0"></script>
+<script async src="{% static_push 'js/runtime.js' %}?v2.0"></script>
+<script async src="{% static_push 'js/vendor.js' %}?v2.0"></script>
+<script async src="{% static_push 'js/main.js' %}?v2.0"></script>
 {% include "analytics/google.html" %}
 {% include "analytics/facebook.html" %}
 {% include "analytics/hotjar.html" %}
