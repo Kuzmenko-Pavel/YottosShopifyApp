@@ -1,7 +1,53 @@
 {% extends "base.html" %}
 {% load static %}
 {% block title %}Feed Product - How setup Facebook catalog{% endblock %}
-{% block ld_json %}{% endblock %}
+{% block ld_json %}
+    <script type="application/ld+json">
+ {
+  "@context": "http://schema.org",
+  "@type": "HowTo",
+  "image": {
+    "@type": "ImageObject",
+    "url": "{% static 'images/connect_feeds_with_feed_product.png' %}"
+  },
+  "name": "Feed Product - CONNECT FEED PRODUCT TO FACEBOOK",
+  "description": "HOW TO CONNECT FEED PRODUCT TO FACEBOOK",
+  "totalTime": "PT10M",
+  "supply": [
+    {
+      "@type": "HowToSupply",
+      "name": "Shopify Store",
+      "url":  "https://www.shopify.com/"
+    }, {
+      "@type": "HowToSupply",
+      "name": "Feed Product - Shopify App Store",
+      "url":  "https://feed-product.com/"
+    }, {
+      "@type": "HowToSupply",
+      "name": "Facebook Catalog Manager",
+      "url":  "https://facebook.com/products/"
+    }
+  ],
+  "tool": [
+    {
+      "@type": "HowToTool",
+      "name": "Feed Product - Shopify App Store",
+      "url":  "https://feed-product.com/"
+    }
+  ],
+  "step": [
+    {
+      "@type": "HowToStep",
+      "name": "Step 1",
+      "text": "Open the Catalog Manager,and select one of the four options of E-commerce.",
+      "image": "{% static 'images/help_center/help_fb_inst/1.jpg' %}",
+      "url": "https://feed-product.com/help_center/how_setup_facebook_catalog_feed.html#step-1"
+    },
+  ]
+}
+
+    </script>
+{% endblock %}
 {% block content %}
     <section class="case section-fullheight" id="step-1">
         <div class="container">

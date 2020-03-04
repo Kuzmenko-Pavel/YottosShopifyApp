@@ -1,15 +1,60 @@
 {% extends "base.html" %}
 {% load static %}
 {% block title %}Feed Product - How setup Google Merchant{% endblock %}
-{% block ld_json %}{% endblock %}
+{% block ld_json %}
+    <script type="application/ld+json">
+ {
+  "@context": "http://schema.org",
+  "@type": "HowTo",
+  "image": {
+    "@type": "ImageObject",
+    "url": "{% static 'images/connect_feeds_with_feed_product.png' %}"
+  },
+  "name": "Feed Product - CONNECT FEED PRODUCT TO GOOGLE",
+  "description": "HOW TO CONNECT FEED PRODUCT TO GOOGLE MERCHANTS",
+  "totalTime": "PT10M",
+  "supply": [
+    {
+      "@type": "HowToSupply",
+      "name": "Shopify Store",
+      "url":  "https://www.shopify.com/"
+    }, {
+      "@type": "HowToSupply",
+      "name": "Feed Product - Shopify App Store",
+      "url":  "https://feed-product.com/"
+    }, {
+      "@type": "HowToSupply",
+      "name": "GOOGLE MERCHANTS",
+      "url":  "https://merchants.google.com/"
+    }
+  ],
+  "tool": [
+    {
+      "@type": "HowToTool",
+      "name": "Feed Product - Shopify App Store",
+      "url":  "https://feed-product.com/"
+    }
+  ],
+  "step": [
+    {
+      "@type": "HowToStep",
+      "name": "Step 1",
+      "text": "To upload Feed Product into the merchants.google.com Go to merchants.google.com And move to "Products" section in the opened window.",
+      "image": "{% static 'images/help_center/help_google/5.jpg' %}",
+      "url": "https://feed-product.com/help_center/how_setup_google_merchant_feed.html#Step-1"
+    },
+  ]
+}
+
+    </script>
+{% endblock %}
 {% block content %}
     <section class="case section-fullheight" id="Step-1">
         <div class="container">
             <div class="row auto-shadow text-center" style="margin-bottom: 10px">
                 <h2 class="base" style="width: 100%;">Help Center</h2>
-                <h2 class="base">HOW TO CONNECT FEED
-                PRODUCT
-                TO GOOGLE</h2></div>
+                <h2 class="base">HOW TO CONNECT FEED PRODUCT TO GOOGLE</h2>
+            </div>
             <div class="row auto-height auto-shadow">
                 <div class="row align-items-center m-0 p-0">
                     <div class="col-sm-6 col-md-4 col-md-pull-8 col-sm-pull-6"><h2>STEP 1</h2>

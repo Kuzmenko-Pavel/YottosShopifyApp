@@ -1,7 +1,53 @@
 {% extends "base.html" %}
 {% load static %}
 {% block title %}Feed Product - How setup Yottos Adload feed{% endblock %}
-{% block ld_json %}{% endblock %}
+{% block ld_json %}
+    <script type="application/ld+json">
+ {
+  "@context": "http://schema.org",
+  "@type": "HowTo",
+  "image": {
+    "@type": "ImageObject",
+    "url": "{% static 'images/connect_feeds_with_feed_product.png' %}"
+  },
+  "name": "Feed Product - Configure feed product in shopify",
+  "description": "How to configure feed product in shopify",
+  "totalTime": "PT10M",
+  "supply": [
+    {
+      "@type": "HowToSupply",
+      "name": "Shopify Store",
+      "url":  "https://www.shopify.com/"
+    }, {
+      "@type": "HowToSupply",
+      "name": "Feed Product - Shopify App Store",
+      "url":  "https://feed-product.com/"
+    }, {
+      "@type": "HowToSupply",
+      "name": "Yottos Adload",
+      "url":  "https://adload.yottos.com/"
+    }
+  ],
+  "tool": [
+    {
+      "@type": "HowToTool",
+      "name": "Feed Product - Shopify App Store",
+      "url":  "https://feed-product.com/"
+    }
+  ],
+  "step": [
+    {
+      "@type": "HowToStep",
+      "name": "Step 1",
+      "text": "The app has 4 tabs for different ad sources: Facebook Feed (Instagram), Google Feed, Yottos Feed and Pinterest feed.",
+      "image": "{% static 'images/help_center/4.jpg' %}",
+      "url": "https://feed-product.com/help_center/how_setup_yottos_adload_feed.html#step-1"
+    },
+  ]
+}
+
+    </script>
+{% endblock %}
 {% block content %}
     <section class="case section-fullheight" id="step-1">
         <div class="container">
