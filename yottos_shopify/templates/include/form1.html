@@ -1,0 +1,9 @@
+<form class="form-inline justify-content-between shop_start"
+      action="{% url 'shopify_app:authenticate' %}" method="post">
+    {% csrf_token %}
+    <div class="form-group m-2 flex-grow-1">
+        <label for="shop" class="sr-only">Your shopify store's link</label>
+        <input class="form-control flex-fill" name="shop" id="shop"
+               placeholder="Your shopify store's link"></div>
+    <button type="submit" class="btn btn-dark m-2 text-uppercase">Start Free</button>
+</form>

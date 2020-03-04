@@ -30,16 +30,7 @@
                                                     <span aria-hidden="true">&times;</span></button>
                                             </div>
                                             <div class="modal-body">
-                                                <video autoplay muted loop plays-inline preload controls
-                                                       class="embed-responsive">
-                                                    <source src="{% static 'video/feed_product.mp4' %}"
-                                                            type="video/mp4">
-                                                    <source src="{% static 'video/feed_product.ogv' %}"
-                                                            type="video/ogg">
-                                                    <source src="{% static 'video/feed_product.webm' %}"
-                                                            type="video/webm">
-                                                    Your browser does not support HTML5 video.
-                                                </video>
+                                                {% include "include/youtube.html" %}
                                             </div>
                                         </div>
                                     </div>
@@ -48,16 +39,7 @@
                             <div class="m-2"><p class="">Connect feeds with Feed Product</p>
                                 <p class="">No coding required</p></div>
                             <div>
-                                <form class="form-inline justify-content-between shop_start"
-                                      action="{% url 'shopify_app:authenticate' %}" method="post">
-                                    {% csrf_token %}
-                                    <div class="form-group m-2 flex-grow-1"><label for="shop" class="sr-only">Your
-                                        shopify
-                                        store's
-                                        link</label> <input class="form-control flex-fill" name="shop" id="shop"
-                                                            placeholder="Your shopify store's link"></div>
-                                    <button type="submit" class="btn btn-dark m-2 text-uppercase">Start Free</button>
-                                </form>
+                                {% include "include/form1.html" %}
                             </div>
                             <div class="m-2">
                                 <small>Get yourself the free version for good! No credit card required!</small>
@@ -350,15 +332,7 @@
             <div class="row align-items-center m-0 p-0 w-100">
                 <div class="feature auto-shadow form text-white w-100">
                     <div class="feature-text"><h3>Join Millions of Shopify partners with Feed Product</h3>
-                        <form class="form-inline justify-content-between shop_start"
-                              action="{% url 'shopify_app:authenticate' %}" method="post">
-                            {% csrf_token %}
-                            <div class="form-group m-2 flex-grow-1"><label for="shop_f" class="sr-only">Your shopify
-                                store's
-                                link</label> <input class="form-control flex-fill" name="shop" id="shop_f"
-                                                    placeholder="Your shopify store's link"></div>
-                            <button type="submit" class="btn btn-dark m-2 text-uppercase">Start Free</button>
-                        </form>
+                        {% include "include/form2.html" %}
                         <div class="m-2">
                             <small>Get yourself the free version for good! No credit card required!</small>
                         </div>
@@ -380,15 +354,7 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <form class="form-inline justify-content-between shop_start"
-                          action="{% url 'shopify_app:authenticate' %}" method="post">
-                        {% csrf_token %}
-                        <div class="form-group m-2 flex-grow-1 w-100"><label for="shop_m" class="sr-only">Your shopify
-                            store's
-                            link</label> <input class="form-control flex-fill" name="shop" id="shop_m"
-                                                placeholder="Your shopify store's link"></div>
-                        <button type="submit" class="btn btn-dark m-2 text-uppercase w-100">Start Free</button>
-                    </form>
+                    {% include "include/form3.html" %}
                 </div>
             </div>
         </div>
