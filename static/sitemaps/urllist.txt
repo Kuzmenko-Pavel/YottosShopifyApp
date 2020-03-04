@@ -1,2 +1,11 @@
 https://feed-product.com/
+https://feed-product.com/cookie-policy.html
 https://feed-product.com/privacy.html
+https://feed-product.com/help_center.html
+https://feed-product.com/help_center/how_install.html
+https://feed-product.com/help_center/how_configure.html
+https://feed-product.com/help_center/how_setup_google_merchant_feed.html
+https://feed-product.com/help_center/how_setup_facebook_catalog_feed.html
+https://feed-product.com/help_center/how_setup_instagram_feed.html
+https://feed-product.com/help_center/how_setup_yottos_adload_feed.html
+https://feed-product.com/help_center/how_setup_pinterest_feed.html
