@@ -319,13 +319,15 @@ class Subscribe(TemplateView, BaseShop):
             shop = self.get_shop(request.shop)
             if shop:
                 with shopify.Session.temp(shop.myshopify_domain, settings.SHOPIFY_API_VERSION, shop.access_token):
+                    rac_count = shopify.RecurringApplicationCharge.count()
                     rac = shopify.RecurringApplicationCharge()
                     rac.test = True
                     rac.return_url = request.build_absolute_uri(
                         route_url('shopify_app:subscribe_submit', _query=_query))
                     rac.price = 29.00
-                    rac.trial_days = 60
-                    rac.trial_ends_on = (timezone.now() + timezone.timedelta(days=60)).isoformat()
+                    if rac_count > 0:
+                        rac.trial_days = 60
+                        rac.trial_ends_on = (timezone.now() + timezone.timedelta(days=60)).isoformat()
                     rac.name = "Premium"
                     if rac.save():
                         context['url'] = rac.confirmation_url
