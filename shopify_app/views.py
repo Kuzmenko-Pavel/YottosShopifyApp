@@ -321,8 +321,8 @@ class Subscribe(TemplateView, BaseShop):
                 with shopify.Session.temp(shop.myshopify_domain, settings.SHOPIFY_API_VERSION, shop.access_token):
                     rac_count = 0
                     for i in shopify.RecurringApplicationCharge.find():
-                        print(i.to_dict())
-                        rac_count += 1
+                        if i.status != 'declined':
+                            rac_count += 1
                     rac = shopify.RecurringApplicationCharge()
                     rac.test = True
                     rac.return_url = request.build_absolute_uri(
