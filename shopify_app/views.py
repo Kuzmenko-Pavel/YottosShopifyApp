@@ -319,7 +319,9 @@ class Subscribe(TemplateView, BaseShop):
             shop = self.get_shop(request.shop)
             if shop:
                 with shopify.Session.temp(shop.myshopify_domain, settings.SHOPIFY_API_VERSION, shop.access_token):
-                    rac_count = shopify.RecurringApplicationCharge.count()
+                    rac_count = 0
+                    for i in shopify.RecurringApplicationCharge.find():
+                        rac_count += 1
                     rac = shopify.RecurringApplicationCharge()
                     rac.test = True
                     rac.return_url = request.build_absolute_uri(
