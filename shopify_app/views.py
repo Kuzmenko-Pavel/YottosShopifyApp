@@ -324,7 +324,7 @@ class Subscribe(TemplateView, BaseShop):
                         if i.status != 'declined':
                             rac_count += 1
                     rac = shopify.RecurringApplicationCharge()
-                    rac.test = True
+                    # rac.test = True
                     rac.return_url = request.build_absolute_uri(
                         route_url('shopify_app:subscribe_submit', _query=_query))
                     rac.price = 29.00
