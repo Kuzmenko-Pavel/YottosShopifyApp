@@ -43,6 +43,12 @@
             value: 29.00
         });
     }
+    if (window.install && window.t) {
+        fbq('track', 'StartTrial');
+    }
+    if (window.reinstall && window.t) {
+        fbq('track', 'ReInstall');
+    }
 </script>
 <noscript>
     <img height="1" width="1" style="display:none"

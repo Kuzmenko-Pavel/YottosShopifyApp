@@ -120,10 +120,16 @@ class Dashboard(TemplateView, BaseShop):
         collection = []
         feed_name = kwargs.get('feed', 'fb')
         premium = False
+        install = False
+        reinstall = False
         storage = get_messages(request)
         for message in storage:
             if message == 'premium_active':
                 premium = True
+            elif message == 'install':
+                install = True
+            elif message == 'reinstall':
+                reinstall = True
         feed = self.feeds.get(feed_name, self.feeds.get('fb'))
         shop = self.get_shop(request.shop)
         if shop:
@@ -138,6 +144,8 @@ class Dashboard(TemplateView, BaseShop):
         context = {
             'page_name': feed['page_name'],
             'premium': premium,
+            'install': install,
+            'reinstall': reinstall,
             'shop': shop,
             'feed': feed,
             'utm': utm,
@@ -247,7 +255,7 @@ class Install(View):
 
 class Finalize(View):
 
-    def create_shopify_store(self, shop_url, token):
+    def create_shopify_store(self, shop_url, token, request):
         with shopify.Session.temp(shop_url, settings.SHOPIFY_API_VERSION, token):
             obj, created = ShopifyStore.objects.get_or_create(myshopify_domain=shop_url)
             feeds = obj.feeds
@@ -270,16 +278,19 @@ class Finalize(View):
                     shop.offer_count = count
                 obj.feeds = feeds
                 obj.save()
+                add_message(request, INFO, 'install')
             else:
                 if obj.access_token != token:
                     obj.access_token = token
                     obj.installed = True
                     obj.feeds = feeds
                     obj.save()
+                    add_message(request, INFO, 'reinstall')
                 if not obj.installed:
                     obj.installed = True
                     obj.feeds = feeds
                     obj.save()
+                    add_message(request, INFO, 'reinstall')
 
     def webhook_create(self, request, shop_url, token):
         with shopify.Session.temp(shop_url, settings.SHOPIFY_API_VERSION, token):
@@ -300,7 +311,7 @@ class Finalize(View):
         try:
             shopify_session = shopify.Session(shop, settings.SHOPIFY_API_VERSION)
             access_token = shopify_session.request_token(request.GET)
-            self.create_shopify_store(shop, access_token)
+            self.create_shopify_store(shop, access_token, request)
             self.webhook_create(request, shop, access_token)
         except Exception:
             url = route_url('shopify_app:authenticate', _query=_query)

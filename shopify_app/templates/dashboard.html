@@ -11,6 +11,8 @@
         <link as="script" href="{% static "index.bundle.js" %}?v2.0" rel="preload">
         <script>
             window.premium = {{ premium|yesno:"true,false" }};
+            window.install = {{ install|yesno:"true,false" }};
+            window.reinstall = {{ reinstall|yesno:"true,false" }};
             window.t = 'T{{ csrf_token }}';
             window.current_shop = {
                 feed_name: '{{ feed_name }}',
