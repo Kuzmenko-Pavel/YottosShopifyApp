@@ -44,10 +44,18 @@
         });
     }
     if (window.install && window.t) {
-        fbq('track', 'StartTrial');
+        fbq('track', 'StartTrial', {
+            currency: "USD",
+            value: '0.00',
+            predicted_ltv: '0.00'
+        });
     }
     if (window.reinstall && window.t) {
-        fbq('track', 'ReInstall');
+        fbq('track', 'ReInstall', {
+            currency: "USD",
+            value: '0.00',
+            predicted_ltv: '0.00'
+        });
     }
 </script>
 <noscript>
