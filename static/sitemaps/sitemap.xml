@@ -8,57 +8,77 @@
 
     <url>
         <loc>https://feed-product.com/</loc>
-        <lastmod>2020-02-13T13:49:29+00:00</lastmod>
+        <lastmod>2020-03-29T10:00:00+00:00</lastmod>
         <priority>1.00</priority>
     </url>
     <url>
         <loc>https://feed-product.com/cookie-policy.html</loc>
-        <lastmod>2020-02-13T13:49:29+00:00</lastmod>
+        <lastmod>2020-03-29T10:00:00+00:00</lastmod>
         <priority>0.80</priority>
     </url>
     <url>
         <loc>https://feed-product.com/privacy.html</loc>
-        <lastmod>2020-02-13T13:49:29+00:00</lastmod>
+        <lastmod>2020-03-29T10:00:00+00:00</lastmod>
         <priority>0.80</priority>
     </url>
     <url>
         <loc>https://feed-product.com/help_center.html</loc>
-        <lastmod>2020-02-13T13:49:29+00:00</lastmod>
+        <lastmod>2020-03-29T10:00:00+00:00</lastmod>
         <priority>0.80</priority>
     </url>
     <url>
         <loc>https://feed-product.com/help_center/how_install.html</loc>
-        <lastmod>2020-02-13T13:49:29+00:00</lastmod>
+        <lastmod>2020-03-29T10:00:00+00:00</lastmod>
         <priority>0.80</priority>
     </url>
     <url>
         <loc>https://feed-product.com/help_center/how_configure.html</loc>
-        <lastmod>2020-02-13T13:49:29+00:00</lastmod>
+        <lastmod>2020-03-29T10:00:00+00:00</lastmod>
         <priority>0.80</priority>
     </url>
     <url>
         <loc>https://feed-product.com/help_center/how_setup_google_merchant_feed.html</loc>
-        <lastmod>2020-02-13T13:49:29+00:00</lastmod>
+        <lastmod>2020-03-29T10:00:00+00:00</lastmod>
         <priority>0.80</priority>
     </url>
     <url>
         <loc>https://feed-product.com/help_center/how_setup_facebook_catalog_feed.html</loc>
-        <lastmod>2020-02-13T13:49:29+00:00</lastmod>
+        <lastmod>2020-03-29T10:00:00+00:00</lastmod>
         <priority>0.80</priority>
     </url>
     <url>
         <loc>https://feed-product.com/help_center/how_setup_instagram_feed.html</loc>
-        <lastmod>2020-02-13T13:49:29+00:00</lastmod>
+        <lastmod>2020-03-29T10:00:00+00:00</lastmod>
         <priority>0.80</priority>
     </url>
     <url>
         <loc>https://feed-product.com/help_center/how_setup_yottos_adload_feed.html</loc>
-        <lastmod>2020-02-13T13:49:29+00:00</lastmod>
+        <lastmod>2020-03-29T10:00:00+00:00</lastmod>
         <priority>0.80</priority>
     </url>
     <url>
         <loc>https://feed-product.com/help_center/how_setup_pinterest_feed.html</loc>
-        <lastmod>2020-02-13T13:49:29+00:00</lastmod>
+        <lastmod>2020-03-29T10:00:00+00:00</lastmod>
+        <priority>0.80</priority>
+    </url>
+    <url>
+        <loc>https://feed-product.com/help_center/how_create_facebook_pixel.html</loc>
+        <lastmod>2020-03-29T10:00:00+00:00</lastmod>
+        <priority>0.80</priority>
+    </url>
+    <url>
+        <loc>https://feed-product.com/help_center/upload_products_in_facebook_store.html</loc>
+        <lastmod>2020-03-29T10:00:00+00:00</lastmod>
+        <priority>0.80</priority>
+    </url>
+    <url>
+        <loc>https://feed-product.com/help_center/dynamic_remarketing_in_facebook.html</loc>
+        <lastmod>2020-03-29T10:00:00+00:00</lastmod>
+        <priority>0.80</priority>
+    </url>
+    <url>
+        <loc>https://feed-product.com/help_center/strategies_in_feed_product.html</loc>
+        <lastmod>2020-03-29T10:00:00+00:00</lastmod>
         <priority>0.80</priority>
     </url>
     <url>
