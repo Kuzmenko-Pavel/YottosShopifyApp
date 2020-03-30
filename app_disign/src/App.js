@@ -48,7 +48,7 @@ export default function App(props) {
     useEffect(
         () => {
             if (!premium) {
-                let timer1 = setTimeout(() => setActive(true), 5000);
+                let timer1 = setTimeout(() => setActive(true), 8000);
                 return () => {
                     clearTimeout(timer1);
                 };

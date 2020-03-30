@@ -1,0 +1,93 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}How setup Yottos Adload feed{% endblock %}
+{% block ld_json %}
+    <script type="application/ld+json">
+ {
+  "@context": "http://schema.org",
+  "@type": "HowTo",
+  "image": {
+    "@type": "ImageObject",
+    "url": "{% static 'images/connect_feeds_with_feed_product.png' %}"
+  },
+  "name": "Feed Product - CONNECT FEED TO YOTTOS",
+  "description": "HOW TO CONNECT FEED PRODUCT TO YOTTOS",
+  "totalTime": "PT10M",
+  "supply": [
+    {
+      "@type": "HowToSupply",
+      "name": "Shopify Store",
+      "url":  "https://www.shopify.com/"
+    }, {
+      "@type": "HowToSupply",
+      "name": "Feed Product - Shopify App Store",
+      "url":  "https://feed-product.com/"
+    }, {
+      "@type": "HowToSupply",
+      "name": "Yottos Adload",
+      "url":  "https://adload.yottos.com/"
+    }
+  ],
+  "tool": [
+    {
+      "@type": "HowToTool",
+      "name": "Feed Product - Shopify App Store",
+      "url":  "https://feed-product.com/"
+    }
+  ],
+  "step": [
+    {
+      "@type": "HowToStep",
+      "name": "Log in Yottos and move  to 'Feeds' section",
+      "text": "To upload your Feed Product in Yottos you will need to log in your personal account and move to 'Feeds' section.",
+      "image": "{% static 'images/help_center/help_yottos/1.jpg' %}",
+      "url": "https://feed-product.com/help_center/how_setup_yottos_adload_feed.html#step-1"
+    }
+  ]
+}
+
+
+    </script>
+{% endblock %}
+{% block content %}
+    <section class="case section-fullheight" id="step-1">
+        <div class="container">
+            <div class="row auto-shadow text-center" style="margin-bottom: 10px">
+                <h2 class="base" style="width: 100%;">Help Center</h2>
+                <h2 class="base">HOW TO CONNECT FEED PRODUCT TO YOTTOS</h2></div>
+            <div class="row auto-height auto-shadow">
+                <div class="row align-items-center m-0 p-0">
+                    <div class="col-sm-6 col-md-4 col-md-pull-8 col-sm-pull-6">
+                        <h2>STEP 1</h2>
+                        <p>To upload your Feed Product in Yottos you will need to log in your personal account and move
+                            to "Feeds" section.</p>
+                        <a href="/" class="faq-item-more-link">Install app for free</a>
+                    </div>
+                    <div class="col-sm-6 col-md-8 col-md-push-4 col-sm-push-6">
+                        <img class="roll-up" src="{% static 'images/help_center/help_yottos/1.jpg' %}"
+                             alt="Log in to the app">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="case section-fullheight" id="step-2">
+        <div class="container">
+            <div class="row auto-height auto-shadow">
+                <div class="row align-items-center m-0 p-0">
+                    <div class="col-sm-6 col-md-4 col-md-pull-8 col-sm-pull-6">
+                        <h2>STEP 2</h2>
+                        <p>In the "Feeds" section click on the blue cross in upper-left corner.</p>
+                        <a href="/" class="faq-item-more-link">Install app for free</a>
+                    </div>
+                    <div class="col-sm-6 col-md-8 col-md-push-4 col-sm-push-6">
+                        <img class="roll-up" src="{% static 'images/help_center/help_yottos/2.jpg' %}"
+                             alt="Log in to the Google Merchant Center">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    {% include "include/form4.html" %}
+    <div class="scroller"></div>
+{% endblock %}

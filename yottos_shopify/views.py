@@ -87,3 +87,35 @@ class HowSetupPinterest(TemplateView):
     def get(self, request, *args, **kwargs):
         context = {}
         return self.render_to_response(context)
+
+
+class HowCreateFacebookPixel(TemplateView):
+    template_name = "how_create_facebook_pixel.html"
+
+    def get(self, request, *args, **kwargs):
+        context = {}
+        return self.render_to_response(context)
+
+
+class UploadProductsInFacebookStore(TemplateView):
+    template_name = "upload_products_in_facebook_store.html"
+
+    def get(self, request, *args, **kwargs):
+        context = {}
+        return self.render_to_response(context)
+
+
+class DynamicRemarketingInFacebook(TemplateView):
+    template_name = "dynamic_remarketing_in_facebook.html"
+
+    def get(self, request, *args, **kwargs):
+        context = {}
+        return self.render_to_response(context)
+
+
+class StrategiesInFeedProduct(TemplateView):
+    template_name = "strategies_in_feed_product.html"
+
+    def get(self, request, *args, **kwargs):
+        context = {}
+        return self.render_to_response(context)

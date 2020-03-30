@@ -31,6 +31,10 @@ urlpatterns = [
     path('help_center/how_setup_instagram_feed.html', views.HowSetupInstagram.as_view()),
     path('help_center/how_setup_yottos_adload_feed.html', views.HowSetupYottos.as_view()),
     path('help_center/how_setup_pinterest_feed.html', views.HowSetupPinterest.as_view()),
+    path('help_center/how_create_facebook_pixel.html', views.HowCreateFacebookPixel.as_view()),
+    path('help_center/upload_products_in_facebook_store.html', views.UploadProductsInFacebookStore.as_view()),
+    path('help_center/dynamic_remarketing_in_facebook.html', views.DynamicRemarketingInFacebook.as_view()),
+    path('help_center/strategies_in_feed_product.html', views.StrategiesInFeedProduct.as_view()),
     path('admin/', admin.site.urls),
     path('shopify/', include('shopify_app.urls')),
 ]
