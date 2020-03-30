@@ -7,6 +7,7 @@ import {
     Checkbox,
     Heading,
     Layout,
+    Link,
     List,
     Modal,
     Scrollable,
@@ -109,9 +110,20 @@ export default function Collections(props) {
         props.redirect.dispatch(Redirect.Action.APP, props.current_shop.billing);
     }
 
+    var description = <div>
+        <p>When you generate a feed, build collections that will be in your product feed.</p>
+        <p>For this, be guided by your strategy:</p>
+        <p><Link url='https://feed-product.com/help_center/strategies_in_feed_product.html#step-2' external={true}>-
+            attract new thematic audience</Link></p>
+        <p><Link url='https://feed-product.com/help_center/strategies_in_feed_product.html#step-3' external={true}>-
+            dynamic remarketing</Link></p>
+        <p><Link url='https://feed-product.com/help_center/strategies_in_feed_product.html#step-4' external={true}>-
+            discounts to increase loyalty</Link></p>
+    </div>;
     return (
         <Layout.AnnotatedSection
-            title='You Collection'>
+            title='You Collection'
+            description={description}>
             <Card sectioned subdued title='Collections'>
                 <div
                     style={{

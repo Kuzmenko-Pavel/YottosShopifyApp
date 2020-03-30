@@ -59,7 +59,7 @@ class Dashboard(TemplateView, BaseShop):
         'fb': {
             'page_name': 'Your Facebook (Instagram) Feed',
             'title': "Facebook (Instagram) product feed set up!",
-            'description': "Your have successfully generated your Facebook product feed. You can now add it to your Facebook Catalog.",
+            'description': "Your have successfully generated your product feed. You can now add it to your Facebook Catalog.",
             'sectioned_title': "Your Facebook (Instagram) Feed",
             'link': 'facebook',
             'offer_count': 0,
@@ -69,7 +69,7 @@ class Dashboard(TemplateView, BaseShop):
         'ga': {
             'page_name': 'Your Google Feed',
             'title': "Google product feed set up!",
-            'description': "Your have successfully generated your Google product feed. You can now add it to your Google Catalog.",
+            'description': "Your have successfully generated your product feed. You can now add it to your Google Catalog.",
             'sectioned_title': "Your Google Feed",
             'link': 'google',
             'offer_count': 0,
@@ -79,17 +79,17 @@ class Dashboard(TemplateView, BaseShop):
         'yt': {
             'page_name': 'Your Yottos Feed',
             'title': "Yottos product feed set up!",
-            'description': "Your have successfully generated your Yottos product feed. You can now add it to your Yottos Catalog.",
+            'description': "Your have successfully generated your product feed. You can now add it to your Yottos Catalog.",
             'sectioned_title': "Your Yottos Feed",
             'link': 'yottos',
             'offer_count': 0,
-            "catalog_title": "Yottos",
+            "catalog_title": "Yottos Adload",
             "catalog_link": 'https://adload.yottos.com/'
         },
         'pi': {
             'page_name': 'Your Pinterest Feed',
             'title': "Pinterest product feed set up!",
-            'description': "Your have successfully generated your Yottos product feed. You can now add it to your Pinterest Catalog.",
+            'description': "Your have successfully generated your product feed. You can now add it to your Pinterest Catalog.",
             'sectioned_title': "Your Pinterest Feed",
             'link': 'pinterest',
             'offer_count': 0,

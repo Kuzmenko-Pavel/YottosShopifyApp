@@ -14,11 +14,13 @@
     <link rel="icon" type="image/png" sizes="16x16" href="{% static 'images/favicon-16x16.png' %}">
     <link rel="mask-icon" href="{% static 'images/safari-pinned-tab.svg' %}" color="#5bbad5">
     <link rel="manifest" href="{% static 'site.webmanifest' %}">
-    <link as="style" href="{% static 'css/main.css' %}?v2.1" rel="preload">
-    <link as="script" href="{% static 'js/main.js' %}?v2.1" rel="preload">
-    <link as="script" href="{% static 'js/runtime.js' %}?v2.1" rel="preload">
-    <link as="script" href="{% static 'js/vendor.js' %}?v2.1" rel="preload">
-    <link href="{% static_push 'css/main.css' %}?v2.1" rel="stylesheet">
+    <link as="style" href="{% static 'css/main.css' %}?3.0" rel="preload">
+    {% include "analytics/google.html" %}
+    {% include "analytics/facebook.html" %}
+    <link as="script" href="{% static 'js/main.js' %}?v3.0" rel="preload">
+    <link as="script" href="{% static 'js/runtime.js' %}?v3.0" rel="preload">
+    <link as="script" href="{% static 'js/vendor.js' %}?v3.0" rel="preload">
+    <link href="{% static_push 'css/main.css' %}?v3.0" rel="stylesheet">
     <link rel="sitemap" href="{% static 'sitemaps/sitemap.xml' %}"/>
     <meta name="msapplication-config" content="{% static 'browserconfig.xml' %}">
     <meta name="msapplication-TileColor" content="#9f00a7">
@@ -43,9 +45,12 @@
 <header class="fixed-top">
     <div class="container">
         <nav class="navbar navbar-expand-lg navbar-light justify-content-between">
-            <a class="navbar-brand text-uppercase" href="/#top">Feed Product
-                <small class="text-lowercase text-success" style="font-size: 14px;">ads app shopify</small>
-            </a>
+            <div>
+                <a class="navbar-brand text-uppercase" href="/#top" style="margin-right: 2px;">Feed Product</a>
+                <a href="https://apps.shopify.com/feed-product-facebook-google">
+                    <small class="text-lowercase text-success" style="font-size: 14px;">ads app shopify</small>
+                </a>
+            </div>
             <div class="dropdown">
                 <button type="button" class="btn" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true"
                         aria-expanded="false">
@@ -100,11 +105,9 @@
     </div>
     <small class="text-uppercase">&copy;&nbsp;2006&nbsp;&ndash;&nbsp;{% now "Y" %}&nbsp;Feed Product</small>
 </footer>
-<script async src="{% static 'js/runtime.js' %}?v2.1"></script>
-<script async src="{% static 'js/vendor.js' %}?v2.1"></script>
-<script async src="{% static 'js/main.js' %}?v2.1"></script>
-{% include "analytics/google.html" %}
-{% include "analytics/facebook.html" %}
+<script async src="{% static 'js/runtime.js' %}?v3.0"></script>
+<script async src="{% static 'js/vendor.js' %}?v3.0"></script>
+<script async src="{% static 'js/main.js' %}?v3.0"></script>
 {% include "analytics/hotjar.html" %}
 </body>
 </html>

@@ -23,7 +23,7 @@ urlpatterns = [
     path('', views.Index.as_view(), name='index'),
     path('privacy.html', views.Privacy.as_view()),
     path('cookie-policy.html', views.Cookie.as_view()),
-    path('help_center.html', views.FAQ.as_view()),
+    path('help_center.html', views.FAQ.as_view(), name='help_center'),
     path('help_center/how_install.html', views.HowInstall.as_view()),
     path('help_center/how_configure.html', views.HowConfigure.as_view()),
     path('help_center/how_setup_google_merchant_feed.html', views.HowSetupGoogle.as_view()),

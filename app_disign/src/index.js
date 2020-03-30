@@ -136,7 +136,6 @@ const titleBarOptions = {
     buttons: buttons
 };
 const myTitleBar = TitleBar.create(app, titleBarOptions);
-ReactDOM.render(<WrappedApp redirect={redirect}/>, document.getElementById('root'));
 if (!window.current_shop.premium) {
     window.ga('ec:addImpression', {
         'id': '1',
@@ -159,3 +158,4 @@ if (!window.current_shop.premium) {
         });
     }
 }
+ReactDOM.render(<WrappedApp redirect={redirect}/>, document.getElementById('root'));

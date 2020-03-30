@@ -8,8 +8,8 @@ function FeedBanner(props) {
         <Stack>
             <Banner>{props.current_shop.feed.sectioned_title} - {' '} <Link url={url}
                                                                             external={true}>{props.current_shop.feed.link + '.xml'}</Link></Banner>
-            <Banner>{props.current_shop.feed.catalog_title} - {' '} <Link url={props.current_shop.feed.catalog_link}
-                                                                          external={true}>{props.current_shop.feed.catalog_link}</Link></Banner>
+            <Banner>Take the channel link and go to - {' '} <Link url={props.current_shop.feed.catalog_link}
+                                                                  external={true}>{props.current_shop.feed.catalog_title}</Link></Banner>
         </Stack>
     );
 }
@@ -34,7 +34,7 @@ export default function Feed(props) {
                 <Stack spacing="loose" vertical>
                     {active ? <FeedBanner current_shop={props.current_shop}></FeedBanner> : null}
                     <Stack distribution="trailing">
-                        <Button onClick={handleChange}>Generate Feed</Button>
+                        {!active ? <Button onClick={handleChange}>Generate Feed</Button> : null}
                     </Stack>
                 </Stack>
             </Card>

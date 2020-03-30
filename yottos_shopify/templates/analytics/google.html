@@ -59,15 +59,18 @@
         return false;
     };
     if (window.premium && window.t) {
-        ga('ec:setAction', 'purchase', {
+        window.ga('set', 'transport', 'beacon');
+        window.ga('ec:setAction', 'purchase', {
             'id': window.t,
             'revenue': '29.00'
         });
     }
     if (window.install && window.t) {
+        window.ga('set', 'transport', 'beacon');
         window.ga('send', 'event', 'App', 'Install');
     }
     if (window.reinstall && window.t) {
+        window.ga('set', 'transport', 'beacon');
         window.ga('send', 'event', 'App', 'ReInstall');
     }
 </script>
