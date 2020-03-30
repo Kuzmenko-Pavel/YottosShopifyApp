@@ -10,7 +10,7 @@
         <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
         {% include "analytics/google.html" %}
         {% include "analytics/facebook.html" %}
-        <link as="script" href="{% static "index.bundle.js" %}?v2.0" rel="preload">
+        <link as="script" href="{% static "index.bundle.js" %}?v3.0" rel="preload">
         <script>
             window.premium = {{ premium|yesno:"true,false" }};
             window.install = {{ install|yesno:"true,false" }};
@@ -130,7 +130,7 @@
     </head>
     <body>
     <div id="root"></div>
-    <script async type="text/javascript" src="{% static "index.bundle.js" %}?v2.0"></script>
+    <script async type="text/javascript" src="{% static "index.bundle.js" %}?v3.0"></script>
     {% include "analytics/hotjar.html" %}
     </body>
     </html>
