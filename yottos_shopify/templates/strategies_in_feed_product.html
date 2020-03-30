@@ -114,7 +114,7 @@
                         <h2>To attract new thematic audience</h2>
                         <p>To attract new thematic audience you should generate data feed separately for each product
                             catalog and organize them in collections for convenience in Feed Product.</p>
-                        <a href="/" class="faq-item-more-link">Install app for free</a>
+                        {% include "include/faq_item_more_link.html" %}
                     </div>
                     <div class="col-sm-6 col-md-8 col-md-push-4 col-sm-push-6">
                         <img class="roll-up" src="{% static 'images/help_center/Fb4/3-1.png' %}"
@@ -131,7 +131,7 @@
                     <div class="col-sm-6 col-md-4 col-md-pull-8 col-sm-pull-6">
                         <h2>To increase loyalty</h2>
                         <p>To increase loyalty, you should generate data feed with all of the discounts.</p>
-                        <a href="/" class="faq-item-more-link">Install app for free</a>
+                        {% include "include/faq_item_more_link.html" %}
                     </div>
                     <div class="col-sm-6 col-md-8 col-md-push-4 col-sm-push-6">
                         <img class="roll-up" src="{% static 'images/help_center/Fb4/4-1.png' %}"
@@ -141,6 +141,21 @@
             </div>
         </div>
     </section>
+    <div class="container" style="margin: 20px auto;">
+        <div class="row auto-shadow" style="padding: 10px;">
+            <div class="feature w-100">
+                <div class="feature-text text-center"><h3>Perhaps you'd be interested in:</h3></div>
+                <div>
+                    <a href="/help_center/how_install.html" class="faq-item-more-link">HOW to install feed product in
+                        shopify</a>
+                </div>
+                <div>
+                    <a href="/help_center/how_configure.html" class="faq-item-more-link">How to configure feed product
+                        in shopify</a>
+                </div>
+            </div>
+        </div>
+    </div>
     {% include "include/form4.html" %}
     <div class="scroller"></div>
 {% endblock %}

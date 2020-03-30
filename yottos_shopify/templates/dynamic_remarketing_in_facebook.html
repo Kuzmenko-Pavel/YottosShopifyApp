@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 {% load static %}
-{% block title %}How setup Yottos Adload feed{% endblock %}
+{% block title %}How to launch dynamic remarketing in Facebook using Feed Product{% endblock %}
 {% block ld_json %}
     <script type="application/ld+json">
  {
@@ -11,7 +11,7 @@
     "url": "{% static 'images/connect_feeds_with_feed_product.png' %}"
   },
   "name": "Feed Product - CONNECT FEED TO YOTTOS",
-  "description": "HOW TO CONNECT FEED PRODUCT TO YOTTOS",
+  "description": "HOW TO LAUNCH DYNAMIC REMARKETING IN FACEBOOK USING FEED PRODUCT",
   "totalTime": "PT10M",
   "supply": [
     {
@@ -22,10 +22,6 @@
       "@type": "HowToSupply",
       "name": "Feed Product - Shopify App Store",
       "url":  "https://feed-product.com/"
-    }, {
-      "@type": "HowToSupply",
-      "name": "Yottos Adload",
-      "url":  "https://adload.yottos.com/"
     }
   ],
   "tool": [
@@ -38,10 +34,10 @@
   "step": [
     {
       "@type": "HowToStep",
-      "name": "Log in Yottos and move  to 'Feeds' section",
-      "text": "To upload your Feed Product in Yottos you will need to log in your personal account and move to 'Feeds' section.",
+      "name": "To launch dynamic remarketing you will need to go to the catalog with uploaded products",
+      "text": "To launch dynamic remarketing you will need to go to the catalog with uploaded products, that you are going to advertise in the remarketing campaign.",
       "image": "{% static 'images/help_center/help_yottos/1.jpg' %}",
-      "url": "https://feed-product.com/help_center/how_setup_yottos_adload_feed.html#step-1"
+      "url": "https://feed-product.com/help_center/dynamic_remarketing_in_facebook.html#step-1"
     }
   ]
 }
@@ -54,17 +50,22 @@
         <div class="container">
             <div class="row auto-shadow text-center" style="margin-bottom: 10px">
                 <h2 class="base" style="width: 100%;">Help Center</h2>
-                <h2 class="base">HOW TO CONNECT FEED PRODUCT TO YOTTOS</h2></div>
+                <h2 class="base">HOW TO LAUNCH DYNAMIC REMARKETING IN FACEBOOK USING FEED PRODUCT</h2></div>
             <div class="row auto-height auto-shadow">
                 <div class="row align-items-center m-0 p-0">
                     <div class="col-sm-6 col-md-4 col-md-pull-8 col-sm-pull-6">
                         <h2>STEP 1</h2>
-                        <p>To upload your Feed Product in Yottos you will need to log in your personal account and move
-                            to "Feeds" section.</p>
-                        <a href="/" class="faq-item-more-link">Install app for free</a>
+                        <p>To launch dynamic remarketing you will need to go to the
+                            <b><a href="https://www.facebook.com/products/catalogs/">catalog</a></b>
+                            with uploaded products, that you are going to advertise in the remarketing campaign.
+                            If you don't know how to create catalogs and upload your goods, check the following
+                            <b><a href="https://feed-product.com/help_center/how_setup_facebook_catalog_feed.html">
+                                link
+                            </a></b></p>
+                        {% include "include/faq_item_more_link.html" %}
                     </div>
                     <div class="col-sm-6 col-md-8 col-md-push-4 col-sm-push-6">
-                        <img class="roll-up" src="{% static 'images/help_center/help_yottos/1.jpg' %}"
+                        <img class="roll-up" src="{% static 'images/help_center/Fb3/1.png' %}"
                              alt="Log in to the app">
                     </div>
                 </div>
@@ -77,17 +78,233 @@
                 <div class="row align-items-center m-0 p-0">
                     <div class="col-sm-6 col-md-4 col-md-pull-8 col-sm-pull-6">
                         <h2>STEP 2</h2>
-                        <p>In the "Feeds" section click on the blue cross in upper-left corner.</p>
-                        <a href="/" class="faq-item-more-link">Install app for free</a>
+                        <p>When you opened the catalog, select the 'Event Data Sources' menu in the 'Configure' tab.</p>
+                        {% include "include/faq_item_more_link.html" %}
                     </div>
                     <div class="col-sm-6 col-md-8 col-md-push-4 col-sm-push-6">
-                        <img class="roll-up" src="{% static 'images/help_center/help_yottos/2.jpg' %}"
-                             alt="Log in to the Google Merchant Center">
+                        <img class="roll-up" src="{% static 'images/help_center/Fb3/2.png' %}"
+                             alt="">
                     </div>
                 </div>
             </div>
         </div>
     </section>
+    <section class="case section-fullheight" id="step-3">
+        <div class="container">
+            <div class="row auto-height auto-shadow">
+                <div class="row align-items-center m-0 p-0">
+                    <div class="col-sm-6 col-md-4 col-md-pull-8 col-sm-pull-6">
+                        <h2>STEP 3</h2>
+                        <p>In the opened tab you will need to connect a pixel.</p>
+                        <p>To do so, click on the 'Connect to Tracking' button.</p>
+                        {% include "include/faq_item_more_link.html" %}
+                    </div>
+                    <div class="col-sm-6 col-md-8 col-md-push-4 col-sm-push-6">
+                        <img class="roll-up" src="{% static 'images/help_center/Fb3/3.png' %}"
+                             alt="">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="case section-fullheight" id="step-4">
+        <div class="container">
+            <div class="row auto-height auto-shadow">
+                <div class="row align-items-center m-0 p-0">
+                    <div class="col-sm-6 col-md-4 col-md-pull-8 col-sm-pull-6">
+                        <h2>STEP 4</h2>
+                        <p>1) In the opened window select the pixel that was created before
+                            In case you don't know how to create pixel, check the following <b><a
+                                    href="/help_center/how_create_facebook_pixel.html">link</a></b></p>
+                        <p>2) Press 'Save'.</p>
+                        {% include "include/faq_item_more_link.html" %}
+                    </div>
+                    <div class="col-sm-6 col-md-8 col-md-push-4 col-sm-push-6">
+                        <img class="roll-up" src="{% static 'images/help_center/Fb3/13.png' %}"
+                             alt="">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="case section-fullheight" id="step-5">
+        <div class="container">
+            <div class="row auto-height auto-shadow">
+                <div class="row align-items-center m-0 p-0">
+                    <div class="col-sm-6 col-md-4 col-md-pull-8 col-sm-pull-6">
+                        <h2>STEP 5</h2>
+                        <p>After that you will need to go to the 'Use Cases' tab in the 'Manage' section.</p>
+                        {% include "include/faq_item_more_link.html" %}
+                    </div>
+                    <div class="col-sm-6 col-md-8 col-md-push-4 col-sm-push-6">
+                        <img class="roll-up" src="{% static 'images/help_center/Fb3/4.png' %}"
+                             alt="">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="case section-fullheight" id="step-6">
+        <div class="container">
+            <div class="row auto-height auto-shadow">
+                <div class="row align-items-center m-0 p-0">
+                    <div class="col-sm-6 col-md-4 col-md-pull-8 col-sm-pull-6">
+                        <h2>STEP 6</h2>
+                        <p>Select 'Dynamic Ads' in the opened tab.</p>
+                        {% include "include/faq_item_more_link.html" %}
+                    </div>
+                    <div class="col-sm-6 col-md-8 col-md-push-4 col-sm-push-6">
+                        <img class="roll-up" src="{% static 'images/help_center/Fb3/5.png' %}"
+                             alt="">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="case section-fullheight" id="step-7">
+        <div class="container">
+            <div class="row auto-height auto-shadow">
+                <div class="row align-items-center m-0 p-0">
+                    <div class="col-sm-6 col-md-4 col-md-pull-8 col-sm-pull-6">
+                        <h2>STEP 7</h2>
+                        <p>1) After that, in the opened window you will need to select the account where the ad campaign
+                            will be created.</p>
+                        <p>2) When account is selected, press 'Next' to continue.</p>
+                        {% include "include/faq_item_more_link.html" %}
+                    </div>
+                    <div class="col-sm-6 col-md-8 col-md-push-4 col-sm-push-6">
+                        <img class="roll-up" src="{% static 'images/help_center/Fb3/6.png' %}"
+                             alt="">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="case section-fullheight" id="step-8">
+        <div class="container">
+            <div class="row auto-height auto-shadow">
+                <div class="row align-items-center m-0 p-0">
+                    <div class="col-sm-6 col-md-4 col-md-pull-8 col-sm-pull-6">
+                        <h2>STEP 8</h2>
+                        <p>New window will be opened with quick setup of ad campaign. When you are filling in the
+                            fields, you must select the purpose of 'Catalog sales'.</p>
+                        {% include "include/faq_item_more_link.html" %}
+                    </div>
+                    <div class="col-sm-6 col-md-8 col-md-push-4 col-sm-push-6">
+                        <img class="roll-up" src="{% static 'images/help_center/Fb3/7.png' %}"
+                             alt="">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="case section-fullheight" id="step-9">
+        <div class="container">
+            <div class="row auto-height auto-shadow">
+                <div class="row align-items-center m-0 p-0">
+                    <div class="col-sm-6 col-md-4 col-md-pull-8 col-sm-pull-6">
+                        <h2>STEP 9</h2>
+                        <p>When all fields are filled, click 'Save to Draft'.</p>
+                        {% include "include/faq_item_more_link.html" %}
+                    </div>
+                    <div class="col-sm-6 col-md-8 col-md-push-4 col-sm-push-6">
+                        <img class="roll-up" src="{% static 'images/help_center/Fb3/8.png' %}"
+                             alt="">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="case section-fullheight" id="step-10">
+        <div class="container">
+            <div class="row auto-height auto-shadow">
+                <div class="row align-items-center m-0 p-0">
+                    <div class="col-sm-6 col-md-4 col-md-pull-8 col-sm-pull-6">
+                        <h2>STEP 10</h2>
+                        <p>You will be redirected to the Ads manager, where you will need to customize your notification
+                            groups and notifications.</p>
+                        {% include "include/faq_item_more_link.html" %}
+                    </div>
+                    <div class="col-sm-6 col-md-8 col-md-push-4 col-sm-push-6">
+                        <img class="roll-up" src="{% static 'images/help_center/Fb3/9.png' %}"
+                             alt="">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="case section-fullheight" id="step-11">
+        <div class="container">
+            <div class="row auto-height auto-shadow">
+                <div class="row align-items-center m-0 p-0">
+                    <div class="col-sm-6 col-md-4 col-md-pull-8 col-sm-pull-6">
+                        <h2>STEP 11</h2>
+                        <p>It is important to have the fields 'Create New Audience' and 'Retarget ads to people who
+                            interacted with your products on and off Facebook' selected in the 'Audience' tab.</p>
+                        <p>Facebook displays the products to the new audience by default, in stead of displaying it to
+                            the previous audiences.</p>
+                        <p>In this section you can customize different combinations of settings depending on the
+                            business needs, as well as other settings like location, placements, optimization, etc.</p>
+                        {% include "include/faq_item_more_link.html" %}
+                    </div>
+                    <div class="col-sm-6 col-md-8 col-md-push-4 col-sm-push-6">
+                        <img class="roll-up" src="{% static 'images/help_center/Fb3/10.png' %}"
+                             alt="">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="case section-fullheight" id="step-12">
+        <div class="container">
+            <div class="row auto-height auto-shadow">
+                <div class="row align-items-center m-0 p-0">
+                    <div class="col-sm-6 col-md-4 col-md-pull-8 col-sm-pull-6">
+                        <h2>STEP 12</h2>
+                        <p>After that you will need to customize ads according to your needs.</p>
+                        {% include "include/faq_item_more_link.html" %}
+                    </div>
+                    <div class="col-sm-6 col-md-8 col-md-push-4 col-sm-push-6">
+                        <img class="roll-up" src="{% static 'images/help_center/Fb3/11.png' %}"
+                             alt="">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="case section-fullheight" id="step-13">
+        <div class="container">
+            <div class="row auto-height auto-shadow">
+                <div class="row align-items-center m-0 p-0">
+                    <div class="col-sm-6 col-md-4 col-md-pull-8 col-sm-pull-6">
+                        <h2>STEP 13</h2>
+                        <p>To finish the creation of ad campaign for dynamic remarketing press 'Publish'.</p>
+                        <p>After this the ad campaign creation is finished, and sent to Facebook moderators.</p>
+                        {% include "include/faq_item_more_link.html" %}
+                    </div>
+                    <div class="col-sm-6 col-md-8 col-md-push-4 col-sm-push-6">
+                        <img class="roll-up" src="{% static 'images/help_center/Fb3/12.png' %}"
+                             alt="">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <div class="container" style="margin: 20px auto;">
+        <div class="row auto-shadow" style="padding: 10px;">
+            <div class="feature w-100">
+                <div class="feature-text text-center"><h3>Perhaps you'd be interested in:</h3></div>
+                <div>
+                    <a href="/help_center/how_install.html" class="faq-item-more-link">HOW to install feed product in
+                        shopify</a>
+                </div>
+                <div>
+                    <a href="/help_center/how_configure.html" class="faq-item-more-link">How to configure feed product
+                        in shopify</a>
+                </div>
+            </div>
+        </div>
+    </div>
     {% include "include/form4.html" %}
     <div class="scroller"></div>
 {% endblock %}
