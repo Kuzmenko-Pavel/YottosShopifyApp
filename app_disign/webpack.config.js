@@ -1,29 +1,71 @@
-const {join} = require('path');
+const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
-    mode: 'production',
+    mode: 'development', //'production',
     entry: {
-        index: join(__dirname, 'src/index.js'),
-        unsub: join(__dirname, 'src/unsub.js')
+        index: './src/index.js',
+        index2: './src/index.js',
+        index3: './src/index.js',
+        unsub: './src/index.js'
     },
     optimization: {
-        minimize: true
-      },
+        minimize: true,
+        splitChunks: {
+            cacheGroups: {
+                vendor: {
+                    test: /[\\/]node_modules[\\/](react|react-dom|axios|react-transition-group)[\\/]/,
+                    name: 'react',
+                    chunks: 'all'
+                },
+                shopify: {
+                    test: /[\\/]node_modules[\\/]@shopify[\\/](app-bridge|polaris|polaris-icons)[\\/]/,
+                    name: 'polaris',
+                    chunks: 'all'
+                }
+            }
+        }
+    },
     output: {
-        path: join(__dirname, 'build'),
-        filename: '[name].bundle.js'
+        path: path.resolve(__dirname, 'build'),
+        filename: '[name].app.js'
     },
     plugins: [
         new HtmlWebpackPlugin({
             filename: 'index.html',
             template: './public/index.html',
-            chunks: ['index'],
+            chunks: [
+                'index',
+                'react',
+                'polaris'
+            ]
+        }),
+        new HtmlWebpackPlugin({
+            filename: 'index2.html',
+            template: './public/index2.html',
+            chunks: [
+                'index',
+                'react',
+                'polaris'
+            ]
+        }),
+        new HtmlWebpackPlugin({
+            filename: 'index3.html',
+            template: './public/index3.html',
+            chunks: [
+                'index',
+                'react',
+                'polaris'
+            ]
         }),
         new HtmlWebpackPlugin({
             filename: 'unsub.html',
             template: './public/unsub.html',
-            chunks: ['unsub']
+            chunks: [
+                'index',
+                'react',
+                'polaris'
+            ]
         })
     ],
     module: {
@@ -31,7 +73,7 @@ module.exports = {
             {
                 test: /\.(js|jsx)$/,
                 exclude: /node_modules/,
-                include: join(__dirname, 'src'),
+                include: path.resolve(__dirname, 'src'),
                 use: [
                     {
                         loader: 'babel-loader',
@@ -53,5 +95,12 @@ module.exports = {
                 ]
             }
         ]
+    },
+    devServer: {
+        https: true,
+        compress: true,
+        disableHostCheck: true,
+        host: '0.0.0.0',
+        port: 8000
     }
 };

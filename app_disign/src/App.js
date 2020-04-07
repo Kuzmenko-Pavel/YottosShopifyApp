@@ -4,6 +4,7 @@ import Feed from './Feed';
 import Options from './Options';
 import UTM from './Utm';
 import Collections from './Collections';
+import Integrtion from './Integration';
 import * as Redirect from "@shopify/app-bridge/actions/Navigation/Redirect";
 
 export default function App(props) {
@@ -47,12 +48,12 @@ export default function App(props) {
 
     useEffect(
         () => {
-            if (!premium) {
-                let timer1 = setTimeout(() => setActive(true), 8000);
-                return () => {
-                    clearTimeout(timer1);
-                };
-            }
+            // if (!premium) {
+            //     let timer1 = setTimeout(() => setActive(true), 8000);
+            //     return () => {
+            //         clearTimeout(timer1);
+            //     };
+            // }
         },
         []
     );
@@ -62,6 +63,7 @@ export default function App(props) {
         <Page>
             <Layout>
                 <Feed current_shop={props.current_shop} redirect={props.redirect}/>
+                <Integrtion current_shop={props.current_shop} redirect={props.redirect}/>
                 <Collections current_shop={props.current_shop} redirect={props.redirect}/>
                 <UTM current_shop={props.current_shop} redirect={props.redirect}/>
                 <Options current_shop={props.current_shop} redirect={props.redirect}/>
