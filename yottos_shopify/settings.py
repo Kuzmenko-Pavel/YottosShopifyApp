@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'shopify_app.apps.ShopifyAppConfig',
+    'facebook_app.apps.FacebookAppConfig',
     'django_mysql',
     "django_http2_push",
 ]
@@ -65,7 +66,9 @@ ROOT_URLCONF = 'yottos_shopify.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'yottos_shopify/templates'), os.path.join(BASE_DIR, 'templates')],
+        'DIRS': [
+            os.path.join(BASE_DIR, 'templates'),
+        ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [

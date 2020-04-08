@@ -24,7 +24,8 @@ install_requires = [
     'pyactiveresource',
     'ShopifyAPI==6.0.1',
     'django-mysql',
-    'django_http2_push'
+    'django_http2_push',
+    'facebook_business'
 ]
 
 setup(

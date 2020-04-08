@@ -37,6 +37,7 @@ urlpatterns = [
     path('help_center/strategies_in_feed_product.html', views.StrategiesInFeedProduct.as_view()),
     path('admin/', admin.site.urls),
     path('shopify/', include('shopify_app.urls')),
+    path('facebook/', include('facebook_app.urls')),
 ]
 
 
