@@ -167,27 +167,19 @@ export default function Integrtion(props) {
         props.redirect.dispatch(Redirect.Action.APP, props.current_shop.billing);
     }
 
-    function testAPI() {
-        console.log('Welcome!  Fetching your information.... ');
-        FB.api('/me', function (response) {
-            console.log('Successful login for: ' + response.name);
-            console.log(response);
-        });
-    }
-
     function statusChangeCallback(response) {
-        console.log('statusChangeCallback');
-        console.log(response);
         if (response.status === 'connected') {
-            testAPI();
+            console.log(response);
+            location.href = props.current_shop.fb_integration;
+            props.redirect.dispatch(Redirect.Action.APP, props.current_shop.fb_integration);
         } else {
             FB.login(
                 statusChangeCallback, {
                     scope: 'email,ads_management,ads_read,read_insights,business_management,catalog_management,manage_pages',
-                    auth_type: 'rerequest'
+                    auth_type: 'rerequest',
+                    return_scopes: true
                 }
             );
-            console.log('Not Login');
         }
     }
 

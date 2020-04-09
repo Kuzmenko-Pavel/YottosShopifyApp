@@ -7,7 +7,8 @@ module.exports = {
         index: './src/index.js',
         index2: './src/index.js',
         index3: './src/index.js',
-        unsub: './src/index.js'
+        unsub: './src/unsub.js',
+        fb_integration: './src/fb_integration.js'
     },
     optimization: {
         minimize: true,
@@ -41,6 +42,15 @@ module.exports = {
             ]
         }),
         new HtmlWebpackPlugin({
+            filename: 'fb_integration.html',
+            template: './public/fb_integration.html',
+            chunks: [
+                'fb_integration',
+                'react',
+                'polaris'
+            ]
+        }),
+        new HtmlWebpackPlugin({
             filename: 'index2.html',
             template: './public/index2.html',
             chunks: [
@@ -62,7 +72,7 @@ module.exports = {
             filename: 'unsub.html',
             template: './public/unsub.html',
             chunks: [
-                'index',
+                'unsub',
                 'react',
                 'polaris'
             ]

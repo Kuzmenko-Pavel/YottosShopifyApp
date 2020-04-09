@@ -4,7 +4,7 @@ import {AppProvider, Spinner} from '@shopify/polaris';
 import enTranslations from '@shopify/polaris/locales/en.json';
 import '@shopify/polaris/styles.css';
 
-import App from './App';
+import IntegrationApp from './IntegrationApp';
 import createApp from '@shopify/app-bridge';
 import {Button, Redirect, TitleBar} from '@shopify/app-bridge/actions';
 
@@ -25,7 +25,7 @@ function SpinnerApp() {
 function WrappedApp(props) {
     return (
         <AppProvider i18n={enTranslations}>
-            <App redirect={props.redirect} current_shop={window.current_shop}/>
+            <IntegrationApp current_shop={window.current_shop} redirect={props.redirect} businesses={props.businesses}/>
         </AppProvider>
     );
 }
@@ -43,7 +43,7 @@ const app = createApp({
 });
 const redirect = Redirect.create(app);
 const subscribeButton = Button.create(app, {label: 'Upgrade to Premium Membershi'});
-const unSubscribeButton = Button.create(app, {label: 'Downgrade to free Membership'});
+const dashboard = Button.create(app, {label: 'Remain on premium membership'});
 const button1 = Button.create(app, {label: 'Facebook (Instagram) Feed'});
 const button2 = Button.create(app, {label: 'Google Feed'});
 const button3 = Button.create(app, {label: 'Yottos Feed'});
@@ -81,9 +81,8 @@ subscribeButton.subscribe(Button.Action.CLICK, function () {
     const link = window.current_shop.billing;
     redirect.dispatch(Redirect.Action.APP, link);
 });
-unSubscribeButton.subscribe(Button.Action.CLICK, function () {
-    window.ga('send', 'event', 'Order', 'Downgrade', 'BigButton');
-    const link = window.current_shop.downgrade;
+dashboard.subscribe(Button.Action.CLICK, function () {
+    const link = window.current_shop.dashboard;
     redirect.dispatch(Redirect.Action.APP, link);
 });
 button1.subscribe(Button.Action.CLICK, function () {
@@ -111,7 +110,7 @@ button4.subscribe(Button.Action.CLICK, function () {
     redirect.dispatch(Redirect.Action.APP, link);
 });
 const pathname = document.location.pathname;
-if(pathname.includes('/fb/')){
+if (pathname.includes('/fb/')) {
     button1.disabled = true;
 }
 else if (pathname.includes('/ga/')) {
@@ -135,33 +134,64 @@ if (!window.current_shop.premium) {
     buttons.primary = subscribeButton;
 }
 else {
-    buttons.primary = unSubscribeButton;
+    buttons.primary = dashboard;
 }
 const titleBarOptions = {
     title: window.current_shop.title,
     buttons: buttons
 };
 const myTitleBar = TitleBar.create(app, titleBarOptions);
-if (!window.current_shop.premium) {
-    window.ga('ec:addImpression', {
-        'id': '1',
-        'name': 'Premium',
-        'price': '29.00'
-    });
-    if (window.fbq) {
-        fbq('track', 'ViewContent', {
-            content_ids: [1],
-            content_name: 'Premium',
-            content_type: 'product',
-            contents: [
-                {
-                    'id': '1',
-                    'quantity': 1
-                }
-            ],
-            currency: "USD",
-            value: 29.00
-        });
+let businesses = [];
+
+function statusChangeCallback(response) {
+    if (response.status === 'connected') {
+        FB.api('me/businesses?fields=id,name,owned_ad_accounts{account_id,name,account_status,adspixels{name}}', function (response) {
+                (response.data || []).forEach(
+                    businesse => {
+                        let obj = {
+                            label: businesse.name,
+                            value: businesse.id,
+                            accounts: []
+                        };
+                        ((businesse.owned_ad_accounts || {}).data || []).forEach(
+                            account => {
+                                let obj_account = {
+                                    label: account.name,
+                                    value: account.account_id,
+                                    pixels: []
+                                };
+                                ((account.adspixels || {}).data || []).forEach(
+                                    pixel => obj_account.pixels.push({
+                                        label: pixel.name,
+                                        value: pixel.id
+                                    }));
+                                obj.accounts.push(obj_account);
+                            });
+                        businesses.push(obj);
+                    }
+                );
+                ReactDOM.render(<WrappedApp redirect={redirect} businesses={businesses}/>, document.getElementById('root'));
+            }
+        );
+    } else {
+        location.href = '/';
     }
 }
-ReactDOM.render(<WrappedApp redirect={redirect}/>, document.getElementById('root'));
+
+function connectFb() {
+    FB.getLoginStatus(function (response) {   // See the onlogin handler
+        statusChangeCallback(response);
+    });
+}
+
+window.fbAsyncInit = function () {
+    FB.init({
+        appId: '726005661270272',
+        cookie: true,
+        xfbml: false,
+        status: true,
+        version: 'v6.0'
+    });
+    connectFb()
+};
+ReactDOM.render(<SpinnerApp/>, document.getElementById('root'));

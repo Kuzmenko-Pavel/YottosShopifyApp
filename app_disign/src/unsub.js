@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {AppProvider} from '@shopify/polaris';
+import {AppProvider, Spinner} from '@shopify/polaris';
 import enTranslations from '@shopify/polaris/locales/en.json';
 import '@shopify/polaris/styles.css';
 
@@ -11,7 +11,13 @@ import {Button, Redirect, TitleBar} from '@shopify/app-bridge/actions';
 function SpinnerApp() {
     return (
         <AppProvider i18n={enTranslations}>
-            {/*<Spinner accessibilityLabel="Spinner example" size="large" color="teal"/>*/}
+            <div style={{
+                position: 'absolute',
+                left: '50%',
+                top: '50%'
+            }}>
+                <Spinner size="large" color="teal"/>
+            </div>
         </AppProvider>
     );
 }

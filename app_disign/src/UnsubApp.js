@@ -2,7 +2,7 @@ import React from 'react';
 import {CalloutCard, Layout, Page} from '@shopify/polaris';
 import {Redirect} from '@shopify/app-bridge/actions';
 
-export default function App(props) {
+export default function UnsubApp(props) {
     function remain() {
         props.redirect.dispatch(Redirect.Action.APP, props.current_shop.dashboard);
     }
