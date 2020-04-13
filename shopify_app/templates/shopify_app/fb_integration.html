@@ -1,0 +1,49 @@
+{% load static %}
+{% load json_tags %}
+{% csrf_token %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
+    <script>
+        (function (
+            d,
+            s,
+            id
+        ) {
+            var js, fjs = d.getElementsByTagName(s)[0];
+            if (d.getElementById(id)) {
+                return;
+            }
+            js = d.createElement(s);
+            js.id = id;
+            js.src = "https://connect.facebook.net/en_US/sdk.js";
+            fjs.parentNode.insertBefore(js, fjs);
+        }(document, 'script', 'facebook-jssdk'));
+    </script>
+    <script>
+        window.t = 'T{{ csrf_token }}';
+        window.current_shop = {
+            domain: '{{ current_shop }}',
+            apiKey: '{{ api_key }}',
+            shopOrigin: '{{ current_shop }}',
+            title: '{{ page_name }}',
+            billing: '{% url "shopify_app:subscribe" %}',
+            downgrade: '{% url "shopify_app:downgrade" %}',
+            premium: {{ shop.premium|yesno:"true,false" }},
+            dashboard: '{% url "shopify_app:dashboard" %}',
+            fb_integration: '{% url "shopify_app:fb_integration" %}',
+            forceRedirect: true,
+            debug: false
+        };
+    </script>
+</head>
+<body>
+<div id="root"></div>
+<script type="text/javascript" src="{% static "polaris.app.js" %}?v2.0"></script>
+<script type="text/javascript" src="{% static "react.app.js" %}?v2.0"></script>
+<script type="text/javascript" src="{% static "fb_integration.app.js" %}?v2.0"></script>
+</body>
+</html>

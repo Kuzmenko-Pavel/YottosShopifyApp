@@ -2,11 +2,11 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
-    mode: 'development', //'production',
+    mode: 'production', //'development',
     entry: {
         index: './src/index.js',
-        index2: './src/index.js',
-        index3: './src/index.js',
+        // index2: './src/index.js',
+        // index3: './src/index.js',
         unsub: './src/unsub.js',
         fb_integration: './src/fb_integration.js'
     },
@@ -50,24 +50,24 @@ module.exports = {
                 'polaris'
             ]
         }),
-        new HtmlWebpackPlugin({
-            filename: 'index2.html',
-            template: './public/index2.html',
-            chunks: [
-                'index',
-                'react',
-                'polaris'
-            ]
-        }),
-        new HtmlWebpackPlugin({
-            filename: 'index3.html',
-            template: './public/index3.html',
-            chunks: [
-                'index',
-                'react',
-                'polaris'
-            ]
-        }),
+        // new HtmlWebpackPlugin({
+        //     filename: 'index2.html',
+        //     template: './public/index2.html',
+        //     chunks: [
+        //         'index',
+        //         'react',
+        //         'polaris'
+        //     ]
+        // }),
+        // new HtmlWebpackPlugin({
+        //     filename: 'index3.html',
+        //     template: './public/index3.html',
+        //     chunks: [
+        //         'index',
+        //         'react',
+        //         'polaris'
+        //     ]
+        // }),
         new HtmlWebpackPlugin({
             filename: 'unsub.html',
             template: './public/unsub.html',

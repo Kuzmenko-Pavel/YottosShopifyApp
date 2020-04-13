@@ -169,8 +169,6 @@ export default function Integrtion(props) {
 
     function statusChangeCallback(response) {
         if (response.status === 'connected') {
-            console.log(response);
-            location.href = props.current_shop.fb_integration;
             props.redirect.dispatch(Redirect.Action.APP, props.current_shop.fb_integration);
         } else {
             FB.login(

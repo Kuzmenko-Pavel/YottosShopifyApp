@@ -4,7 +4,6 @@ import SelectExists from './SelectExists';
 import Create from './Create';
 
 export default function Choicer(props) {
-    console.log('Choicer', props.setings);
     let defState = 'create';
     if (props.options[0]) {
         defState = 'existing';

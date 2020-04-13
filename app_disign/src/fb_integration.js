@@ -43,7 +43,7 @@ const app = createApp({
 });
 const redirect = Redirect.create(app);
 const subscribeButton = Button.create(app, {label: 'Upgrade to Premium Membershi'});
-const dashboard = Button.create(app, {label: 'Remain on premium membership'});
+const unSubscribeButton = Button.create(app, {label: 'Downgrade to free Membership'});
 const button1 = Button.create(app, {label: 'Facebook (Instagram) Feed'});
 const button2 = Button.create(app, {label: 'Google Feed'});
 const button3 = Button.create(app, {label: 'Yottos Feed'});
@@ -81,8 +81,9 @@ subscribeButton.subscribe(Button.Action.CLICK, function () {
     const link = window.current_shop.billing;
     redirect.dispatch(Redirect.Action.APP, link);
 });
-dashboard.subscribe(Button.Action.CLICK, function () {
-    const link = window.current_shop.dashboard;
+unSubscribeButton.subscribe(Button.Action.CLICK, function () {
+    window.ga('send', 'event', 'Order', 'Downgrade', 'BigButton');
+    const link = window.current_shop.downgrade;
     redirect.dispatch(Redirect.Action.APP, link);
 });
 button1.subscribe(Button.Action.CLICK, function () {
@@ -134,7 +135,7 @@ if (!window.current_shop.premium) {
     buttons.primary = subscribeButton;
 }
 else {
-    buttons.primary = dashboard;
+    buttons.primary = unSubscribeButton;
 }
 const titleBarOptions = {
     title: window.current_shop.title,
@@ -143,9 +144,10 @@ const titleBarOptions = {
 const myTitleBar = TitleBar.create(app, titleBarOptions);
 let businesses = [];
 
-function statusChangeCallback(response) {
+function zstatusChangeCallback(response) {
     if (response.status === 'connected') {
         FB.api('me/businesses?fields=id,name,owned_ad_accounts{account_id,name,account_status,adspixels{name}}', function (response) {
+            console.log(response);
                 (response.data || []).forEach(
                     businesse => {
                         let obj = {
@@ -174,7 +176,8 @@ function statusChangeCallback(response) {
             }
         );
     } else {
-        location.href = '/';
+        const link = window.current_shop.dashboard;
+        redirect.dispatch(Redirect.Action.APP, link);
     }
 }
 
@@ -185,6 +188,7 @@ function connectFb() {
 }
 
 window.fbAsyncInit = function () {
+    console.log('fbAsyncInit');
     FB.init({
         appId: '726005661270272',
         cookie: true,

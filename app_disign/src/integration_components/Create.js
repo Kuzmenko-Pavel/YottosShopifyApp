@@ -7,20 +7,17 @@ export default function Create(props) {
     if ((props.setings.existing || false) === false) {
         defValue = props.setings.value || '';
     }
-    console.log(props.setings);
     const [error, setError] = useState('');
     const [label, setLabel] = useState(defValue);
 
     const handleSubmit = useCallback(
         (_event) => {
-            console.log(label);
             if (data.url && label) {
                 FB.api(data.url, 'post', data.params(label), function (response) {
                         if (response.error) {
                             setError(response.error.message);
                         }
                         else {
-                            console.log(response);
                             props.setSettings({
                                 label: label,
                                 value: response.id,

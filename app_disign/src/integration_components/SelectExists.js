@@ -2,7 +2,6 @@ import React, {useCallback, useState} from 'react';
 import {Select} from "@shopify/polaris";
 
 export default function SelectExists(props) {
-    console.log('SelectExists', props.setings);
     let defState = props.setings.value;
     if (props.options[0] && defState === undefined) {
         defState = props.options[0].value;

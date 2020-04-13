@@ -24,4 +24,5 @@ urlpatterns = [
     path('proxy_url/yottos.xml', views.YottosXml.as_view(), name='yottos_xml'),
     path('proxy_url/pinterest.xml', views.PinterestXml.as_view(), name='pinterest_xml'),
     path('save', views.save, name='save'),
+    path('fb_integration', views.FbIntegration.as_view(), name='fb_integration'),
 ]

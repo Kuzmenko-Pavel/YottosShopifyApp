@@ -17,7 +17,7 @@ from .models import ShopifyStore
 
 def index(request):
     context = {'SHOPIFY_API_SCOPE': settings.SHOPIFY_API_SCOPE, 'request': RequestContext(request)}
-    return render(request, 'index.html', context)
+    return render(request, 'shopify_app/index.html', context)
 
 
 def save(request):
@@ -54,7 +54,7 @@ class BaseShop(object):
 
 
 class Dashboard(TemplateView, BaseShop):
-    template_name = "dashboard.html"
+    template_name = "shopify_app/dashboard.html"
     feeds = {
         'fb': {
             'page_name': 'Your Facebook (Instagram) Feed',
@@ -64,7 +64,39 @@ class Dashboard(TemplateView, BaseShop):
             'link': 'facebook',
             'offer_count': 0,
             "catalog_title": "Facebook (Instagram) Catalog",
-            "catalog_link": 'https://facebook.com/products/'
+            "catalog_link": 'https://facebook.com/products/',
+            "integration": {
+                'complite': False,
+                'text': {
+                    'title': 'Automatically set up ad campaigns',
+                    'description': 'Automatically setting up ad campaigns saves you time',
+                    'sectioned_title': 'Activate automatic setup of advertising campaigns?',
+                    'buttons': {
+                        'activate': 'Activate automatic setup of advertising campaigns?',
+                        'new_auditory': 'Create a new audience',
+                        'relevant': 'Create Relevant Audiences',
+                        'retargeting': 'Create retargeting'
+
+                    },
+                    'sheet': {
+                        'new_auditory': {
+                            'heading': 'New Audience Settings',
+                            'cancel': 'Cancel',
+                            'save': 'Create'
+                        },
+                        'relevant': {
+                            'heading': 'Relevant Audience Settings',
+                            'cancel': 'Cancel',
+                            'save': 'Create'
+                        },
+                        'retargeting': {
+                            'heading': 'Audience retargeting settings',
+                            'cancel': 'Cancel',
+                            'save': 'Create'
+                        }
+                    }
+                }
+            }
         },
         'ga': {
             'page_name': 'Your Google Feed',
@@ -157,12 +189,25 @@ class Dashboard(TemplateView, BaseShop):
 
 
 class Downgrade(TemplateView, BaseShop):
-    template_name = "downgrade.html"
+    template_name = "shopify_app/downgrade.html"
 
     def get(self, request, *args, **kwargs):
         shop = self.get_shop(request.shop)
         context = {
             'page_name': 'Downgrade to free Membership',
+            'shop': shop,
+        }
+
+        return self.render_to_response(context)
+
+
+class FbIntegration(TemplateView, BaseShop):
+    template_name = "shopify_app/fb_integration.html"
+
+    def get(self, request, *args, **kwargs):
+        shop = self.get_shop(request.shop)
+        context = {
+            'page_name': 'Connect Facebook',
             'shop': shop,
         }
 
@@ -319,7 +364,7 @@ class Finalize(View):
 
 
 class Subscribe(TemplateView, BaseShop):
-    template_name = "subscribe.html"
+    template_name = "shopify_app/subscribe.html"
 
     def get(self, request, *args, **kwargs):
         _query = {
@@ -335,7 +380,8 @@ class Subscribe(TemplateView, BaseShop):
                         if i.status != 'declined':
                             rac_count += 1
                     rac = shopify.RecurringApplicationCharge()
-                    # rac.test = True
+                    if settings.DEBUG:
+                        rac.test = True
                     rac.return_url = request.build_absolute_uri(
                         route_url('shopify_app:subscribe_submit', _query=_query))
                     rac.price = 29.00
@@ -363,8 +409,8 @@ class UnSubscribe(TemplateView, BaseShop):
                 rac = shopify.RecurringApplicationCharge.current()
                 if rac:
                     rac.destroy()
-                    shop.premium = False
-                    shop.save()
+                shop.premium = False
+                shop.save()
         url = request.build_absolute_uri(route_url('shopify_app:dashboard', _query=_query))
         return redirect(url)
 
@@ -394,7 +440,7 @@ class SubmitSubscribe(View, BaseShop):
 
 @method_decorator(csrf_exempt, name='dispatch')
 class WebhookAppUninstalled(TemplateView, BaseShop):
-    template_name = "webhook.html"
+    template_name = "shopify_app/webhook.html"
 
     def post(self, request, *args, **kwargs):
         if request.method == 'POST' and verify_webhook(request.body, request.headers.get('X-Shopify-Hmac-Sha256')):
@@ -415,14 +461,14 @@ class WebhookAppUninstalled(TemplateView, BaseShop):
 
 @method_decorator(csrf_exempt, name='dispatch')
 class WebhookGDPR(TemplateView, BaseShop):
-    template_name = "webhook.html"
+    template_name = "shopify_app/webhook.html"
 
     def post(self, request, *args, **kwargs):
         return self.render_to_response({})
 
 
 class MainXml(TemplateResponseMixin, View, BaseShop):
-    template_name = "liquid/main.liquid"
+    template_name = "shopify_app/liquid/main.liquid"
     content_type = 'application/liquid'
 
     def get(self, request, *args, **kwargs):
@@ -461,16 +507,16 @@ class MainXml(TemplateResponseMixin, View, BaseShop):
 
 
 class GoogleXml(MainXml):
-    template_name = "liquid/ga_feed.liquid"
+    template_name = "shopify_app/liquid/ga_feed.liquid"
 
 
 class FacebookXml(MainXml):
-    template_name = "liquid/fb_feed.liquid"
+    template_name = "shopify_app/liquid/fb_feed.liquid"
 
 
 class YottosXml(MainXml):
-    template_name = "liquid/yt_feed.liquid"
+    template_name = "shopify_app/liquid/yt_feed.liquid"
 
 
 class PinterestXml(MainXml):
-    template_name = "liquid/pi_feed.liquid"
+    template_name = "shopify_app/liquid/pi_feed.liquid"
