@@ -170,7 +170,13 @@ export default function IntegrationApp(props) {
             axios.defaults.xsrfCookieName = 'csrftoken';
             axios.defaults.xsrfHeaderName = "X-CSRFTOKEN";
             axios.post('/shopify/fb_integration', {
-                data: selectedSettings,
+                data: {
+                    business_id: selectedSettings.business_manager.value,
+                    account_id: selectedSettings.ad_account.value,
+                    pixel: selectedSettings.pixel.value,
+                    token: props.token,
+                    user: props.user
+                },
                 shop: props.current_shop.domain
             }).then(function () {
                 redirect.dispatch(Redirect.Action.APP, link);

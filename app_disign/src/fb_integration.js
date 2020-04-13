@@ -43,9 +43,13 @@ const app = createApp({
 });
 const redirect = Redirect.create(app);
 let businesses = [];
+let token = '';
+let user = '';
 
 function statusChangeCallback(response) {
     if (response.status === 'connected') {
+        token = response.accessToken;
+        user = response.userID;
         FB.api('me/businesses?fields=id,name,owned_ad_accounts{account_id,name,account_status,adspixels{name}}', function (response) {
                 (response.data || []).forEach(
                     businesse => {
@@ -72,6 +76,8 @@ function statusChangeCallback(response) {
                     }
                 );
             ReactDOM.render(<WrappedApp redirect={redirect} businesses={businesses}
+                                        token={token}
+                                        user={user}
                                         current_shop={window.current_shop}/>, document.getElementById('root'));
             }
         );

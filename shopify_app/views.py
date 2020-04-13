@@ -11,6 +11,7 @@ from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
 from django.views.generic.base import TemplateResponseMixin, View, TemplateView, HttpResponse
 
+from facebook_app.models import FacebookBusinessManager
 from .helpers import verify_webhook, route_url
 from .models import ShopifyStore
 
@@ -53,7 +54,16 @@ class BaseShop(object):
             return None
 
 
-class Dashboard(TemplateView, BaseShop):
+class BaseFacebook(object):
+
+    def get_facebook(self, domain):
+        try:
+            return FacebookBusinessManager.objects.get(myshopify_domain=domain)
+        except FacebookBusinessManager.DoesNotExist:
+            return None
+
+
+class Dashboard(TemplateView, BaseShop, BaseFacebook):
     template_name = "shopify_app/dashboard.html"
     feeds = {
         'fb': {
@@ -164,6 +174,7 @@ class Dashboard(TemplateView, BaseShop):
                 reinstall = True
         feed = self.feeds.get(feed_name, self.feeds.get('fb'))
         shop = self.get_shop(request.shop)
+        facebook = self.get_facebook(request.shop)
         if shop:
             feed_option = shop.feeds.get(feed_name, shop.feeds.get('fb'))
             collection = feed_option.get('collection', [])
@@ -172,6 +183,9 @@ class Dashboard(TemplateView, BaseShop):
                 if utm_val:
                     item['value'] = utm_val
                 utm.append(item)
+
+        if facebook and feed_name == 'fb':
+            feed['integration']['complite'] = facebook.connect
 
         context = {
             'page_name': feed['page_name'],
@@ -201,7 +215,7 @@ class Downgrade(TemplateView, BaseShop):
         return self.render_to_response(context)
 
 
-class FbIntegration(TemplateView, BaseShop):
+class FbIntegration(TemplateView, BaseShop, BaseFacebook):
     template_name = "shopify_app/fb_integration.html"
 
     def get(self, request, *args, **kwargs):
@@ -218,8 +232,25 @@ class FbIntegration(TemplateView, BaseShop):
         data = json_data.get('data')
         domain = json_data.get('shop')
         shop = ShopifyStore.objects.get(myshopify_domain=domain)
-        print(shop)
-        print(json_data)
+        facebook = self.get_facebook(request.shop)
+        business_id = data.get('business_id')
+        account_id = data.get('account_id')
+        pixel = data.get('pixel')
+        user = data.get('user')
+        token = data.get('token')
+        if business_id and account_id and pixel and user and token:
+            if facebook is None:
+                try:
+                    facebook = FacebookBusinessManager()
+                    facebook.user_id = user
+                    facebook.business_id = business_id
+                    facebook.account_id = account_id
+                    facebook.pixel = pixel
+                    facebook.connect = True
+                    facebook.setup_access_token(token)
+                    shop.save()
+                except Exception as e:
+                    print(e)
         return HttpResponse("OK")
 
 
