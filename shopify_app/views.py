@@ -45,6 +45,20 @@ def save(request):
     return HttpResponse("OK")
 
 
+def facebook_campaign(request):
+    if request.method == 'POST':
+        save_type = request.GET.get('type')
+        json_data = json.loads(request.body.decode('utf-8'))
+        data = json_data.get('data')
+        domain = json_data.get('shop')
+        shop = ShopifyStore.objects.get(myshopify_domain=domain)
+        facebook = FacebookBusinessManager.objects.get(myshopify_domain=domain)
+        if shop and facebook:
+            print(json_data)
+
+    return HttpResponse("OK")
+
+
 class BaseShop(object):
 
     def get_shop(self, domain):
@@ -233,26 +247,41 @@ class FbIntegration(TemplateView, BaseShop, BaseFacebook):
         domain = json_data.get('shop')
         user = json_data.get('user')
         token = json_data.get('token')
-        shop = ShopifyStore.objects.get(myshopify_domain=domain)
-        facebook = self.get_facebook(request.shop)
+        shop = self.get_shop(domain=domain)
+        facebook = self.get_facebook(domain=domain)
         business_id = data.get('business_id')
         account_id = data.get('account_id')
         pixel = data.get('pixel')
         print(business_id, account_id, pixel, user, token, facebook)
-        if business_id and account_id and pixel and user and token:
+        if shop and business_id and account_id and pixel and user and token:
             if facebook is None:
-                try:
-                    facebook = FacebookBusinessManager()
-                    facebook.user_id = user
-                    facebook.business_id = business_id
-                    facebook.account_id = account_id
-                    facebook.pixel = pixel
-                    facebook.connect = True
-                    facebook.setup_access_token(token)
-                    facebook.save()
-                except Exception as e:
-                    print(e)
+                facebook = FacebookBusinessManager()
+                facebook.myshopify_domain = domain
+            try:
+                facebook.user_id = user
+                facebook.business_id = business_id
+                facebook.account_id = account_id
+                facebook.pixel = pixel
+                facebook.connect = True
+                facebook.setup_access_token(token)
+                facebook.save()
+            except Exception as e:
+                print(e)
         return HttpResponse("OK")
+
+
+class FbDisconect(View, BaseShop, BaseFacebook):
+    def get(self, request, *args, **kwargs):
+        shop = self.get_shop(request.shop)
+        facebook = self.get_facebook(request.shop)
+        _query = {
+            'shop': request.shop, 'hmac': request.hmac, 'timestamp': request.timestamp
+        }
+        url = route_url('shopify_app:dashboard', _query=_query)
+        if shop and facebook:
+            facebook.connect = False
+            facebook.save()
+        return redirect(url)
 
 
 class Authenticate(View, BaseShop):

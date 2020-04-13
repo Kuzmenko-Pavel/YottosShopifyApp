@@ -26,6 +26,7 @@
                 premium: {{ shop.premium|yesno:"true,false" }},
                 dashboard: '{% url "shopify_app:dashboard" %}',
                 fb_integration: '{% url "shopify_app:fb_integration" %}',
+                fb_disconect: '{% url "shopify_app:fb_disconect" %}',
                 forceRedirect: true,
                 debug: false,
                 feed: {{ feed|to_json }},

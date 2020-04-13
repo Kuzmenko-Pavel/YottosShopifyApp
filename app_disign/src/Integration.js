@@ -1,11 +1,13 @@
 import React, {useCallback, useState} from "react";
-import {Button, Card, Heading, Layout, Modal, Scrollable, Sheet, TextContainer} from "@shopify/polaris";
+import {Button, Caption, Card, Heading, Layout, Link, Modal, Scrollable, Sheet, TextContainer} from "@shopify/polaris";
 import * as Redirect from "@shopify/app-bridge/actions/Navigation/Redirect";
 import {MobileCancelMajorMonotone} from "@shopify/polaris-icons";
+import axios from 'axios';
 import Geo from "./Geo";
 
 
 export default function Integrtion(props) {
+    const redirect = props.redirect;
     const geoOptions = Array.from(Array(100)).map((
         _,
         index
@@ -63,6 +65,15 @@ export default function Integrtion(props) {
     function toggleSheetSave() {
         if (premium) {
             toggleSheetOpen();
+            axios.defaults.xsrfCookieName = 'csrftoken';
+            axios.defaults.xsrfHeaderName = "X-CSRFTOKEN";
+            axios.post('/shopify/fb_integration/campaign?type=new', {
+                feed_name: props.current_shop.feed_name,
+                data: {
+                    geo: selectedOptionsGeo
+                },
+                shop: props.current_shop.domain
+            });
         }
         else {
             toggleSheetClose();
@@ -94,6 +105,15 @@ export default function Integrtion(props) {
     function relevant_toggleSheetSave() {
         if (premium) {
             relevant_toggleSheetOpen();
+            axios.defaults.xsrfCookieName = 'csrftoken';
+            axios.defaults.xsrfHeaderName = "X-CSRFTOKEN";
+            axios.post('/shopify/fb_integration/campaign?type=rel', {
+                feed_name: props.current_shop.feed_name,
+                data: {
+                    geo: selectedOptionsGeoRel
+                },
+                shop: props.current_shop.domain
+            });
         }
         else {
             relevant_toggleSheetClose();
@@ -124,6 +144,15 @@ export default function Integrtion(props) {
     function retargeting_toggleSheetSave() {
         if (premium) {
             retargeting_toggleSheetOpen();
+            axios.defaults.xsrfCookieName = 'csrftoken';
+            axios.defaults.xsrfHeaderName = "X-CSRFTOKEN";
+            axios.post('/shopify/fb_integration/campaign?type=ret', {
+                feed_name: props.current_shop.feed_name,
+                data: {
+                    geo: selectedOptionsGeoRet
+                },
+                shop: props.current_shop.domain
+            });
         }
         else {
             retargeting_toggleSheetClose();
@@ -169,7 +198,7 @@ export default function Integrtion(props) {
 
     function statusChangeCallback(response) {
         if (response.status === 'connected') {
-            props.redirect.dispatch(Redirect.Action.APP, props.current_shop.fb_integration);
+            redirect.dispatch(Redirect.Action.APP, props.current_shop.fb_integration);
         } else {
             FB.login(
                 statusChangeCallback, {
@@ -187,6 +216,9 @@ export default function Integrtion(props) {
         });
     }
 
+    function disonnectFb() {
+        redirect.dispatch(Redirect.Action.APP, props.current_shop.fb_disconect);
+    }
     if (props.current_shop.feed.integration) {
         if (props.current_shop.feed.integration.complite) {
             return (
@@ -220,7 +252,9 @@ export default function Integrtion(props) {
                                 </div>
                             </li>
                         </ol>
+                        <Caption>To disconnect facebook click on the <Link onClick={disonnectFb}>link </Link></Caption>
                     </Card>
+
                     <Sheet open={sheetActive}>
                         <div
                             style={{

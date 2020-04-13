@@ -25,4 +25,6 @@ urlpatterns = [
     path('proxy_url/pinterest.xml', views.PinterestXml.as_view(), name='pinterest_xml'),
     path('save', views.save, name='save'),
     path('fb_integration', views.FbIntegration.as_view(), name='fb_integration'),
+    path('fb_disconect', views.FbDisconect.as_view(), name='fb_disconect'),
+    path('fb_integration/campaign', views.facebook_campaign, name='facebook_campaign'),
 ]
