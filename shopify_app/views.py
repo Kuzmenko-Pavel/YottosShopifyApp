@@ -217,9 +217,9 @@ class FbIntegration(TemplateView, BaseShop):
         json_data = json.loads(request.body.decode('utf-8'))
         data = json_data.get('data')
         domain = json_data.get('shop')
-        feed_name = json_data.get('feed_name', 'fb')
         shop = ShopifyStore.objects.get(myshopify_domain=domain)
-        print(data)
+        print(shop)
+        print(json_data)
         return HttpResponse("OK")
 
 

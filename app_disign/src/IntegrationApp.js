@@ -7,7 +7,7 @@ import * as Redirect from "@shopify/app-bridge/actions/Navigation/Redirect";
 import axios from 'axios';
 
 export default function IntegrationApp(props) {
-    const link = window.current_shop.dashboard;
+    const link = props.current_shop.dashboard;
     const redirect = props.redirect;
     let settings = {
         business_manager: {},
@@ -170,7 +170,6 @@ export default function IntegrationApp(props) {
             axios.defaults.xsrfCookieName = 'csrftoken';
             axios.defaults.xsrfHeaderName = "X-CSRFTOKEN";
             axios.post('/shopify/fb_integration', {
-                feed_name: props.current_shop.feed_name,
                 data: selectedSettings,
                 shop: props.current_shop.domain
             }).then(function () {

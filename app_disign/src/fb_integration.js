@@ -71,7 +71,8 @@ function statusChangeCallback(response) {
                         businesses.push(obj);
                     }
                 );
-                ReactDOM.render(<WrappedApp redirect={redirect} businesses={businesses}/>, document.getElementById('root'));
+            ReactDOM.render(<WrappedApp redirect={redirect} businesses={businesses}
+                                        current_shop={window.current_shop}/>, document.getElementById('root'));
             }
         );
     } else {
