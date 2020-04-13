@@ -42,6 +42,62 @@ const app = createApp({
     debug: window.current_shop.debug
 });
 const redirect = Redirect.create(app);
+let businesses = [];
+
+function statusChangeCallback(response) {
+    if (response.status === 'connected') {
+        FB.api('me/businesses?fields=id,name,owned_ad_accounts{account_id,name,account_status,adspixels{name}}', function (response) {
+                (response.data || []).forEach(
+                    businesse => {
+                        let obj = {
+                            label: businesse.name,
+                            value: businesse.id,
+                            accounts: []
+                        };
+                        ((businesse.owned_ad_accounts || {}).data || []).forEach(
+                            account => {
+                                let obj_account = {
+                                    label: account.name,
+                                    value: account.account_id,
+                                    pixels: []
+                                };
+                                ((account.adspixels || {}).data || []).forEach(
+                                    pixel => obj_account.pixels.push({
+                                        label: pixel.name,
+                                        value: pixel.id
+                                    }));
+                                obj.accounts.push(obj_account);
+                            });
+                        businesses.push(obj);
+                    }
+                );
+                ReactDOM.render(<WrappedApp redirect={redirect} businesses={businesses}/>, document.getElementById('root'));
+            }
+        );
+    } else {
+        // ReactDOM.render(<WrappedApp redirect={redirect} businesses={businesses}/>, document.getElementById('root'));
+        const link = window.current_shop.dashboard;
+        redirect.dispatch(Redirect.Action.APP, link);
+    }
+}
+
+function connectFb() {
+    FB.getLoginStatus(function (response) {   // See the onlogin handler
+        statusChangeCallback(response);
+    });
+}
+
+window.fbAsyncInit = function () {
+    FB.init({
+        appId: '726005661270272',
+        cookie: true,
+        xfbml: false,
+        status: true,
+        version: 'v6.0'
+    });
+    connectFb()
+};
+
 const subscribeButton = Button.create(app, {label: 'Upgrade to Premium Membershi'});
 const unSubscribeButton = Button.create(app, {label: 'Downgrade to free Membership'});
 const button1 = Button.create(app, {label: 'Facebook (Instagram) Feed'});
@@ -142,60 +198,4 @@ const titleBarOptions = {
     buttons: buttons
 };
 const myTitleBar = TitleBar.create(app, titleBarOptions);
-let businesses = [];
-
-function zstatusChangeCallback(response) {
-    if (response.status === 'connected') {
-        FB.api('me/businesses?fields=id,name,owned_ad_accounts{account_id,name,account_status,adspixels{name}}', function (response) {
-            console.log(response);
-                (response.data || []).forEach(
-                    businesse => {
-                        let obj = {
-                            label: businesse.name,
-                            value: businesse.id,
-                            accounts: []
-                        };
-                        ((businesse.owned_ad_accounts || {}).data || []).forEach(
-                            account => {
-                                let obj_account = {
-                                    label: account.name,
-                                    value: account.account_id,
-                                    pixels: []
-                                };
-                                ((account.adspixels || {}).data || []).forEach(
-                                    pixel => obj_account.pixels.push({
-                                        label: pixel.name,
-                                        value: pixel.id
-                                    }));
-                                obj.accounts.push(obj_account);
-                            });
-                        businesses.push(obj);
-                    }
-                );
-                ReactDOM.render(<WrappedApp redirect={redirect} businesses={businesses}/>, document.getElementById('root'));
-            }
-        );
-    } else {
-        const link = window.current_shop.dashboard;
-        redirect.dispatch(Redirect.Action.APP, link);
-    }
-}
-
-function connectFb() {
-    FB.getLoginStatus(function (response) {   // See the onlogin handler
-        statusChangeCallback(response);
-    });
-}
-
-window.fbAsyncInit = function () {
-    console.log('fbAsyncInit');
-    FB.init({
-        appId: '726005661270272',
-        cookie: true,
-        xfbml: false,
-        status: true,
-        version: 'v6.0'
-    });
-    connectFb()
-};
 ReactDOM.render(<SpinnerApp/>, document.getElementById('root'));

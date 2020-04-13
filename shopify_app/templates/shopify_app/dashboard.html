@@ -11,32 +11,6 @@
         {% include "analytics/google.html" %}
         {% include "analytics/facebook.html" %}
         <script>
-            window.fbAsyncInit = function () {
-                FB.init({
-                    appId: '726005661270272',
-                    cookie: true,
-                    xfbml: false,
-                    status: true,
-                    version: 'v6.0'
-                });
-            };
-
-            (function (
-                d,
-                s,
-                id
-            ) {
-                var js, fjs = d.getElementsByTagName(s)[0];
-                if (d.getElementById(id)) {
-                    return;
-                }
-                js = d.createElement(s);
-                js.id = id;
-                js.src = "https://connect.facebook.net/en_US/sdk.js";
-                fjs.parentNode.insertBefore(js, fjs);
-            }(document, 'script', 'facebook-jssdk'));
-        </script>
-        <script>
             window.premium = {{ premium|yesno:"true,false" }};
             window.install = {{ install|yesno:"true,false" }};
             window.reinstall = {{ reinstall|yesno:"true,false" }};
@@ -159,6 +133,32 @@
     <script type="text/javascript" src="{% static "polaris.app.js" %}?v3.0"></script>
     <script type="text/javascript" src="{% static "react.app.js" %}?v3.0"></script>
     <script async type="text/javascript" src="{% static "index.app.js" %}?v3.0"></script>
+    <script>
+        window.fbAsyncInit = function () {
+            FB.init({
+                appId: '726005661270272',
+                cookie: true,
+                xfbml: false,
+                status: true,
+                version: 'v6.0'
+            });
+        };
+
+        (function (
+            d,
+            s,
+            id
+        ) {
+            var js, fjs = d.getElementsByTagName(s)[0];
+            if (d.getElementById(id)) {
+                return;
+            }
+            js = d.createElement(s);
+            js.id = id;
+            js.src = "https://connect.facebook.net/en_US/sdk.js";
+            fjs.parentNode.insertBefore(js, fjs);
+        }(document, 'script', 'facebook-jssdk'));
+    </script>
     {% include "analytics/hotjar.html" %}
     </body>
     </html>

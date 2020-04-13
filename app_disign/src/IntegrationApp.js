@@ -3,8 +3,12 @@ import React, {useCallback, useState} from 'react';
 import {Card, Layout, Page, Tabs} from '@shopify/polaris';
 
 import Choicer from './integration_components/Choicer';
+import * as Redirect from "@shopify/app-bridge/actions/Navigation/Redirect";
+import axios from 'axios';
 
 export default function IntegrationApp(props) {
+    const link = window.current_shop.dashboard;
+    const redirect = props.redirect;
     let settings = {
         business_manager: {},
         ad_account: {},
@@ -159,6 +163,23 @@ export default function IntegrationApp(props) {
         return data;
     }
 
+    const save = useCallback(
+        () => {
+            console.log(selectedSettings);
+            console.log(arguments);
+            axios.defaults.xsrfCookieName = 'csrftoken';
+            axios.defaults.xsrfHeaderName = "X-CSRFTOKEN";
+            axios.post('/shopify/fb_integration', {
+                feed_name: props.current_shop.feed_name,
+                data: selectedSettings,
+                shop: props.current_shop.domain
+            }).then(function () {
+                redirect.dispatch(Redirect.Action.APP, link);
+            });
+        },
+        [selectedSettings]
+    );
+
     const tabs = [
         {
             id: 'business_manager',
@@ -202,13 +223,13 @@ export default function IntegrationApp(props) {
                 />
             )
         },
-        {
-            id: 'payments',
-            content: '4. Payment method',
-            text: 'Add a Payment Method to your account',
-            panelID: 'payments',
-            childrens: (null)
-        }
+        // {
+        //     id: 'payments',
+        //     content: '4. Payment method',
+        //     text: 'Add a Payment Method to your account',
+        //     panelID: 'payments',
+        //     childrens: (null)
+        // }
     ];
 
     function isContinue(selected) {
@@ -232,16 +253,14 @@ export default function IntegrationApp(props) {
                         {
                             content: 'CANCEL',
                             onAction: function () {
-                                console.log(selectedSettings);
+                                redirect.dispatch(Redirect.Action.APP, link);
                             }
                         }
                     ]}
                     primaryFooterAction={{
                         content: 'CONTINUE',
                         disabled: isContinue(selected),
-                        onAction: function () {
-                            console.log(selectedSettings);
-                        }
+                        onAction: save
                     }}
                 >
                     <Card.Section>
