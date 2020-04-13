@@ -67,8 +67,11 @@ def facebook_campaign(request):
             _query = {
                 'shop': domain, 'type': campaign_type
             }
-            print(route_url('shopify_app:fb_subscribe', _query=_query))
-            context['url'] = route_url('shopify_app:fb_subscribe', _query=_query)
+            if campaign.paid:
+                campaign.fb_get_or_create()
+                campaign.save()
+            else:
+                context['url'] = route_url('shopify_app:fb_subscribe', _query=_query)
 
     return JsonResponse(context)
 
@@ -294,6 +297,9 @@ class FbDisconect(View, BaseShop, BaseFacebook):
         url = route_url('shopify_app:dashboard', _query=_query)
         if shop and facebook:
             facebook.connect = False
+            for campaign in facebook.facebookcampaign_set.all():
+                campaign.paid = False
+                campaign.save()
             facebook.save()
         return redirect(url)
 
@@ -309,7 +315,8 @@ class FbSubscribe(TemplateView, BaseShop, BaseFacebook):
         context = {'url': route_url('shopify_app:authenticate', _query=_query)}
         try:
             shop = self.get_shop(request.shop)
-            if shop:
+            facebook = self.get_facebook(request.shop)
+            if shop and facebook:
                 with shopify.Session.temp(shop.myshopify_domain, settings.SHOPIFY_API_VERSION, shop.access_token):
                     ac = shopify.ApplicationCharge()
                     if settings.DEBUG:
@@ -335,10 +342,17 @@ class FbSubmitSubscribe(View, BaseShop, BaseFacebook):
         }
         charge_id = request.GET.get('charge_id')
         shop = self.get_shop(request.shop)
-        if shop and charge_id:
+        facebook = self.get_facebook(request.shop)
+        if shop and facebook and charge_id:
             with shopify.Session.temp(shop.myshopify_domain, settings.SHOPIFY_API_VERSION, shop.access_token):
                 ac = shopify.ApplicationCharge.find(charge_id)
                 ac.activate()
+                for campaign in facebook.facebookcampaign_set.all():
+                    if campaign.campaign_type == campaign_type:
+                        campaign.paid = True
+                        campaign.save()
+                        campaign.fb_get_or_create()
+                        campaign.save()
         url = request.build_absolute_uri(route_url('shopify_app:dashboard_feeds', args=['fb'], _query=_query))
         return redirect(url)
 

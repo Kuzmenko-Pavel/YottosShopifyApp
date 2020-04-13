@@ -6,6 +6,7 @@ from django.db.models.fields import BigIntegerField
 from django_mysql.models import Model
 from facebook_business.adobjects.adaccount import AdAccount
 from facebook_business.adobjects.campaign import Campaign
+from facebook_business.api import FacebookAdsApi
 
 app_secret = 'bc3c46925dc37a5a01549d791f81dc12'
 app_id = '726005661270272'
@@ -38,6 +39,7 @@ class FacebookCampaign(Model):
 
     business = models.ForeignKey(FacebookBusinessManager, on_delete=models.CASCADE)
     campaign_id = BigIntegerField(null=True, blank=True)
+    paid = models.BooleanField(default=False)
     campaign_type = models.CharField(
         max_length=3,
         choices=CAMPAIGN_TYPE,
@@ -46,6 +48,7 @@ class FacebookCampaign(Model):
 
     def fb_get_or_create(self):
         access_token = self.business.access_token
+        FacebookAdsApi.init(access_token=access_token)
         name = 'Campaign %s %s' % (self.business.myshopify_domain, self.get_campaign_type_display())
         params = {
             'name': name,
@@ -53,15 +56,13 @@ class FacebookCampaign(Model):
             'objective': Campaign.Objective.conversions,
             'status': Campaign.Status.paused,
         }
-        acc = AdAccount().get(self.business.account_id)
+        acc = AdAccount('act_%s' % self.business.account_id)
         if self.campaign_id:
-            campaign_result = acc.create_campaign(params=params)
-            print(campaign_result)
-        else:
             pass
-        print(self.business.business_id)
-        print(self.business.account_id)
-        print(self.business.pixel)
+        else:
+            if acc:
+                campaign_result = acc.create_campaign(params=params)
+                self.campaign_id = campaign_result['id']
 
 
 class FacebookFeed(Model):

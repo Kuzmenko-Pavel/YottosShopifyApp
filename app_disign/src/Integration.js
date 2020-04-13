@@ -73,8 +73,10 @@ export default function Integrtion(props) {
                 },
                 shop: props.current_shop.domain
             }).then(function (response) {
-                let url = (response.data || {}).url || props.current_shop.dashboard;
-                redirect.dispatch(Redirect.Action.APP, url);
+                let url = (response.data || {}).url;
+                if (url) {
+                    redirect.dispatch(Redirect.Action.APP, url);
+                }
             });
         }
         else {
@@ -115,8 +117,10 @@ export default function Integrtion(props) {
                 },
                 shop: props.current_shop.domain
             }).then(function (response) {
-                let url = (response.data || {}).url || props.current_shop.dashboard;
-                redirect.dispatch(Redirect.Action.APP, url);
+                let url = (response.data || {}).url;
+                if (url) {
+                    redirect.dispatch(Redirect.Action.APP, url);
+                }
             });
         }
         else {
@@ -156,8 +160,10 @@ export default function Integrtion(props) {
                 },
                 shop: props.current_shop.domain
             }).then(function (response) {
-                let url = (response.data || {}).url || props.current_shop.dashboard;
-                redirect.dispatch(Redirect.Action.APP, url);
+                let url = (response.data || {}).url;
+                if (url) {
+                    redirect.dispatch(Redirect.Action.APP, url);
+                }
             });
         }
         else {
