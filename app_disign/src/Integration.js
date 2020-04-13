@@ -68,7 +68,6 @@ export default function Integrtion(props) {
             axios.defaults.xsrfCookieName = 'csrftoken';
             axios.defaults.xsrfHeaderName = "X-CSRFTOKEN";
             axios.post('/shopify/fb_integration/campaign?type=new', {
-                feed_name: props.current_shop.feed_name,
                 data: {
                     geo: selectedOptionsGeo
                 },
@@ -108,7 +107,6 @@ export default function Integrtion(props) {
             axios.defaults.xsrfCookieName = 'csrftoken';
             axios.defaults.xsrfHeaderName = "X-CSRFTOKEN";
             axios.post('/shopify/fb_integration/campaign?type=rel', {
-                feed_name: props.current_shop.feed_name,
                 data: {
                     geo: selectedOptionsGeoRel
                 },
@@ -147,7 +145,6 @@ export default function Integrtion(props) {
             axios.defaults.xsrfCookieName = 'csrftoken';
             axios.defaults.xsrfHeaderName = "X-CSRFTOKEN";
             axios.post('/shopify/fb_integration/campaign?type=ret', {
-                feed_name: props.current_shop.feed_name,
                 data: {
                     geo: selectedOptionsGeoRet
                 },
