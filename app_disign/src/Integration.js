@@ -72,6 +72,9 @@ export default function Integrtion(props) {
                     geo: selectedOptionsGeo
                 },
                 shop: props.current_shop.domain
+            }).then(function (response) {
+                let url = (response.data || {}).url || props.current_shop.dashboard;
+                redirect.dispatch(Redirect.Action.APP, url);
             });
         }
         else {
@@ -111,6 +114,9 @@ export default function Integrtion(props) {
                     geo: selectedOptionsGeoRel
                 },
                 shop: props.current_shop.domain
+            }).then(function (response) {
+                let url = (response.data || {}).url || props.current_shop.dashboard;
+                redirect.dispatch(Redirect.Action.APP, url);
             });
         }
         else {
@@ -149,6 +155,9 @@ export default function Integrtion(props) {
                     geo: selectedOptionsGeoRet
                 },
                 shop: props.current_shop.domain
+            }).then(function (response) {
+                let url = (response.data || {}).url || props.current_shop.dashboard;
+                redirect.dispatch(Redirect.Action.APP, url);
             });
         }
         else {
@@ -190,7 +199,7 @@ export default function Integrtion(props) {
                 value: 29.00
             });
         }
-        props.redirect.dispatch(Redirect.Action.APP, props.current_shop.billing);
+        redirect.dispatch(Redirect.Action.APP, props.current_shop.billing);
     }
 
     function statusChangeCallback(response) {

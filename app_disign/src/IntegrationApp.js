@@ -154,7 +154,7 @@ export default function IntegrationApp(props) {
             };
         }
         else if (selected === 'pixel') {
-            data.url = selectedSettings.business_manager.value + '/adspixels';
+            data.url = 'act_' + selectedSettings.ad_account.value + '/adspixels';
             data.params = function (label) {
                 return {name: label};
             };
@@ -197,6 +197,7 @@ export default function IntegrationApp(props) {
                          setings={selectedSettings.business_manager}
                          setSettings={setBusinessSettings}
                          createData={apiCreateData('business_manager')}
+                         type={'business_manager'}
                 />
             )
         },
@@ -211,6 +212,7 @@ export default function IntegrationApp(props) {
                          setings={selectedSettings.ad_account}
                          setSettings={setAccountsSettings}
                          createData={apiCreateData('ad_account')}
+                         type={'ad_account'}
                 />
             )
         },
@@ -225,6 +227,7 @@ export default function IntegrationApp(props) {
                          setings={selectedSettings.pixel}
                          setSettings={setPixelSettings}
                          createData={apiCreateData('pixel')}
+                         type={'pixel'}
                 />
             )
         },

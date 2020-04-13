@@ -26,7 +26,9 @@ export default function Choicer(props) {
             else {
                 choice.renderChildren = useCallback(
                     isSelected => isSelected && (
-                        <Create setSettings={props.setSettings} setings={props.setings} createData={props.createData}/>
+                        <Create setSettings={props.setSettings} setings={props.setings} createData={props.createData}
+                                type={props.type}
+                        />
                     ),
                     [props]
                 );

@@ -4,6 +4,7 @@ import re
 import shopify
 from django.conf import settings
 from django.contrib.messages import get_messages, add_message, INFO
+from django.http import JsonResponse
 from django.shortcuts import render, redirect
 from django.template import RequestContext
 from django.utils import timezone
@@ -11,7 +12,7 @@ from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
 from django.views.generic.base import TemplateResponseMixin, View, TemplateView, HttpResponse
 
-from facebook_app.models import FacebookBusinessManager
+from facebook_app.models import FacebookBusinessManager, FacebookCampaign
 from .helpers import verify_webhook, route_url
 from .models import ShopifyStore
 
@@ -46,17 +47,30 @@ def save(request):
 
 
 def facebook_campaign(request):
+    context = {}
     if request.method == 'POST':
-        save_type = request.GET.get('type')
+        campaign_type = request.GET.get('type')
         json_data = json.loads(request.body.decode('utf-8'))
         data = json_data.get('data')
         domain = json_data.get('shop')
         shop = ShopifyStore.objects.get(myshopify_domain=domain)
         facebook = FacebookBusinessManager.objects.get(myshopify_domain=domain)
         if shop and facebook:
-            print(json_data)
+            try:
+                campaign = facebook.facebookcampaign_set.get(campaign_type=campaign_type)
+                print('found', campaign)
+            except FacebookCampaign.DoesNotExist:
+                campaign = FacebookCampaign(business=facebook, campaign_type=campaign_type)
+                print('not found', campaign)
 
-    return HttpResponse("OK")
+            campaign.save()
+            _query = {
+                'shop': domain, 'type': campaign_type
+            }
+            print(route_url('shopify_app:fb_subscribe', _query=_query))
+            context['url'] = route_url('shopify_app:fb_subscribe', _query=_query)
+
+    return JsonResponse(context)
 
 
 class BaseShop(object):
@@ -281,6 +295,51 @@ class FbDisconect(View, BaseShop, BaseFacebook):
         if shop and facebook:
             facebook.connect = False
             facebook.save()
+        return redirect(url)
+
+
+class FbSubscribe(TemplateView, BaseShop, BaseFacebook):
+    template_name = "shopify_app/subscribe.html"
+
+    def get(self, request, *args, **kwargs):
+        campaign_type = request.GET.get('type')
+        _query = {
+            'shop': request.shop, 'hmac': request.hmac, 'timestamp': request.timestamp, 'type': campaign_type
+        }
+        context = {'url': route_url('shopify_app:authenticate', _query=_query)}
+        try:
+            shop = self.get_shop(request.shop)
+            if shop:
+                with shopify.Session.temp(shop.myshopify_domain, settings.SHOPIFY_API_VERSION, shop.access_token):
+                    ac = shopify.ApplicationCharge()
+                    if settings.DEBUG:
+                        ac.test = True
+                    ac.return_url = request.build_absolute_uri(
+                        route_url('shopify_app:fb_subscribe_submit', _query=_query))
+                    ac.price = 100.00
+                    ac.name = "Setup Facebook campaign"
+                    if ac.save():
+                        context['url'] = ac.confirmation_url
+
+        except Exception as e:
+            print(e)
+        return self.render_to_response(context)
+
+
+class FbSubmitSubscribe(View, BaseShop, BaseFacebook):
+
+    def get(self, request, *args, **kwargs):
+        campaign_type = request.GET.get('type')
+        _query = {
+            'shop': request.shop, 'hmac': request.hmac, 'timestamp': request.timestamp, 'type': campaign_type
+        }
+        charge_id = request.GET.get('charge_id')
+        shop = self.get_shop(request.shop)
+        if shop and charge_id:
+            with shopify.Session.temp(shop.myshopify_domain, settings.SHOPIFY_API_VERSION, shop.access_token):
+                ac = shopify.ApplicationCharge.find(charge_id)
+                ac.activate()
+        url = request.build_absolute_uri(route_url('shopify_app:dashboard_feeds', args=['fb'], _query=_query))
         return redirect(url)
 
 

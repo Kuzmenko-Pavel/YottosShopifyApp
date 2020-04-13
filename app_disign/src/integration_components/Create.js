@@ -3,6 +3,16 @@ import {Button, Form, FormLayout, TextField} from "@shopify/polaris";
 
 export default function Create(props) {
     const data = props.createData;
+    let textLabel = '';
+    if (props.type === 'business_manager') {
+        textLabel = 'Business Manager Name';
+    }
+    else if (props.type === 'ad_account') {
+        textLabel = 'Ad Account Name';
+    }
+    else if (props.type === 'pixel') {
+        textLabel = 'Pixel Name';
+    }
     let defValue = '';
     if ((props.setings.existing || false) === false) {
         defValue = props.setings.value || '';
@@ -34,6 +44,7 @@ export default function Create(props) {
         ]
     );
 
+
     const handleLabelChange = useCallback((value) => {
         setLabel(value);
         setError('');
@@ -43,7 +54,7 @@ export default function Create(props) {
             <TextField
                 value={label}
                 onChange={handleLabelChange}
-                label="Business Manager Name"
+                label={textLabel}
                 type="text"
                 helpText={
                     <span>
