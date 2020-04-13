@@ -231,13 +231,14 @@ class FbIntegration(TemplateView, BaseShop, BaseFacebook):
         json_data = json.loads(request.body.decode('utf-8'))
         data = json_data.get('data')
         domain = json_data.get('shop')
+        user = json_data.get('user')
+        token = json_data.get('token')
         shop = ShopifyStore.objects.get(myshopify_domain=domain)
         facebook = self.get_facebook(request.shop)
         business_id = data.get('business_id')
         account_id = data.get('account_id')
         pixel = data.get('pixel')
-        user = data.get('user')
-        token = data.get('token')
+        print(business_id, account_id, pixel, user, token, facebook)
         if business_id and account_id and pixel and user and token:
             if facebook is None:
                 try:
@@ -248,11 +249,10 @@ class FbIntegration(TemplateView, BaseShop, BaseFacebook):
                     facebook.pixel = pixel
                     facebook.connect = True
                     facebook.setup_access_token(token)
-                    shop.save()
+                    facebook.save()
                 except Exception as e:
                     print(e)
         return HttpResponse("OK")
-
 
 
 class Authenticate(View, BaseShop):

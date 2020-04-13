@@ -25,7 +25,10 @@ function SpinnerApp() {
 function WrappedApp(props) {
     return (
         <AppProvider i18n={enTranslations}>
-            <IntegrationApp current_shop={window.current_shop} redirect={props.redirect} businesses={props.businesses}/>
+            <IntegrationApp
+                token={props.token}
+                user={props.user}
+                current_shop={window.current_shop} redirect={props.redirect} businesses={props.businesses}/>
         </AppProvider>
     );
 }
@@ -42,14 +45,12 @@ const app = createApp({
     debug: window.current_shop.debug
 });
 const redirect = Redirect.create(app);
-let businesses = [];
-let token = '';
-let user = '';
 
 function statusChangeCallback(response) {
     if (response.status === 'connected') {
-        token = response.accessToken;
-        user = response.userID;
+        let businesses = [];
+        const token = response.authResponse.accessToken;
+        const user = response.authResponse.userID;
         FB.api('me/businesses?fields=id,name,owned_ad_accounts{account_id,name,account_status,adspixels{name}}', function (response) {
                 (response.data || []).forEach(
                     businesse => {
@@ -75,7 +76,8 @@ function statusChangeCallback(response) {
                         businesses.push(obj);
                     }
                 );
-            ReactDOM.render(<WrappedApp redirect={redirect} businesses={businesses}
+            ReactDOM.render(<WrappedApp redirect={redirect}
+                                        businesses={businesses}
                                         token={token}
                                         user={user}
                                         current_shop={window.current_shop}/>, document.getElementById('root'));

@@ -174,9 +174,9 @@ export default function IntegrationApp(props) {
                     business_id: selectedSettings.business_manager.value,
                     account_id: selectedSettings.ad_account.value,
                     pixel: selectedSettings.pixel.value,
-                    token: props.token,
-                    user: props.user
                 },
+                token: props.token,
+                user: props.user,
                 shop: props.current_shop.domain
             }).then(function () {
                 redirect.dispatch(Redirect.Action.APP, link);
