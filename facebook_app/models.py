@@ -26,7 +26,7 @@ class FacebookBusinessManager(Model):
                          '&client_secret=%s&fb_exchange_token=%s' % ('v6.0', app_id, app_secret, token))
         rd = r.json()
         self.access_token = rd.get('access_token')
-        self.access_token_end_date = datetime.now() + timedelta(seconds=rd.get('expires_in'))
+        self.access_token_end_date = datetime.now() + timedelta(seconds=rd.get('expires_in', 60 * 60 * 24 * 90))
 
 
 class FacebookCampaign(Model):
