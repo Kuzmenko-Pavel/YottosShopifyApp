@@ -110,7 +110,7 @@ module.exports = {
         https: true,
         compress: true,
         disableHostCheck: true,
-        host: '0.0.0.0',
+        host: 'localhost',
         port: 8000
     }
 };

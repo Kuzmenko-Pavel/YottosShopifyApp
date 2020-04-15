@@ -212,11 +212,10 @@ export default function Integrtion(props) {
         response,
         recall
     ) {
-        console.log(response, arguments);
         if (response.status === 'connected') {
             redirect.dispatch(Redirect.Action.APP, props.current_shop.fb_integration);
         }
-        else if (response.status === 'unknown' && recall !== true) {
+        else if ((response.status === 'unknown' || response.status === 'not_authorized') && recall !== true) {
             FB.login(
                 function (response) {
                     statusChangeCallback(response, true);

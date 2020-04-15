@@ -18,7 +18,8 @@ export default function Choicer(props) {
             if (choice.value === 'existing') {
                 choice.renderChildren = useCallback(
                     isSelected => isSelected && (
-                        <SelectExists options={props.options} setSettings={props.setSettings} setings={props.setings}/>
+                        <SelectExists options={props.options} setSettings={props.setSettings} setings={props.setings}
+                                      checkSettings={props.checkSettings} type={props.type}/>
                     ),
                     [props]
                 );
@@ -27,7 +28,7 @@ export default function Choicer(props) {
                 choice.renderChildren = useCallback(
                     isSelected => isSelected && (
                         <Create setSettings={props.setSettings} setings={props.setings} createData={props.createData}
-                                type={props.type}
+                                checkSettings={props.checkSettings} type={props.type}
                         />
                     ),
                     [props]

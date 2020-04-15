@@ -7,37 +7,73 @@ import * as Redirect from "@shopify/app-bridge/actions/Navigation/Redirect";
 import axios from 'axios';
 
 export default function IntegrationApp(props) {
-    const link = props.current_shop.dashboard;
-    const redirect = props.redirect;
     let settings = {
         business_manager: {},
         ad_account: {},
         pixel: {}
     };
+    const link = props.current_shop.dashboard;
+    const redirect = props.redirect;
+    const [selected, setSelected] = useState(0);
+    const [continues, setContinues] = useState(false);
+    const [next, setNext] = useState(false);
+    const [back, setBack] = useState(false);
     const [selectedSettings, setSelectedSettings] = useState(settings);
-    const setBusinessSettings = useCallback(
-        (val) => {
-            selectedSettings.business_manager = val;
-            setSelectedSettings(selectedSettings);
+    const checkSettings = useCallback(
+        (name) => {
+            if (selected === 0) {
+                setBack(false);
+            } else {
+                setBack(true);
+            }
+            if (!selectedSettings[name].value) {
+                setNext(false);
+            }
+            else {
+                if (selected === (tabs.length - 1)) {
+                    setNext(false);
+                } else {
+                    setNext(true);
+                }
+            }
+
+            if (selectedSettings.business_manager.value && selectedSettings.ad_account.value && selectedSettings.pixel.value) {
+                if (selected === (tabs.length - 1)) {
+                    setContinues(true);
+                } else {
+                    setContinues(false);
+                }
+            }
+            else {
+                setContinues(false);
+            }
         },
-        []
-    );
-    const setAccountsSettings = useCallback(
-        (val) => {
-            selectedSettings.ad_account = val;
-            setSelectedSettings(selectedSettings);
-        },
-        []
-    );
-    const setPixelSettings = useCallback(
-        (val) => {
-            selectedSettings.pixel = val;
-            setSelectedSettings(selectedSettings);
-        },
-        []
+        [
+            selected,
+            selectedSettings,
+            setContinues,
+            setNext
+        ]
     );
 
-    const [selected, setSelected] = useState(0);
+    const setSettings = useCallback(
+        (
+            name,
+            val
+        ) => {
+            if (selectedSettings[name]) {
+                selectedSettings[name] = val;
+                setSelectedSettings(selectedSettings);
+                checkSettings(name);
+            }
+        },
+        [
+            selectedSettings,
+            setSelectedSettings,
+            checkSettings
+        ]
+    );
+
     const choiceBusinessManager = [
         {
             label: 'Use an existing Business Manager',
@@ -165,8 +201,6 @@ export default function IntegrationApp(props) {
 
     const save = useCallback(
         () => {
-            console.log(selectedSettings);
-            console.log(arguments);
             axios.defaults.xsrfCookieName = 'csrftoken';
             axios.defaults.xsrfHeaderName = "X-CSRFTOKEN";
             axios.post('/shopify/fb_integration', {
@@ -195,8 +229,9 @@ export default function IntegrationApp(props) {
                 <Choicer choices={choiceBusinessManager}
                          options={existingOptions('business_manager')}
                          setings={selectedSettings.business_manager}
-                         setSettings={setBusinessSettings}
+                         setSettings={setSettings}
                          createData={apiCreateData('business_manager')}
+                         checkSettings={checkSettings}
                          type={'business_manager'}
                 />
             )
@@ -210,7 +245,8 @@ export default function IntegrationApp(props) {
                 <Choicer choices={choiceAccounts}
                          options={existingOptions('ad_account')}
                          setings={selectedSettings.ad_account}
-                         setSettings={setAccountsSettings}
+                         setSettings={setSettings}
+                         checkSettings={checkSettings}
                          createData={apiCreateData('ad_account')}
                          type={'ad_account'}
                 />
@@ -225,7 +261,8 @@ export default function IntegrationApp(props) {
                 <Choicer choices={choicePixels}
                          options={existingOptions('pixel')}
                          setings={selectedSettings.pixel}
-                         setSettings={setPixelSettings}
+                         setSettings={setSettings}
+                         checkSettings={checkSettings}
                          createData={apiCreateData('pixel')}
                          type={'pixel'}
                 />
@@ -239,26 +276,6 @@ export default function IntegrationApp(props) {
         //     childrens: (null)
         // }
     ];
-
-    function isContinue(selected) {
-        if (selectedSettings.business_manager.value && selectedSettings.ad_account.value && selectedSettings.pixel.value) {
-            return ((selected === (tabs.length - 1)) ? true : false);
-        }
-        return false;
-    }
-
-    function isBack(selected) {
-        return ((selected === 0) ? false : true);
-    }
-
-    function isNext(selected) {
-        let panelID = tabs[selected].panelID;
-        if (panelID === 'business_manager' && !selectedSettings.business_manager.value) {
-            return false
-        }
-        return ((selected === (tabs.length - 1)) ? false : true);
-    }
-
     return (
         <Page>
             <Layout>
@@ -274,7 +291,7 @@ export default function IntegrationApp(props) {
                     ]}
                     primaryFooterAction={{
                         content: 'CONTINUE',
-                        disabled: !isContinue(selected),
+                        disabled: !continues,
                         onAction: save
                     }}
                 >
@@ -285,16 +302,16 @@ export default function IntegrationApp(props) {
                                 secondaryFooterActions={[
                                     {
                                         content: 'BACK',
-                                        disabled: !isBack(selected),
+                                        disabled: !back,
                                         onAction: function () {
-                                            handleTabChange(selected - 1)
+                                            handleTabChange(selected - 1);
                                         }
 
                                     }
                                 ]}
                                 primaryFooterAction={{
                                     content: 'NEXT',
-                                    disabled: !isNext(selected),
+                                    disabled: !next,
                                     onAction: function () {
                                         handleTabChange(selected + 1)
                                     }

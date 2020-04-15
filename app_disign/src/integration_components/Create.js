@@ -20,6 +20,9 @@ export default function Create(props) {
         defValue = props.setings.value;
         setDisabled(true);
     }
+    else if (props.setings.existing === true && props.setings.value) {
+        props.setSettings(props.type, {});
+    }
 
 
     const [label, setLabel] = useState(defValue);
@@ -33,7 +36,7 @@ export default function Create(props) {
                             setDisabled(false);
                         }
                         else {
-                            props.setSettings({
+                            props.setSettings(props.type, {
                                 label: label,
                                 value: response.id,
                                 existing: false
