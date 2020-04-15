@@ -51,7 +51,7 @@ function statusChangeCallback(response) {
         let businesses = [];
         const token = response.authResponse.accessToken;
         const user = response.authResponse.userID;
-        FB.api('me/businesses?fields=id,name,owned_ad_accounts{account_id,name,account_status,adspixels{name}}', function (response) {
+        FB.api('me/businesses?fields=id,name,owned_ad_accounts{account_id,name,account_status,adspixels{name},funding_source_details}', function (response) {
                 (response.data || []).forEach(
                     businesse => {
                         let obj = {
@@ -64,18 +64,26 @@ function statusChangeCallback(response) {
                                 let obj_account = {
                                     label: account.name,
                                     value: account.account_id,
-                                    pixels: []
+                                    pixels: [],
+                                    funding: []
                                 };
                                 ((account.adspixels || {}).data || []).forEach(
                                     pixel => obj_account.pixels.push({
                                         label: pixel.name,
                                         value: pixel.id
                                     }));
+                                if (account.funding_source_details) {
+                                    obj_account.funding.push({
+                                        label: account.funding_source_details.display_string,
+                                        value: account.funding_source_details.id
+                                    });
+                                }
                                 obj.accounts.push(obj_account);
                             });
                         businesses.push(obj);
                     }
                 );
+            console.log(businesses);
             ReactDOM.render(<WrappedApp redirect={redirect}
                                         businesses={businesses}
                                         token={token}

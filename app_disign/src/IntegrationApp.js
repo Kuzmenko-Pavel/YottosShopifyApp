@@ -3,6 +3,7 @@ import React, {useCallback, useState} from 'react';
 import {Card, Layout, Page, Tabs} from '@shopify/polaris';
 
 import Choicer from './integration_components/Choicer';
+import ChoicerFunding from './integration_components/ChoicerFunding';
 import * as Redirect from "@shopify/app-bridge/actions/Navigation/Redirect";
 import axios from 'axios';
 
@@ -10,7 +11,8 @@ export default function IntegrationApp(props) {
     let settings = {
         business_manager: {},
         ad_account: {},
-        pixel: {}
+        pixel: {},
+        funding: {}
     };
     const link = props.current_shop.dashboard;
     const redirect = props.redirect;
@@ -159,6 +161,27 @@ export default function IntegrationApp(props) {
                 }
             );
         }
+        else if (selected === 'funding') {
+            (props.businesses || []).forEach(
+                businesse => {
+                    (businesse.accounts || []).forEach(
+                        account => {
+                            (account.funding || []).forEach(
+                                fund => {
+                                    if (selectedSettings.ad_account.value && selectedSettings.ad_account.value === account.value) {
+                                        options.push({
+                                            label: fund.label,
+                                            value: fund.value
+                                        });
+                                    }
+                                }
+                            );
+                        }
+                    );
+                }
+            );
+
+        }
         return options;
     }
 
@@ -195,6 +218,9 @@ export default function IntegrationApp(props) {
                 return {name: label};
             };
 
+        }
+        else if (selected === 'funding') {
+            data.ad_account = selectedSettings.ad_account.value;
         }
         return data;
     }
@@ -268,13 +294,23 @@ export default function IntegrationApp(props) {
                 />
             )
         },
-        // {
-        //     id: 'payments',
-        //     content: '4. Payment method',
-        //     text: 'Add a Payment Method to your account',
-        //     panelID: 'payments',
-        //     childrens: (null)
-        // }
+        {
+            id: 'payments',
+            content: '4. Payment method',
+            text: 'Add a Payment Method to your account',
+            panelID: 'funding',
+            childrens: (
+                <ChoicerFunding
+                    choices={choicePixels}
+                    options={existingOptions('funding')}
+                    setings={selectedSettings.funding}
+                    setSettings={setSettings}
+                    checkSettings={checkSettings}
+                    createData={apiCreateData('funding')}
+                    type={'funding'}
+                />
+            )
+        }
     ];
     return (
         <Page>
@@ -312,6 +348,7 @@ export default function IntegrationApp(props) {
                                 primaryFooterAction={{
                                     content: 'NEXT',
                                     disabled: !next,
+                                    primary: next,
                                     onAction: function () {
                                         handleTabChange(selected + 1)
                                     }
