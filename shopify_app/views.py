@@ -296,11 +296,7 @@ class FbDisconect(View, BaseShop, BaseFacebook):
         }
         url = route_url('shopify_app:dashboard', _query=_query)
         if shop and facebook:
-            facebook.connect = False
-            for campaign in facebook.facebookcampaign_set.all():
-                campaign.paid = False
-                campaign.save()
-            facebook.save()
+            facebook.delete()
         return redirect(url)
 
 

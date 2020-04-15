@@ -208,12 +208,19 @@ export default function Integrtion(props) {
         redirect.dispatch(Redirect.Action.APP, props.current_shop.billing);
     }
 
-    function statusChangeCallback(response) {
+    function statusChangeCallback(
+        response,
+        recall
+    ) {
+        console.log(response, arguments);
         if (response.status === 'connected') {
             redirect.dispatch(Redirect.Action.APP, props.current_shop.fb_integration);
-        } else {
+        }
+        else if (response.status === 'unknown' && recall !== true) {
             FB.login(
-                statusChangeCallback, {
+                function (response) {
+                    statusChangeCallback(response, true);
+                }, {
                     scope: 'email,ads_management,ads_read,read_insights,business_management,catalog_management,manage_pages',
                     auth_type: 'rerequest',
                     return_scopes: true
@@ -223,7 +230,7 @@ export default function Integrtion(props) {
     }
 
     function connectFb() {
-        FB.getLoginStatus(function (response) {   // See the onlogin handler
+        FB.getLoginStatus(function (response) {
             statusChangeCallback(response);
         });
     }

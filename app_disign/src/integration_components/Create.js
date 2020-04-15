@@ -3,6 +3,8 @@ import {Button, Form, FormLayout, TextField} from "@shopify/polaris";
 
 export default function Create(props) {
     const data = props.createData;
+    const [error, setError] = useState('');
+    const [disabled, setDisabled] = useState(false);
     let textLabel = '';
     if (props.type === 'business_manager') {
         textLabel = 'Business Manager Name';
@@ -14,10 +16,12 @@ export default function Create(props) {
         textLabel = 'Pixel Name';
     }
     let defValue = '';
-    if ((props.setings.existing || false) === false) {
-        defValue = props.setings.value || '';
+    if ((props.setings.existing || false) === false && props.setings.value) {
+        defValue = props.setings.value;
+        setDisabled(true);
     }
-    const [error, setError] = useState('');
+
+
     const [label, setLabel] = useState(defValue);
 
     const handleSubmit = useCallback(
@@ -26,6 +30,7 @@ export default function Create(props) {
                 FB.api(data.url, 'post', data.params(label), function (response) {
                         if (response.error) {
                             setError(response.error.message);
+                            setDisabled(false);
                         }
                         else {
                             props.setSettings({
@@ -33,6 +38,7 @@ export default function Create(props) {
                                 value: response.id,
                                 existing: false
                             });
+                            setDisabled(true);
                         }
                     }
                 );
@@ -40,7 +46,8 @@ export default function Create(props) {
 
         }, [
             label,
-            setError
+            setError,
+            setDisabled
         ]
     );
 
@@ -62,10 +69,10 @@ export default function Create(props) {
                     </span>
                 }
                 error={error}
-                disabled={(defValue != '') ? true : false}
+                disabled={disabled}
             />
 
-            <Button submit disabled={(defValue != '') ? true : false}>Create</Button>
+            <Button submit disabled={disabled}>Create</Button>
         </FormLayout>
     </Form>)
 }

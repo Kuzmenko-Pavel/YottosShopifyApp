@@ -241,15 +241,22 @@ export default function IntegrationApp(props) {
     ];
 
     function isContinue(selected) {
-        return ((selected === (tabs.length - 1)) ? false : true);
+        if (selectedSettings.business_manager.value && selectedSettings.ad_account.value && selectedSettings.pixel.value) {
+            return ((selected === (tabs.length - 1)) ? true : false);
+        }
+        return false;
     }
 
     function isBack(selected) {
-        return ((selected === 0) ? true : false);
+        return ((selected === 0) ? false : true);
     }
 
     function isNext(selected) {
-        return ((selected === (tabs.length - 1)) ? true : false);
+        let panelID = tabs[selected].panelID;
+        if (panelID === 'business_manager' && !selectedSettings.business_manager.value) {
+            return false
+        }
+        return ((selected === (tabs.length - 1)) ? false : true);
     }
 
     return (
@@ -267,7 +274,7 @@ export default function IntegrationApp(props) {
                     ]}
                     primaryFooterAction={{
                         content: 'CONTINUE',
-                        disabled: isContinue(selected),
+                        disabled: !isContinue(selected),
                         onAction: save
                     }}
                 >
@@ -278,7 +285,7 @@ export default function IntegrationApp(props) {
                                 secondaryFooterActions={[
                                     {
                                         content: 'BACK',
-                                        disabled: isBack(selected),
+                                        disabled: !isBack(selected),
                                         onAction: function () {
                                             handleTabChange(selected - 1)
                                         }
@@ -287,7 +294,7 @@ export default function IntegrationApp(props) {
                                 ]}
                                 primaryFooterAction={{
                                     content: 'NEXT',
-                                    disabled: isNext(selected),
+                                    disabled: !isNext(selected),
                                     onAction: function () {
                                         handleTabChange(selected + 1)
                                     }
