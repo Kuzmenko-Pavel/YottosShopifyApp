@@ -98,7 +98,7 @@ function connectFb() {
 
 window.fbAsyncInit = function () {
     FB.init({
-        appId: '726005661270272',
+        appId: window.current_shop.appId,
         cookie: true,
         xfbml: false,
         status: true,
@@ -106,6 +106,20 @@ window.fbAsyncInit = function () {
     });
     connectFb()
 };
+(function (
+    d,
+    s,
+    id
+) {
+    var js, fjs = d.getElementsByTagName(s)[0];
+    if (d.getElementById(id)) {
+        return;
+    }
+    js = d.createElement(s);
+    js.id = id;
+    js.src = "https://connect.facebook.net/en_US/sdk.js";
+    fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));
 
 const subscribeButton = Button.create(app, {label: 'Upgrade to Premium Membershi'});
 const unSubscribeButton = Button.create(app, {label: 'Downgrade to free Membership'});

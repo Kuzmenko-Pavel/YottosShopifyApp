@@ -97,7 +97,7 @@ DATABASES = {
         'HOST': DB_HOST,
         'PORT': DB_PORT,
         'OPTIONS': {
-            'init_command': 'SET innodb_strict_mode=1',
+            'init_command': "SET innodb_strict_mode=1; SET sql_mode='STRICT_TRANS_TABLES'",
             'charset': 'utf8mb4',
         },
         'TEST': {

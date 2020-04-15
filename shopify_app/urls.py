@@ -26,6 +26,7 @@ urlpatterns = [
     path('save', views.save, name='save'),
     path('fb_integration', views.FbIntegration.as_view(), name='fb_integration'),
     path('fb_disconect', views.FbDisconect.as_view(), name='fb_disconect'),
+    path('fb_deintegration', views.FbDeIntegration.as_view(), name='fb_deintegration'),
     path('fb_integration/campaign', views.facebook_campaign, name='facebook_campaign'),
     path('fb_subscribe/', views.FbSubscribe.as_view(), name='fb_subscribe'),
     path('fb_subscribe/submit', views.FbSubmitSubscribe.as_view(), name='fb_subscribe_submit'),

@@ -304,6 +304,15 @@ class FbDisconect(View, BaseShop, BaseFacebook):
         return redirect(url)
 
 
+class FbDeIntegration(TemplateView, BaseShop, BaseFacebook):
+    template_name = "shopify_app/webhook.html"
+
+    def post(self, request, *args, **kwargs):
+        json_data = json.loads(request.body.decode('utf-8'))
+        print(json_data)
+        return self.render_to_response({})
+
+
 class FbSubscribe(TemplateView, BaseShop, BaseFacebook):
     template_name = "shopify_app/subscribe.html"
 
@@ -323,7 +332,7 @@ class FbSubscribe(TemplateView, BaseShop, BaseFacebook):
                         ac.test = True
                     ac.return_url = request.build_absolute_uri(
                         route_url('shopify_app:fb_subscribe_submit', _query=_query))
-                    ac.price = 100.00
+                    ac.price = 99.00
                     ac.name = "Setup Facebook campaign"
                     if ac.save():
                         context['url'] = ac.confirmation_url

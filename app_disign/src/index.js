@@ -8,6 +8,31 @@ import App from './App';
 import createApp from '@shopify/app-bridge';
 import {Button, Redirect, TitleBar} from '@shopify/app-bridge/actions';
 
+
+window.fbAsyncInit = function () {
+    FB.init({
+        appId: window.current_shop.appId,
+        cookie: true,
+        xfbml: false,
+        status: true,
+        version: 'v6.0'
+    });
+};
+(function (
+    d,
+    s,
+    id
+) {
+    var js, fjs = d.getElementsByTagName(s)[0];
+    if (d.getElementById(id)) {
+        return;
+    }
+    js = d.createElement(s);
+    js.id = id;
+    js.src = "https://connect.facebook.net/en_US/sdk.js";
+    fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));
+
 function SpinnerApp() {
     return (
         <AppProvider i18n={enTranslations}>

@@ -5,36 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
     <script>
-        window.fbAsyncInit = function () {
-            FB.init({
-                appId: '726005661270272',
-                cookie: true,
-                xfbml: false,
-                status: true,
-                version: 'v6.0'
-            });
-        };
-
-        (function (
-            d,
-            s,
-            id
-        ) {
-            var js, fjs = d.getElementsByTagName(s)[0];
-            if (d.getElementById(id)) {
-                return;
-            }
-            js = d.createElement(s);
-            js.id = id;
-            js.src = "https://connect.facebook.net/en_US/sdk.js";
-            fjs.parentNode.insertBefore(js, fjs);
-        }(document, 'script', 'facebook-jssdk'));
-    </script>
-    <script>
         window.current_shop = {
             feed_name: 'fb',
             domain: 'test-yottos.myshopify.com',
             apiKey: 'cca1b498c9cd837a42e6ac59c59f3c1b',
+            appId: '253196639189259',
             shopOrigin: 'test-yottos.myshopify.com',
             title: 'Facebook product feed',
             billing: '/billing',
@@ -53,7 +28,7 @@
                 catalog_title: "Facebook Catalog",
                 catalog_link: 'https://facebook.com/products',
                 integration: {
-                    complite: true,
+                    complite: false,
                     text: {
                         title: 'Автоматическая настройка компаний',
                         description: 'Автоматисечкая настройка компаний позволяет вам сэкономить время',

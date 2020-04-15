@@ -1,6 +1,7 @@
 from datetime import datetime, timedelta
 
 import requests
+from django.conf import settings
 from django.db import models
 from django.db.models.fields import BigIntegerField
 from django_mysql.models import Model
@@ -8,8 +9,6 @@ from facebook_business.adobjects.adaccount import AdAccount
 from facebook_business.adobjects.campaign import Campaign
 from facebook_business.api import FacebookAdsApi
 
-app_secret = 'bc3c46925dc37a5a01549d791f81dc12'
-app_id = '726005661270272'
 
 class FacebookBusinessManager(Model):
     myshopify_domain = models.CharField(max_length=100, help_text='Shopify store domain.', unique=True)
@@ -23,7 +22,9 @@ class FacebookBusinessManager(Model):
 
     def setup_access_token(self, token):
         r = requests.get('https://graph.facebook.com/%s/oauth/access_token?grant_type=fb_exchange_token&client_id=%s'
-                         '&client_secret=%s&fb_exchange_token=%s' % ('v6.0', app_id, app_secret, token))
+                         '&client_secret=%s&fb_exchange_token=%s' % ('v6.0', settings.FACEBOOK_APP_ID,
+                                                                     settings.FACEBOOK_APP_SECRET, token
+                                                                     ))
         rd = r.json()
         self.access_token = rd.get('access_token')
         self.access_token_end_date = datetime.now() + timedelta(seconds=rd.get('expires_in', 60 * 60 * 24 * 90))
@@ -48,7 +49,11 @@ class FacebookCampaign(Model):
 
     def fb_get_or_create(self):
         access_token = self.business.access_token
-        FacebookAdsApi.init(access_token=access_token)
+        FacebookAdsApi.init(
+            app_id=settings.FACEBOOK_APP_ID,
+            app_secret=settings.FACEBOOK_APP_SECRET,
+            access_token=access_token
+        )
         name = 'Campaign %s %s' % (self.business.myshopify_domain, self.get_campaign_type_display())
         params = {
             'name': name,
