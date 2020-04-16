@@ -269,25 +269,27 @@ class FbIntegration(TemplateView, BaseShop, BaseFacebook):
         business_id = data.get('business_id')
         account_id = data.get('account_id')
         pixel = data.get('pixel')
-        print(business_id, account_id, pixel, user, token, facebook)
         if shop and business_id and account_id and pixel and user and token:
             if facebook is None:
                 facebook = FacebookBusinessManager()
                 facebook.myshopify_domain = domain
+                facebook.access_token = token
             try:
+                facebook.setup_access_token(token)
                 facebook.user_id = user
                 facebook.business_id = business_id
                 facebook.account_id = account_id
                 facebook.pixel = pixel
                 facebook.connect = True
-                facebook.setup_access_token(token)
                 facebook.save()
             except Exception as e:
                 print(e)
         return HttpResponse("OK")
 
 
-class FbDisconect(View, BaseShop, BaseFacebook):
+class FbDisconect(TemplateView, BaseShop, BaseFacebook):
+    template_name = "shopify_app/subscribe.html"
+
     def get(self, request, *args, **kwargs):
         shop = self.get_shop(request.shop)
         facebook = self.get_facebook(request.shop)
@@ -297,7 +299,7 @@ class FbDisconect(View, BaseShop, BaseFacebook):
         url = route_url('shopify_app:dashboard', _query=_query)
         if shop and facebook:
             facebook.delete()
-        return redirect(url)
+        return self.render_to_response({'url': url})
 
 
 class FbDeIntegration(TemplateView, BaseShop, BaseFacebook):
