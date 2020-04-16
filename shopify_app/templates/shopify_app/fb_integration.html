@@ -27,24 +27,8 @@
 </head>
 <body>
 <div id="root"></div>
-<script type="text/javascript" src="{% static "polaris.app.js" %}?v2.0"></script>
-<script type="text/javascript" src="{% static "react.app.js" %}?v2.0"></script>
-<script async type="text/javascript" src="{% static "fb_integration.app.js" %}?v2.0"></script>
-<script>
-    (function (
-        d,
-        s,
-        id
-    ) {
-        var js, fjs = d.getElementsByTagName(s)[0];
-        if (d.getElementById(id)) {
-            return;
-        }
-        js = d.createElement(s);
-        js.id = id;
-        js.src = "https://connect.facebook.net/en_US/sdk.js";
-        fjs.parentNode.insertBefore(js, fjs);
-    }(document, 'script', 'facebook-jssdk'));
-</script>
+<script type="text/javascript" src="{% static "polaris.app.js" %}?v4.0"></script>
+<script type="text/javascript" src="{% static "react.app.js" %}?v4.0"></script>
+<script async type="text/javascript" src="{% static "fb_integration.app.js" %}?v4.0"></script>
 </body>
 </html>
