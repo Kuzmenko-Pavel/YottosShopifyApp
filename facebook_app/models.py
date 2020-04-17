@@ -8,6 +8,7 @@ from django_mysql.models import Model
 from facebook_business.adobjects.adaccount import AdAccount
 from facebook_business.adobjects.business import Business
 from facebook_business.adobjects.campaign import Campaign
+from facebook_business.adobjects.productcatalog import ProductCatalog
 from facebook_business.api import FacebookAdsApi
 
 
@@ -30,6 +31,13 @@ class FacebookBusinessManager(Model):
         self.access_token = rd.get('access_token')
         self.access_token_end_date = datetime.now() + timedelta(seconds=rd.get('expires_in', 60 * 60 * 24 * 90))
 
+    def setup_api_access(self):
+        FacebookAdsApi.init(
+            app_id=settings.FACEBOOK_APP_ID,
+            app_secret=settings.FACEBOOK_APP_SECRET,
+            access_token=self.access_token
+        )
+
 
 class FacebookCampaign(Model):
     CAMPAIGN_TYPE = (
@@ -41,6 +49,7 @@ class FacebookCampaign(Model):
 
     business = models.ForeignKey(FacebookBusinessManager, on_delete=models.CASCADE)
     campaign_id = BigIntegerField(null=True, blank=True)
+    adset_id = BigIntegerField(null=True, blank=True)
     paid = models.BooleanField(default=False)
     campaign_type = models.CharField(
         max_length=3,
@@ -49,15 +58,11 @@ class FacebookCampaign(Model):
     )
 
     def fb_get_or_create(self, domain):
+        self.business.setup_api_access()
+
         for feed in self.facebookfeed_set.all():
             feed.fb_get_or_create(domain)
 
-        access_token = self.business.access_token
-        FacebookAdsApi.init(
-            app_id=settings.FACEBOOK_APP_ID,
-            app_secret=settings.FACEBOOK_APP_SECRET,
-            access_token=access_token
-        )
         name = 'Campaign %s %s (%s)' % (self.business.myshopify_domain, self.get_campaign_type_display(), self.id)
         campaign_params = {
             'name': name,
@@ -79,25 +84,74 @@ class FacebookFeed(Model):
     business = models.ForeignKey(FacebookBusinessManager, on_delete=models.CASCADE)
     campaign = models.ForeignKey(FacebookCampaign, on_delete=models.CASCADE, default=None)
     feed_id = BigIntegerField(null=True, blank=True)
+    catalog_id = BigIntegerField(null=True, blank=True)
+    product_set_id = BigIntegerField(null=True, blank=True)
 
     def fb_get_or_create(self, domain):
-        access_token = self.business.access_token
-        FacebookAdsApi.init(
-            app_id=settings.FACEBOOK_APP_ID,
-            app_secret=settings.FACEBOOK_APP_SECRET,
-            access_token=access_token
-        )
-        params = {
-            'name': 'Test Feed',
-            'schedule': {'interval': 'DAILY',
-                         'url': 'http://www.example.com/sample_feed.tsv',
-                         'hour': '22'},
-        }
-        acc = Business(self.business.business_id)
-        if self.feed_id:
-            pass
-        else:
-            catalog_result = acc.create_owned_product_catalog(
-                params=params
-            )
-            self.feed_id = catalog_result['id']
+        try:
+            self.business.setup_api_access()
+            try:
+                catalog_params = {
+                    'name': 'Catalog %s %s (%s)' % (self.business.myshopify_domain,
+                                                    self.campaign.get_campaign_type_display(),
+                                                    self.id),
+                }
+
+                acc = Business(self.business.business_id)
+                if self.catalog_id:
+                    pass
+                else:
+                    catalog = acc.create_owned_product_catalog(
+                        params=catalog_params
+                    )
+                    self.catalog_id = catalog['id']
+            except Exception as e:
+                print(e)
+
+            self.fb_feed_get_or_create()
+            self.fb_product_set_get_or_create()
+        except Exception as e:
+            print(e)
+
+    def fb_feed_get_or_create(self):
+        try:
+            self.business.setup_api_access()
+            feed_url = 'https://%s/%s.xml' % (self.business.myshopify_domain, 'a/ytt_feed/facebook.xml')
+            feed_url = 'https://cdn.yottos.com/sf.xml'
+            feed_params = {
+                'name': 'Feed %s %s (%s)' % (self.business.myshopify_domain,
+                                             self.campaign.get_campaign_type_display(),
+                                             self.id),
+                'schedule': {'interval': 'DAILY',
+                             'url': feed_url,
+                             'hour': '22'},
+            }
+            if self.catalog_id:
+                catalog = ProductCatalog(self.catalog_id)
+                if catalog:
+                    if self.feed_id:
+                        pass
+                    else:
+                        feed = catalog.create_product_feed(params=feed_params)
+                        self.feed_id = feed['id']
+                        feed.create_upload(params={'url': feed_url})
+        except Exception as e:
+            print(e)
+
+    def fb_product_set_get_or_create(self):
+        try:
+            self.business.setup_api_access()
+            product_set_params = {'name': 'All lots %s %s (%s)' % (self.business.myshopify_domain,
+                                                                   self.campaign.get_campaign_type_display(),
+                                                                   self.id),
+                                  'filter': {}}
+            if self.catalog_id:
+                catalog = ProductCatalog(self.catalog_id)
+                if catalog:
+                    if self.product_set_id:
+                        pass
+                    else:
+                        product_set = catalog.create_product_set(params=product_set_params)
+                        self.product_set_id = product_set['id']
+        except Exception as e:
+            print(e)
