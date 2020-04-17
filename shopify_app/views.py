@@ -58,19 +58,18 @@ def facebook_campaign(request):
         if shop and facebook:
             try:
                 campaign = facebook.facebookcampaign_set.get(campaign_type=campaign_type)
-                print('found', campaign)
             except FacebookCampaign.DoesNotExist:
                 campaign = FacebookCampaign(business=facebook, campaign_type=campaign_type)
-                print('not found', campaign)
+                campaign.save()
+                campaign.facebookfeed_set.create(business=facebook)
+                campaign.save()
 
+            campaign.fb_get_or_create(shop.myshopify_domain)
             campaign.save()
             _query = {
                 'shop': domain, 'type': campaign_type
             }
-            if campaign.paid:
-                campaign.fb_get_or_create()
-                campaign.save()
-            else:
+            if not campaign.paid:
                 context['url'] = route_url('shopify_app:fb_subscribe', _query=_query)
 
     return JsonResponse(context)
@@ -217,6 +216,14 @@ class Dashboard(TemplateView, BaseShop, BaseFacebook):
 
         if facebook and feed_name == 'fb':
             feed['integration']['complite'] = facebook.connect
+            for camp in facebook.facebookcampaign_set.all():
+                if camp.campaign_type == 'new':
+                    feed['integration']['text']['buttons']['new_auditory'] = 'Change New Audience Settings'
+                elif camp.campaign_type == 'rel':
+                    feed['integration']['text']['buttons']['relevant'] = 'Change Relevant Audience Settings'
+                elif camp.campaign_type == 'ret':
+                    feed['integration']['text']['buttons']['retargeting'] = 'Change Audience retargeting settings'
+
 
         context = {
             'page_name': feed['page_name'],
@@ -357,8 +364,7 @@ class FbSubmitSubscribe(View, BaseShop, BaseFacebook):
                 for campaign in facebook.facebookcampaign_set.all():
                     if campaign.campaign_type == campaign_type:
                         campaign.paid = True
-                        campaign.save()
-                        campaign.fb_get_or_create()
+                        campaign.fb_get_or_create(shop.myshopify_domain)
                         campaign.save()
         url = request.build_absolute_uri(route_url('shopify_app:dashboard_feeds', args=['fb'], _query=_query))
         return redirect(url)
@@ -589,7 +595,7 @@ class SubmitSubscribe(View, BaseShop):
 
 
 @method_decorator(csrf_exempt, name='dispatch')
-class WebhookAppUninstalled(TemplateView, BaseShop):
+class WebhookAppUninstalled(TemplateView, BaseShop, BaseFacebook):
     template_name = "shopify_app/webhook.html"
 
     def post(self, request, *args, **kwargs):
@@ -599,7 +605,10 @@ class WebhookAppUninstalled(TemplateView, BaseShop):
             data = json.loads(request.body.decode('utf-8'))
             if topic == 'app/uninstalled':
                 shop = self.get_shop(shop_url)
+                facebook = self.get_facebook(shop_url)
                 print('WebhookAppUninstalled', shop)
+                if shop and facebook:
+                    facebook.delete()
                 if shop:
                     shop.installed = False
                     shop.premium = False

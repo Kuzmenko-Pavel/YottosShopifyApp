@@ -6,6 +6,7 @@ from django.db import models
 from django.db.models.fields import BigIntegerField
 from django_mysql.models import Model
 from facebook_business.adobjects.adaccount import AdAccount
+from facebook_business.adobjects.business import Business
 from facebook_business.adobjects.campaign import Campaign
 from facebook_business.api import FacebookAdsApi
 
@@ -47,30 +48,56 @@ class FacebookCampaign(Model):
         default=CAMPAIGN_TYPE[0],
     )
 
-    def fb_get_or_create(self):
+    def fb_get_or_create(self, domain):
+        for feed in self.facebookfeed_set.all():
+            feed.fb_get_or_create(domain)
+
         access_token = self.business.access_token
         FacebookAdsApi.init(
             app_id=settings.FACEBOOK_APP_ID,
             app_secret=settings.FACEBOOK_APP_SECRET,
             access_token=access_token
         )
-        name = 'Campaign %s %s' % (self.business.myshopify_domain, self.get_campaign_type_display())
-        params = {
+        name = 'Campaign %s %s (%s)' % (self.business.myshopify_domain, self.get_campaign_type_display(), self.id)
+        campaign_params = {
             'name': name,
             'special_ad_category': Campaign.SpecialAdCategory.none,
             'objective': Campaign.Objective.conversions,
             'status': Campaign.Status.paused,
         }
-        acc = AdAccount('act_%s' % self.business.account_id)
-        if self.campaign_id:
-            pass
-        else:
-            if acc:
-                campaign_result = acc.create_campaign(params=params)
-                self.campaign_id = campaign_result['id']
+        if self.paid:
+            acc = AdAccount('act_%s' % self.business.account_id)
+            if self.campaign_id:
+                pass
+            else:
+                if acc:
+                    campaign_result = acc.create_campaign(params=campaign_params)
+                    self.campaign_id = campaign_result['id']
 
 
 class FacebookFeed(Model):
     business = models.ForeignKey(FacebookBusinessManager, on_delete=models.CASCADE)
-    campaign = models.ManyToManyField(FacebookCampaign)
+    campaign = models.ForeignKey(FacebookCampaign, on_delete=models.CASCADE, default=None)
     feed_id = BigIntegerField(null=True, blank=True)
+
+    def fb_get_or_create(self, domain):
+        access_token = self.business.access_token
+        FacebookAdsApi.init(
+            app_id=settings.FACEBOOK_APP_ID,
+            app_secret=settings.FACEBOOK_APP_SECRET,
+            access_token=access_token
+        )
+        params = {
+            'name': 'Test Feed',
+            'schedule': {'interval': 'DAILY',
+                         'url': 'http://www.example.com/sample_feed.tsv',
+                         'hour': '22'},
+        }
+        acc = Business(self.business.business_id)
+        if self.feed_id:
+            pass
+        else:
+            catalog_result = acc.create_owned_product_catalog(
+                params=params
+            )
+            self.feed_id = catalog_result['id']

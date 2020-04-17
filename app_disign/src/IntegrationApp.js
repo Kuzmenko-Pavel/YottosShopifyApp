@@ -207,8 +207,8 @@ export default function IntegrationApp(props) {
                     currency: 'USD',
                     timezone_id: 1,
                     end_advertiser: 'UNFOUND',
-                    media_agency: '726005661270272',
-                    partner: '726005661270272'
+                    media_agency: 'UNFOUND',
+                    partner: 'UNFOUND'
                 };
             };
         }
