@@ -1,5 +1,5 @@
 import React, {useCallback, useState} from "react";
-import {Button, Caption, Card, Heading, Layout, Link, Modal, Scrollable, Sheet, TextContainer} from "@shopify/polaris";
+import {Button, Caption, Card, Heading, Layout, Link, Modal, Scrollable, Sheet, TextContainer, Banner} from "@shopify/polaris";
 import * as Redirect from "@shopify/app-bridge/actions/Navigation/Redirect";
 import {MobileCancelMajorMonotone} from "@shopify/polaris-icons";
 import axios from 'axios';
@@ -237,6 +237,41 @@ export default function Integrtion(props) {
     function disonnectFb() {
         redirect.dispatch(Redirect.Action.APP, props.current_shop.fb_disconect);
     }
+    function fb_pixel() {
+        if(props.current_shop.feed.integration.pixel){
+            const src = "https://www.facebook.com/tr?id=" + props.current_shop.feed.integration.pixel +"&ev=PageView";
+            return (<li style={liStyle}>
+                        <div style={divStyle}>
+                            <Banner title="Check Facebook Pixel ID" status="info">
+                                  <p style={{
+                                      fontSize: '16px'
+                                  }}>Check the Pixel ID setting in your store. &nbsp;
+                                  </p>
+                                  <p style={{
+                                      fontSize: '16px',
+                                      marginTop: '5px'
+                                  }}>Your Pixel ID <b>{props.current_shop.feed.integration.pixel}</b></p>
+                                  <p style={{
+                                      fontSize: '16px',
+                                      marginTop: '5px'
+                                  }}>
+                                      <Link
+                                      url="https://help.shopify.com/en/manual/promoting-marketing/analyze-marketing/facebook-pixel#add-a-facebook-pixel-id-to-your-online-store-preferences"
+                                      external>
+                                          Learn how to add your Pixel ID.
+                                      </Link>
+                                  </p>
+                            </Banner>
+                            <img src={src} height="1" width="1" style={{
+                                display: 'none'
+                            }}/>
+                        </div>
+                    </li>);
+        }
+        else {
+            return (null);
+        }
+    }
     if (props.current_shop.feed.integration) {
         if (props.current_shop.feed.integration.complite) {
             return (
@@ -245,6 +280,7 @@ export default function Integrtion(props) {
                     description={props.current_shop.feed.integration.text.description}>
                     <Card sectioned title={props.current_shop.feed.integration.text.sectioned_title}>
                         <ol>
+                            {fb_pixel()}
                             <li style={liStyle}>
                                 <div style={divStyle}>
                                     <Button external={true} fullWidth={true} primary={true}
