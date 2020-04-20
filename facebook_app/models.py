@@ -14,10 +14,11 @@ from facebook_business.api import FacebookAdsApi
 
 class FacebookBusinessManager(Model):
     myshopify_domain = models.CharField(max_length=100, help_text='Shopify store domain.', unique=True)
-    user_id = BigIntegerField()
-    business_id = BigIntegerField()
-    account_id = BigIntegerField()
-    pixel = BigIntegerField()
+    user_id = BigIntegerField(null=True, blank=True)
+    business_id = BigIntegerField(null=True, blank=True)
+    account_id = BigIntegerField(null=True, blank=True)
+    pixel = BigIntegerField(null=True, blank=True)
+    page = BigIntegerField(null=True, blank=True)
     connect = models.BooleanField(help_text='App facebook connect.', default=False)
     access_token = models.TextField(help_text='Permanent token received from facebook.')
     access_token_end_date = models.DateTimeField(null=True, blank=True)

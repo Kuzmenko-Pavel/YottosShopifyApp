@@ -12,6 +12,7 @@ export default function IntegrationApp(props) {
         business_manager: {},
         ad_account: {},
         pixel: {},
+        page: {},
         funding: {}
     };
     const link = props.current_shop.dashboard;
@@ -39,7 +40,7 @@ export default function IntegrationApp(props) {
                 }
             }
 
-            if (selectedSettings.business_manager.value && selectedSettings.ad_account.value && selectedSettings.pixel.value) {
+            if (selectedSettings.business_manager.value && selectedSettings.ad_account.value && selectedSettings.page.value && selectedSettings.pixel.value) {
                 if (selected === (tabs.length - 1)) {
                     setContinues(true);
                 } else {
@@ -96,6 +97,16 @@ export default function IntegrationApp(props) {
             value: 'create'
         }
     ];
+    const choicePages = [
+        {
+            label: 'Use an existing Page',
+            value: 'existing'
+        },
+        {
+            label: 'Create a new Page',
+            value: 'create'
+        }
+    ];
     const choicePixels = [
         {
             label: 'Use an existing Pixel',
@@ -136,6 +147,26 @@ export default function IntegrationApp(props) {
                                 });
                             }
 
+                        }
+                    );
+                }
+            );
+        }
+        else if (selected === 'page') {
+            (props.businesses || []).forEach(
+                businesse => {
+                    (businesse.accounts || []).forEach(
+                        account => {
+                            (account.pages || []).forEach(
+                                page => {
+                                    if (selectedSettings.ad_account.value && selectedSettings.ad_account.value === account.value) {
+                                        options.push({
+                                            label: page.label,
+                                            value: page.value
+                                        });
+                                    }
+                                }
+                            );
                         }
                     );
                 }
@@ -219,6 +250,9 @@ export default function IntegrationApp(props) {
             };
 
         }
+        else if (selected === 'page') {
+
+        }
         else if (selected === 'funding') {
             data.ad_account = selectedSettings.ad_account.value;
         }
@@ -234,6 +268,7 @@ export default function IntegrationApp(props) {
                     business_id: selectedSettings.business_manager.value,
                     account_id: selectedSettings.ad_account.value,
                     pixel: selectedSettings.pixel.value,
+                    page: selectedSettings.page.value
                 },
                 token: props.token,
                 user: props.user,
@@ -279,8 +314,24 @@ export default function IntegrationApp(props) {
             )
         },
         {
+            id: 'pages',
+            content: '3. Select Page',
+            text: 'Select a Page to your account',
+            panelID: 'pixel',
+            childrens: (
+                <Choicer choices={choicePixels}
+                         options={existingOptions('page')}
+                         setings={selectedSettings.page}
+                         setSettings={setSettings}
+                         checkSettings={checkSettings}
+                         createData={apiCreateData('page')}
+                         type={'page'}
+                />
+            )
+        },
+        {
             id: 'pixels',
-            content: '3. Select Pixel',
+            content: '4. Select Pixel',
             text: 'Select a Pixel to your account',
             panelID: 'pixel',
             childrens: (
@@ -296,7 +347,7 @@ export default function IntegrationApp(props) {
         },
         {
             id: 'payments',
-            content: '4. Payment method',
+            content: '5. Payment method',
             text: 'Add a Payment Method to your account',
             panelID: 'funding',
             childrens: (

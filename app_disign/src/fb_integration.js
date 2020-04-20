@@ -51,7 +51,7 @@ function statusChangeCallback(response) {
         let businesses = [];
         const token = response.authResponse.accessToken;
         const user = response.authResponse.userID;
-        FB.api('me/businesses?fields=id,name,owned_ad_accounts{account_id,name,account_status,adspixels{name},funding_source_details}', function (response) {
+        FB.api('me/businesses?fields=id,name,owned_ad_accounts{account_id,name,account_status,adspixels{name},funding_source_details,promote_pages},owned_pages', function (response) {
                 (response.data || []).forEach(
                     businesse => {
                         let obj = {
@@ -61,29 +61,45 @@ function statusChangeCallback(response) {
                         };
                         ((businesse.owned_ad_accounts || {}).data || []).forEach(
                             account => {
-                                let obj_account = {
-                                    label: account.name,
-                                    value: account.account_id,
-                                    pixels: [],
-                                    funding: []
-                                };
-                                ((account.adspixels || {}).data || []).forEach(
-                                    pixel => obj_account.pixels.push({
-                                        label: pixel.name,
-                                        value: pixel.id
-                                    }));
-                                if (account.funding_source_details) {
-                                    obj_account.funding.push({
-                                        label: account.funding_source_details.display_string,
-                                        value: account.funding_source_details.id
-                                    });
+                                if (account.account_status === 1) {
+                                    let obj_account = {
+                                        label: account.name,
+                                        value: account.account_id,
+                                        pixels: [],
+                                        funding: [],
+                                        pages: []
+                                    };
+                                    ((account.adspixels || {}).data || []).forEach(
+                                        pixel => obj_account.pixels.push({
+                                            label: pixel.name,
+                                            value: pixel.id
+                                        }));
+                                    if (account.funding_source_details) {
+                                        obj_account.funding.push({
+                                            label: account.funding_source_details.display_string,
+                                            value: account.funding_source_details.id
+                                        });
+                                    }
+                                    if (account.promote_pages) {
+                                        ((account.promote_pages || {}).data || []).forEach(
+                                            page => obj_account.pages.push({
+                                                label: page.name,
+                                                value: page.id
+                                            }));
+                                    }
+                                    else {
+                                        ((businesse.owned_pages || {}).data || []).forEach(
+                                            page => obj_account.pages.push({
+                                                label: page.name,
+                                                value: page.id
+                                            }));
+                                    }
+                                    obj.accounts.push(obj_account);
                                 }
-                                obj.accounts.push(obj_account);
                             });
                         businesses.push(obj);
                     }
                 );
-            console.log(businesses);
             ReactDOM.render(<WrappedApp redirect={redirect}
                                         businesses={businesses}
                                         token={token}
