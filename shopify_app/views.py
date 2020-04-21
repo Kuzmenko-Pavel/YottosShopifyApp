@@ -188,6 +188,8 @@ class Dashboard(TemplateView, BaseShop, BaseFacebook):
     ]
 
     def get(self, request, *args, **kwargs):
+        msg = 'premium_active'
+        add_message(request, INFO, msg)
         utm = []
         collection = []
         feed_name = kwargs.get('feed', 'fb')
@@ -196,9 +198,9 @@ class Dashboard(TemplateView, BaseShop, BaseFacebook):
         reinstall = False
         storage = get_messages(request)
         for message in storage:
-            print(message, 'premium_active', message == 'premium_active')
-            print(message, 'install', message == 'install')
-            print(message, 'reinstall', message == 'reinstall')
+            print(message, type(message), 'premium_active', message == 'premium_active')
+            print(message, type(message), 'install', message == 'install')
+            print(message, type(message), 'reinstall', message == 'reinstall')
             if message == 'premium_active':
                 premium = True
             elif message == 'install':
