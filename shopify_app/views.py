@@ -224,6 +224,8 @@ class Dashboard(TemplateView, BaseShop, BaseFacebook):
                 elif camp.campaign_type == 'ret':
                     feed['integration']['text']['buttons']['retargeting'] = 'Change Audience retargeting settings'
 
+        if not settings.FACEBOOK_APP_ENABLE:
+            del feed['integration']
 
         context = {
             'page_name': feed['page_name'],
