@@ -195,7 +195,9 @@ class Dashboard(TemplateView, BaseShop, BaseFacebook):
         install = False
         reinstall = False
         storage = get_messages(request)
+        print(storage)
         for message in storage:
+            print(message)
             if message == 'premium_active':
                 premium = True
             elif message == 'install':
