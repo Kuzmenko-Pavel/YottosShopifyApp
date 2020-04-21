@@ -198,14 +198,14 @@ class Dashboard(TemplateView, BaseShop, BaseFacebook):
         reinstall = False
         storage = get_messages(request)
         for message in storage:
-            print(message, type(message), 'premium_active', message == 'premium_active')
-            print(message, type(message), 'install', message == 'install')
-            print(message, type(message), 'reinstall', message == 'reinstall')
-            if message == 'premium_active':
+            print(message, type(message.message), 'premium_active', message.message == 'premium_active')
+            print(message, type(message.message), 'install', message.message == 'install')
+            print(message, type(message.message), 'reinstall', message.message == 'reinstall')
+            if message.message == 'premium_active':
                 premium = True
-            elif message == 'install':
+            elif message.message == 'install':
                 install = True
-            elif message == 'reinstall':
+            elif message.message == 'reinstall':
                 reinstall = True
         print(premium, install, reinstall)
         feed = self.feeds.get(feed_name, self.feeds.get('fb'))
