@@ -195,15 +195,17 @@ class Dashboard(TemplateView, BaseShop, BaseFacebook):
         install = False
         reinstall = False
         storage = get_messages(request)
-        print(storage)
         for message in storage:
-            print(message)
+            print(message, 'premium_active', message == 'premium_active')
+            print(message, 'install', message == 'install')
+            print(message, 'reinstall', message == 'reinstall')
             if message == 'premium_active':
                 premium = True
             elif message == 'install':
                 install = True
             elif message == 'reinstall':
                 reinstall = True
+        print(premium, install, reinstall)
         feed = self.feeds.get(feed_name, self.feeds.get('fb'))
         shop = self.get_shop(request.shop)
         facebook = self.get_facebook(request.shop)
