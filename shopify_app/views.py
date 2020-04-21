@@ -275,8 +275,9 @@ class FbIntegration(TemplateView, BaseShop, BaseFacebook):
         facebook = self.get_facebook(domain=domain)
         business_id = data.get('business_id')
         account_id = data.get('account_id')
+        page = data.get('page')
         pixel = data.get('pixel')
-        if shop and business_id and account_id and pixel and user and token:
+        if shop and business_id and account_id and pixel and user and token and page:
             if facebook is None:
                 facebook = FacebookBusinessManager()
                 facebook.myshopify_domain = domain
@@ -287,6 +288,7 @@ class FbIntegration(TemplateView, BaseShop, BaseFacebook):
                 facebook.business_id = business_id
                 facebook.account_id = account_id
                 facebook.pixel = pixel
+                facebook.page = page
                 facebook.connect = True
                 facebook.save()
             except Exception as e:

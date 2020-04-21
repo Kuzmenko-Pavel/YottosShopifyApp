@@ -22,6 +22,8 @@ function SpinnerApp() {
     );
 }
 
+ReactDOM.render(<SpinnerApp/>, document.getElementById('root'));
+
 function WrappedApp(props) {
     return (
         <AppProvider i18n={enTranslations}>
@@ -245,4 +247,3 @@ const titleBarOptions = {
     buttons: buttons
 };
 const myTitleBar = TitleBar.create(app, titleBarOptions);
-ReactDOM.render(<SpinnerApp/>, document.getElementById('root'));

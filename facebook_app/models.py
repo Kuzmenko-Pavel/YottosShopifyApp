@@ -67,9 +67,14 @@ class FacebookCampaign(Model):
         name = 'Campaign %s %s (%s)' % (self.business.myshopify_domain, self.get_campaign_type_display(), self.id)
         campaign_params = {
             'name': name,
-            'special_ad_category': Campaign.SpecialAdCategory.none,
             'objective': Campaign.Objective.conversions,
+            'special_ad_category': Campaign.SpecialAdCategory.none,
             'status': Campaign.Status.paused,
+            'can_use_spend_cap': True,
+            'can_create_brand_lift_study': False,
+            'buying_type': "AUCTION",
+            "budget_remaining": "0",
+            "budget_rebalance_flag": False,
         }
         if self.paid:
             acc = AdAccount('act_%s' % self.business.account_id)
