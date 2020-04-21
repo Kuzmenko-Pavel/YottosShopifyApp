@@ -13,8 +13,6 @@
     <link as="script" href="https://www.google-analytics.com/analytics.js" rel="preload">
     <link as="script" href="https://connect.facebook.net/en_US/fbevents.js" rel="preload">
     <link as="script" href="https://connect.facebook.net/en_US/sdk.js" rel="preload">
-    {% include "analytics/google.html" %}
-    {% include "analytics/facebook.html" %}
     <script>
         window.t = 'T{{ csrf_token }}';
         window.current_shop = {
@@ -32,6 +30,8 @@
             debug: false
         };
     </script>
+    {% include "analytics/google.html" %}
+    {% include "analytics/facebook.html" %}
 </head>
 <body>
 <div id="root"></div>

@@ -13,8 +13,6 @@
         <link as="script" href="{% static "unsub.app.js" %}?v5.0" rel="preload">
         <link as="script" href="https://www.google-analytics.com/analytics.js" rel="preload">
         <link as="script" href="https://connect.facebook.net/en_US/fbevents.js" rel="preload">
-        {% include "analytics/google.html" %}
-        {% include "analytics/facebook.html" %}
         <script>
             window.premium = {{ premium|yesno:"true,false" }};
             window.install = {{ install|yesno:"true,false" }};
@@ -40,6 +38,8 @@
                 min-width: 250px;
             }
         </style>
+        {% include "analytics/google.html" %}
+        {% include "analytics/facebook.html" %}
     </head>
     <body>
     <div id="root"></div>
