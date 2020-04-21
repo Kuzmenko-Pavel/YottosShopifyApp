@@ -64,18 +64,14 @@
             'id': window.t,
             'revenue': '29.00'
         });
-        alert('purchase')
     }
     if (window.install && window.t) {
         window.ga('set', 'transport', 'beacon');
         window.ga('send', 'event', 'App', 'Install');
-        alert('Install');
     }
     if (window.reinstall && window.t) {
         window.ga('set', 'transport', 'beacon');
         window.ga('send', 'event', 'App', 'ReInstall');
-        alert('ReInstall');
     }
-    alert('ga ' + window.install + ' ' + window.reinstall + ' ' + window.premium + ' ' + window.t + ' ' + location.href)
 </script>
 <script async src='https://www.google-analytics.com/analytics.js'></script>
