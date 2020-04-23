@@ -110,6 +110,7 @@ class FacebookFeed(Model):
                     catalog = acc.create_owned_product_catalog(
                         params=catalog_params
                     )
+                    catalog.add_external_event_sources(pixel_ids=[self.business.pixel, ])
                     self.catalog_id = catalog['id']
             except Exception as e:
                 print(e)
