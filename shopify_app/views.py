@@ -4,6 +4,7 @@ import re
 import shopify
 from django.conf import settings
 from django.contrib.messages import get_messages, add_message, INFO
+from django.db import transaction
 from django.http import JsonResponse
 from django.shortcuts import render, redirect
 from django.template import RequestContext
@@ -22,6 +23,7 @@ def index(request):
     return render(request, 'shopify_app/index.html', context)
 
 
+@transaction.atomic
 def save(request):
     if request.method == 'POST':
         save_type = request.GET.get('type')
@@ -46,6 +48,7 @@ def save(request):
     return HttpResponse("OK")
 
 
+@transaction.atomic
 def facebook_campaign(request):
     context = {}
     if request.method == 'POST':
@@ -267,6 +270,7 @@ class FbIntegration(TemplateView, BaseShop, BaseFacebook):
 
         return self.render_to_response(context)
 
+    @transaction.atomic
     def post(self, request, *args, **kwargs):
         json_data = json.loads(request.body.decode('utf-8'))
         data = json_data.get('data')
@@ -301,6 +305,7 @@ class FbIntegration(TemplateView, BaseShop, BaseFacebook):
 class FbDisconect(TemplateView, BaseShop, BaseFacebook):
     template_name = "shopify_app/subscribe.html"
 
+    @transaction.atomic
     def get(self, request, *args, **kwargs):
         shop = self.get_shop(request.shop)
         facebook = self.get_facebook(request.shop)
@@ -316,6 +321,7 @@ class FbDisconect(TemplateView, BaseShop, BaseFacebook):
 class FbDeIntegration(TemplateView, BaseShop, BaseFacebook):
     template_name = "shopify_app/webhook.html"
 
+    @transaction.atomic
     def post(self, request, *args, **kwargs):
         json_data = json.loads(request.body.decode('utf-8'))
         print(json_data)
@@ -325,6 +331,7 @@ class FbDeIntegration(TemplateView, BaseShop, BaseFacebook):
 class FbSubscribe(TemplateView, BaseShop, BaseFacebook):
     template_name = "shopify_app/subscribe.html"
 
+    @transaction.atomic
     def get(self, request, *args, **kwargs):
         campaign_type = request.GET.get('type')
         _query = {
@@ -353,6 +360,7 @@ class FbSubscribe(TemplateView, BaseShop, BaseFacebook):
 
 class FbSubmitSubscribe(View, BaseShop, BaseFacebook):
 
+    @transaction.atomic
     def get(self, request, *args, **kwargs):
         campaign_type = request.GET.get('type')
         _query = {
@@ -559,6 +567,7 @@ class Subscribe(TemplateView, BaseShop):
 
 class UnSubscribe(TemplateView, BaseShop):
 
+    @transaction.atomic
     def get(self, request, *args, **kwargs):
         _query = {
             'shop': request.shop, 'hmac': request.hmac, 'timestamp': request.timestamp
@@ -577,6 +586,7 @@ class UnSubscribe(TemplateView, BaseShop):
 
 class SubmitSubscribe(View, BaseShop):
 
+    @transaction.atomic
     def get(self, request, *args, **kwargs):
         _query = {
             'shop': request.shop, 'hmac': request.hmac, 'timestamp': request.timestamp

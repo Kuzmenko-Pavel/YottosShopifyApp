@@ -90,6 +90,7 @@ WSGI_APPLICATION = 'yottos_shopify.wsgi.application'
 
 DATABASES = {
     'default': {
+        'AUTOCOMMIT': True,
         'ENGINE': 'django.db.backends.mysql',
         'NAME': DB_NAME,
         'USER': DB_USER,
