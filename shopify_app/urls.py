@@ -5,6 +5,7 @@ from . import views
 app_name = 'shopify_app'
 urlpatterns = [
     path('', views.index, name='index'),
+    path('dashboard', views.Dashboard.as_view(), name='dashboard'),
     path('dashboard/', views.Dashboard.as_view(), name='dashboard'),
     path('downgrade/', views.Downgrade.as_view(), name='downgrade'),
     path('dashboard/<str:feed>/', views.Dashboard.as_view(), name='dashboard_feeds'),
