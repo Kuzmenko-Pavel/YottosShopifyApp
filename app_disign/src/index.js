@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import {AppProvider, Spinner} from '@shopify/polaris';
 import '@shopify/polaris/styles.css';
-
+import enTranslations from '@shopify/polaris/locales/en.json';
 import App from './App';
 import createApp from '@shopify/app-bridge';
 import {Button, Redirect, TitleBar} from '@shopify/app-bridge/actions';
@@ -48,7 +48,7 @@ ReactDOM.render(<SpinnerApp/>, document.getElementById('root'));
 
 function WrappedApp(props) {
     return (
-        <AppProvider i18n={{}}>
+        <AppProvider i18n={enTranslations}>
             <App redirect={props.redirect} current_shop={window.current_shop}
                  buttons={props.buttons}
             />

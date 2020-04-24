@@ -212,7 +212,7 @@ class Dashboard(TemplateView, BaseShop, BaseFacebook):
                 install = True
             elif message.message == 'reinstall':
                 reinstall = True
-        feed = self.feeds.get(feed_name, deepcopy(self.feeds.get('fb')))
+        feed = deepcopy(self.feeds.get(feed_name, self.feeds.get('fb')))
         shop = self.get_shop(request.shop)
         facebook = self.get_facebook(request.shop)
         if shop:
@@ -235,6 +235,7 @@ class Dashboard(TemplateView, BaseShop, BaseFacebook):
                     feed['integration']['text']['buttons']['retargeting'] = 'Change Audience retargeting settings'
 
         if not settings.FACEBOOK_APP_ENABLE:
+            print(feed)
             del feed['integration']
 
         context = {
