@@ -235,7 +235,10 @@ class Dashboard(TemplateView, BaseShop, BaseFacebook):
                     feed['integration']['text']['buttons']['retargeting'] = 'Change Audience retargeting settings'
 
         if not settings.FACEBOOK_APP_ENABLE:
-            del feed['integration']
+            try:
+                del feed['integration']
+            except Exception as e:
+                print(e)
 
         context = {
             'page_name': feed['page_name'],
