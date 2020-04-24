@@ -9,7 +9,7 @@ import {Button, Redirect, TitleBar} from '@shopify/app-bridge/actions';
 import SpinnerApp from './SpinnerApp';
 
 
-// ReactDOM.render(<SpinnerApp/>, document.getElementById('root'));
+ReactDOM.render(<SpinnerApp/>, document.getElementById('root'));
 
 function WrappedApp(props) {
     return (

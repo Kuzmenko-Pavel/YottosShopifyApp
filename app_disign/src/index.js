@@ -2,12 +2,13 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import {AppProvider} from '@shopify/polaris';
 import '@shopify/polaris/styles.css';
-import enTranslations from '@shopify/polaris/locales/en.json';
+// import enTranslations from '@shopify/polaris/locales/en.json';
 import App from './App';
 import createApp from '@shopify/app-bridge';
 import {Button, Redirect, TitleBar} from '@shopify/app-bridge/actions';
 import SpinnerApp from './SpinnerApp';
 
+const enTranslations = {"Polaris": {}};
 
 window.fbAsyncInit = function () {
     FB.init({
@@ -34,7 +35,7 @@ window.fbAsyncInit = function () {
 }(document, 'script', 'facebook-jssdk'));
 
 
-// ReactDOM.render(<SpinnerApp/>, document.getElementById('root'));
+ReactDOM.render(<SpinnerApp/>, document.getElementById('root'));
 
 function WrappedApp(props) {
     return (

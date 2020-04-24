@@ -1,5 +1,8 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const TerserJSPlugin = require('terser-webpack-plugin');
+const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 
 module.exports = {
     mode: 'production', //'development',
@@ -12,6 +15,10 @@ module.exports = {
     },
     optimization: {
         minimize: true,
+        minimizer: [
+            new TerserJSPlugin({}),
+            new OptimizeCSSAssetsPlugin({})
+        ],
         splitChunks: {
             cacheGroups: {
                 vendor: {
@@ -32,6 +39,7 @@ module.exports = {
         filename: '[name].app.js'
     },
     plugins: [
+        new MiniCssExtractPlugin(),
         new HtmlWebpackPlugin({
             filename: 'index.html',
             template: './public/index.html',
@@ -100,7 +108,7 @@ module.exports = {
             {
                 test: /\.css$/,
                 use: [
-                    'style-loader',
+                    MiniCssExtractPlugin.loader,
                     'css-loader'
                 ]
             }
