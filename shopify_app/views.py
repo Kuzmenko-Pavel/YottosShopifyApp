@@ -1,5 +1,6 @@
 import json
 import re
+from datetime import datetime
 
 import shopify
 from django.conf import settings
@@ -311,7 +312,8 @@ class FbDisconect(TemplateView, BaseShop, BaseFacebook):
         shop = self.get_shop(request.shop)
         facebook = self.get_facebook(request.shop)
         _query = {
-            'shop': request.shop, 'hmac': request.hmac, 'timestamp': request.timestamp
+            'shop': request.shop, 'hmac': request.hmac, 'timestamp': request.timestamp,
+            'rand': int(datetime.timestamp(datetime.now()))
         }
         url = route_url('shopify_app:dashboard', _query=_query)
         if shop and facebook:
@@ -336,7 +338,8 @@ class FbSubscribe(TemplateView, BaseShop, BaseFacebook):
     def get(self, request, *args, **kwargs):
         campaign_type = request.GET.get('type')
         _query = {
-            'shop': request.shop, 'hmac': request.hmac, 'timestamp': request.timestamp, 'type': campaign_type
+            'shop': request.shop, 'hmac': request.hmac, 'timestamp': request.timestamp, 'type': campaign_type,
+            'rand': int(datetime.timestamp(datetime.now()))
         }
         context = {'url': route_url('shopify_app:authenticate', _query=_query)}
         try:
@@ -365,7 +368,8 @@ class FbSubmitSubscribe(View, BaseShop, BaseFacebook):
     def get(self, request, *args, **kwargs):
         campaign_type = request.GET.get('type')
         _query = {
-            'shop': request.shop, 'hmac': request.hmac, 'timestamp': request.timestamp, 'type': campaign_type
+            'shop': request.shop, 'hmac': request.hmac, 'timestamp': request.timestamp, 'type': campaign_type,
+            'rand': int(datetime.timestamp(datetime.now()))
         }
         charge_id = request.GET.get('charge_id')
         shop = self.get_shop(request.shop)
@@ -388,7 +392,8 @@ class Authenticate(View, BaseShop):
     def get(self, request, *args, **kwargs):
         shop = self.get_shop(request.shop)
         _query = {
-            'shop': request.shop, 'hmac': request.hmac, 'timestamp': request.timestamp
+            'shop': request.shop, 'hmac': request.hmac, 'timestamp': request.timestamp,
+            'rand': int(datetime.timestamp(datetime.now()))
         }
         url = route_url('shopify_app:install', _query=_query)
         if shop and shop.installed:
@@ -443,7 +448,8 @@ class Authenticate(View, BaseShop):
     def post(self, request, *args, **kwargs):
         shop = request.GET.get('shop') or request.POST.get('shop')
         _query = {
-            'shop': re.sub(r'.*://?([^/?]+).*', '\g<1>', shop)
+            'shop': re.sub(r'.*://?([^/?]+).*', '\g<1>', shop),
+            'rand': int(datetime.timestamp(datetime.now()))
         }
         url = route_url('shopify_app:authenticate', _query=_query)
         return redirect(url)
@@ -454,7 +460,8 @@ class Install(View):
     def get(self, request, *args, **kwargs):
         shop = request.shop
         _query = {
-            'shop': request.shop, 'hmac': request.hmac, 'timestamp': request.timestamp
+            'shop': request.shop, 'hmac': request.hmac, 'timestamp': request.timestamp,
+            'rand': int(datetime.timestamp(datetime.now()))
         }
         if shop:
             scope = settings.SHOPIFY_API_SCOPE
@@ -519,7 +526,8 @@ class Finalize(View):
     def get(self, request, *args, **kwargs):
         shop = request.shop
         _query = {
-            'shop': request.shop, 'hmac': request.hmac, 'timestamp': request.timestamp
+            'shop': request.shop, 'hmac': request.hmac, 'timestamp': request.timestamp,
+            'rand': int(datetime.timestamp(datetime.now()))
         }
         url = route_url('shopify_app:dashboard', _query=_query)
         try:
@@ -537,7 +545,8 @@ class Subscribe(TemplateView, BaseShop):
 
     def get(self, request, *args, **kwargs):
         _query = {
-            'shop': request.shop, 'hmac': request.hmac, 'timestamp': request.timestamp
+            'shop': request.shop, 'hmac': request.hmac, 'timestamp': request.timestamp,
+            'rand': int(datetime.timestamp(datetime.now()))
         }
         context = {'url': route_url('shopify_app:authenticate', _query=_query)}
         try:
@@ -571,7 +580,8 @@ class UnSubscribe(TemplateView, BaseShop):
     @transaction.atomic
     def get(self, request, *args, **kwargs):
         _query = {
-            'shop': request.shop, 'hmac': request.hmac, 'timestamp': request.timestamp
+            'shop': request.shop, 'hmac': request.hmac, 'timestamp': request.timestamp,
+            'rand': int(datetime.timestamp(datetime.now()))
         }
         shop = self.get_shop(request.shop)
         if shop:
@@ -590,7 +600,8 @@ class SubmitSubscribe(View, BaseShop):
     @transaction.atomic
     def get(self, request, *args, **kwargs):
         _query = {
-            'shop': request.shop, 'hmac': request.hmac, 'timestamp': request.timestamp
+            'shop': request.shop, 'hmac': request.hmac, 'timestamp': request.timestamp,
+            'rand': int(datetime.timestamp(datetime.now()))
         }
         msg = 'premium_not_active'
         charge_id = request.GET.get('charge_id')
