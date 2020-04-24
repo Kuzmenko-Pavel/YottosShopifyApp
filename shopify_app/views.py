@@ -644,6 +644,7 @@ class WebhookGDPR(TemplateView, BaseShop):
 class MainXml(TemplateResponseMixin, View, BaseShop):
     template_name = "shopify_app/liquid/main.liquid"
     content_type = 'application/liquid'
+    feed = None
 
     def get(self, request, *args, **kwargs):
         context = {
@@ -662,6 +663,16 @@ class MainXml(TemplateResponseMixin, View, BaseShop):
         response_kwargs.setdefault('content_type', self.content_type)
         shop = context.get('shop')
         page = context.get('page', 1)
+        feed_settings = shop.feeds.get(self.feed, {})
+        utm = ''
+        collec = []
+        for collection in feed_settings.get('collection', ''):
+            if collection.get('value', False) and collection.get('name', 'yt__all') != 'yt__all':
+                collec.append('collections.%s.products' % collection.get('name', 'all'))
+        if len(collec) == 0:
+            collec.append('collections.all.products')
+        context['utm'] = utm
+        context['collections'] = collec
         template = self.get_template_names()
         if shop is None:
             template = ["liquid/main.liquid"]
@@ -682,15 +693,19 @@ class MainXml(TemplateResponseMixin, View, BaseShop):
 
 class GoogleXml(MainXml):
     template_name = "shopify_app/liquid/ga_feed.liquid"
+    feed = 'ga'
 
 
 class FacebookXml(MainXml):
     template_name = "shopify_app/liquid/fb_feed.liquid"
+    feed = 'fb'
 
 
 class YottosXml(MainXml):
     template_name = "shopify_app/liquid/yt_feed.liquid"
+    feed = 'yt'
 
 
 class PinterestXml(MainXml):
     template_name = "shopify_app/liquid/pi_feed.liquid"
+    feed = 'pi'

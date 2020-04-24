@@ -2,12 +2,23 @@
 {%- layout none -%}
 <?xml version="1.0"?>
 <rss xmlns:g="http://base.google.com/ns/1.0" version="2.0">
-{%- paginate collections.all.products by 1000 -%}
 <channel>
-<title>{{ shop.name }} {{ collection.title | replace: '&', '&amp;' }}</title>
+<title>{{ shop.name }}</title>
 <link>{{ shop.url }}</link>
 <description>{{ shop.description | strip_html }}</description>
-{%- for product in  collections.all.products | sort 'description' -%}
+{% endverbatim %}
+{% for collection in collections %}
+{% verbatim %}
+{%- paginate
+{% endverbatim %}
+{{collection }}
+{% verbatim %}
+by 1000 -%}
+{%- for product in
+{% endverbatim %}
+{{collection }}
+{% verbatim %}
+-%}
   {%- assign GoogleProductCategory = product.metafields.mm-google-shopping.google_product_category | default: 111 -%}
   {%- assign Gender = product.metafields.mm-google-shopping.gender | default: Unisex -%}
   {%- assign AgeGroup = product.metafields.mm-google-shopping.age_group -%}
@@ -68,6 +79,9 @@
 </item>
   {%- endif -%}
 {%- endfor -%}
+{% endverbatim %}
+{% endfor %}
+{% verbatim %}
 </channel>
 </rss>
 {%- endpaginate -%}

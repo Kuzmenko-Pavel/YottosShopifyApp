@@ -1,10 +1,9 @@
-{% verbatim block %}{% layout none %}<?xml version="1.0" encoding="utf-8"?>
+{% verbatim %}{% layout none %}<?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE yml_catalog SYSTEM "shops.dtd">
 <yml_catalog date="2015-07-27 12:15">
     <shop>
-        {% paginate collections.all.products by 1000 %}
-        <name>{{ shop.name }} {{ collection.title | replace: '&', '&amp;' }}</name>
-        <company>{{ shop.name }} {{ collection.title | replace: '&', '&amp;' }}</company>
+        <name>{{ shop.description | strip_html }}</name>
+        <company>{{ shop.name }}</company>
         <url>{{ shop.url }}</url>
         <email>{{ shop.email }}</email>
         <currencies>
@@ -13,7 +12,19 @@
         <categories>
         </categories>
         <offers>
-            {%- for product in collections.all.products -%}
+                {% endverbatim %}
+                {% for collection in collections %}
+                {% verbatim %}
+                {%- paginate
+                {% endverbatim %}
+                {{collection }}
+                {% verbatim %}
+                by 1000 -%}
+                {%- for product in
+                {% endverbatim %}
+                {{collection }}
+                {% verbatim %}
+                -%}
                 {%- assign GoogleProductCategory = product.metafields.mm-google-shopping.google_product_category | default: 111 -%}
                 {%- assign Gender = product.metafields.mm-google-shopping.gender | default: Unisex -%}
                 {%- assign AgeGroup = product.metafields.mm-google-shopping.age_group -%}
@@ -55,8 +66,11 @@
             </offer>
             {% endif %}
             {% endfor %}
+            {% endverbatim %}
+            {% endfor %}
+            {% verbatim %}
         </offers>
     </shop>
 </yml_catalog>
 {% endpaginate %}
-{% endverbatim block %}
+{% endverbatim %}
