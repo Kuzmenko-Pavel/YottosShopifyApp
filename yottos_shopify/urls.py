@@ -42,8 +42,9 @@ urlpatterns = [
 
 
 def response_error_handler(request, exception=None):
+    print(request)
+    print(exception)
     return redirect('/')
 
-
-handler404 = response_error_handler
-handler500 = response_error_handler
+# handler404 = response_error_handler
+# handler500 = response_error_handler
