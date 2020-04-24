@@ -1,7 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {AppProvider, Spinner} from '@shopify/polaris';
-import enTranslations from '@shopify/polaris/locales/en.json';
 import '@shopify/polaris/styles.css';
 
 import UnsubApp from './UnsubApp';
@@ -10,15 +9,13 @@ import {Button, Redirect, TitleBar} from '@shopify/app-bridge/actions';
 
 function SpinnerApp() {
     return (
-        <AppProvider i18n={enTranslations}>
-            <div style={{
-                position: 'absolute',
-                left: '50%',
-                top: '50%'
-            }}>
-                <Spinner size="large" color="teal"/>
-            </div>
-        </AppProvider>
+        <div style={{
+            position: 'absolute',
+            left: '50%',
+            top: '50%'
+        }}>
+            <Spinner size="large" color="teal"/>
+        </div>
     );
 }
 
@@ -26,7 +23,7 @@ ReactDOM.render(<SpinnerApp/>, document.getElementById('root'));
 
 function WrappedApp(props) {
     return (
-        <AppProvider i18n={enTranslations}>
+        <AppProvider>
             <UnsubApp current_shop={window.current_shop} redirect={props.redirect}/>
         </AppProvider>
     );

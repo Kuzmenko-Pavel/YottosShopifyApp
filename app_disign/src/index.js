@@ -1,7 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {AppProvider, Spinner} from '@shopify/polaris';
-import enTranslations from '@shopify/polaris/locales/en.json';
 import '@shopify/polaris/styles.css';
 
 import App from './App';
@@ -35,15 +34,13 @@ window.fbAsyncInit = function () {
 
 function SpinnerApp() {
     return (
-        <AppProvider i18n={enTranslations}>
-            <div style={{
-                position: 'absolute',
-                left: '50%',
-                top: '50%'
-            }}>
-                <Spinner size="large" color="teal"/>
-            </div>
-        </AppProvider>
+        <div style={{
+            position: 'absolute',
+            left: '50%',
+            top: '50%'
+        }}>
+            <Spinner size="large" color="teal"/>
+        </div>
     );
 }
 
@@ -51,7 +48,7 @@ ReactDOM.render(<SpinnerApp/>, document.getElementById('root'));
 
 function WrappedApp(props) {
     return (
-        <AppProvider i18n={enTranslations}>
+        <AppProvider>
             <App redirect={props.redirect} current_shop={window.current_shop}
                  buttons={props.buttons}
             />
