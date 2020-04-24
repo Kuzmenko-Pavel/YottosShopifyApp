@@ -670,11 +670,21 @@ class MainXml(TemplateResponseMixin, View, BaseShop):
         if shop is None:
             template = ["liquid/main.liquid"]
         else:
+            def char_replace(string, chars=None, to_char=None):
+                if chars is None:
+                    chars = [' ', '.', ',', ';', '!', '?', ':']
+                if to_char is None:
+                    to_char = '_'
+                for ch in chars:
+                    if ch in string:
+                        string = string.replace(ch, to_char)
+                return string.lower()
             cs = feed_settings.get('utm', {}).get('cs', self.feed)
             cn = feed_settings.get('utm', {}).get('cn', shop.myshopify_domain)
             cm = feed_settings.get('utm', {}).get('cm', 'cpc')
             print(feed_settings)
-            utm = '?utm_source=%s&utm_medium=%s&utm_campaign=%s' % (cs, cn, cm)
+            utm = '?utm_source=%s&utm_medium=%s&utm_campaign=%s' % (
+            char_replace(cs), char_replace(cn), char_replace(cm))
             collec = []
             for collection in feed_settings.get('collection', ''):
                 if collection.get('value', False):
