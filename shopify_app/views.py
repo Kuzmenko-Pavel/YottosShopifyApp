@@ -660,7 +660,7 @@ class MainXml(TemplateResponseMixin, View, BaseShop):
 
         Pass response_kwargs to the constructor of the response class.
         """
-        # response_kwargs.setdefault('content_type', self.content_type)
+        response_kwargs.setdefault('content_type', self.content_type)
         shop = context.get('shop')
         page = context.get('page', 1)
         context['utm'] = ''
