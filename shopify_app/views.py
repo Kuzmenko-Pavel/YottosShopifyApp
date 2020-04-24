@@ -195,7 +195,7 @@ class Dashboard(TemplateView, BaseShop, BaseFacebook):
         }
     ]
 
-    @never_cache
+    # @never_cache
     # @transaction.atomic
     def get(self, request, *args, **kwargs):
         utm = []
