@@ -62,11 +62,11 @@ by 1000 -%}
 <g:availability>{% if product.available %}in stock{% else %}out of stock{% endif %}</g:availability>
 {%- if product.images.size > 1 -%}
 {%- for image in product.images -%}
-    {% if forloop.first == true %}
+    {%- if forloop.first == true -%}
     <image_link>http:{{ image.src | img_url: '720x720' }}</image_link>
-    {% else %}
+    {%- else -%}
     <additional_image_link>http:{{ image.src | img_url: '720x720' }}</additional_image_link>
-    {% endif %}
+    {%- endif -%}
 {%- endfor -%}
 {%- else -%}
     <g:image_link>http:{{ product.featured_image.src | img_url: '720x720' }}</g:image_link>
