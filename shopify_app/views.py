@@ -660,27 +660,33 @@ class MainXml(TemplateResponseMixin, View, BaseShop):
 
         Pass response_kwargs to the constructor of the response class.
         """
-        response_kwargs.setdefault('content_type', self.content_type)
+        # response_kwargs.setdefault('content_type', self.content_type)
         shop = context.get('shop')
         page = context.get('page', 1)
+        context['utm'] = ''
+        context['collections'] = ['collections.all.products']
         feed_settings = shop.feeds.get(self.feed, {})
-        utm = ''
-        collec = []
-        for collection in feed_settings.get('collection', ''):
-            if collection.get('value', False):
-                name = collection.get('name', 'yt__all')
-                if name != 'yt__all':
-                    collec.append('collections.%s.products' % collection.get('name', 'all'))
-                else:
-                    collec.append('collections.all.products')
-        if len(collec) == 0:
-            collec.append('collections.all.products')
-        context['utm'] = utm
-        context['collections'] = collec
         template = self.get_template_names()
         if shop is None:
             template = ["liquid/main.liquid"]
         else:
+            cs = feed_settings.get('utm', {}).get('cs', self.feed)
+            cn = feed_settings.get('utm', {}).get('cn', shop.myshopify_domain)
+            cm = feed_settings.get('utm', {}).get('cm', 'cpc')
+            print(feed_settings)
+            utm = '?utm_source=%s&utm_medium=%s&utm_campaign=%s' % (cs, cn, cm)
+            collec = []
+            for collection in feed_settings.get('collection', ''):
+                if collection.get('value', False):
+                    name = collection.get('name', 'yt__all')
+                    if name != 'yt__all':
+                        collec.append('collections.%s.products' % collection.get('name', 'all'))
+                    else:
+                        collec.append('collections.all.products')
+            if len(collec) == 0:
+                collec.append('collections.all.products')
+            context['utm'] = utm
+            context['collections'] = collec
             if page > 1 and not shop.premium:
                 template = ["liquid/main.liquid"]
         return self.response_class(

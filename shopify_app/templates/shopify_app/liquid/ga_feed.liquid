@@ -53,7 +53,9 @@ by 1000 -%}
 
 <item>
 <title>{{ productTitle | strip_html | replace: '&', '&amp;' }}</title>
-<link>{{ shop.url }}{{ variant.url }}</link>
+<link>{{ shop.url }}{{ variant.url | append:  {% endverbatim %}
+"{{utm}}"
+{% verbatim %} }}</link>
 <description>{{ productDescription | strip_html | strip_newlines | replace: '&', '&amp;' }}</description>
 <g:google_product_category>{{ GoogleProductCategory | replace: '&', '&amp;'  }}</g:google_product_category>
 <g:item_group_id>shopify_{{ CountryCode }}_{{ product.id }}</g:item_group_id>
