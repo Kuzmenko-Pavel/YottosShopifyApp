@@ -27,8 +27,7 @@ by 1000 -%}
 {%- assign GoogleProductCategory = product.metafields.mm-google-shopping.google_product_category -%}
 {%- assign Gender = product.metafields.mm-google-shopping.gender -%}
 {%- assign AgeGroup = product.metafields.mm-google-shopping.age_group -%}
-      
-  {% for variant in product.variants %}
+  {%- for variant in product.variants -%}
     {%- assign Color = "" -%}
     {%- assign Size = "" -%}
     {%- for option in product.options -%}
@@ -50,7 +49,6 @@ by 1000 -%}
       {%- assign Price = variant.compare_at_price -%}
       {%- assign SalePrice = variant.price -%}
     {%- endif -%}
-
 <item>
 <title>{{ productTitle | strip_html | replace: '&', '&amp;' }}</title>
 <link>{{ shop.url }}{{ variant.url | append:  {% endverbatim %}
@@ -80,10 +78,9 @@ by 1000 -%}
 <g:gender>{{ Gender }}</g:gender>
 <g:shipping_weight>{{ variant.weight | weight_with_unit }}</g:shipping_weight>
 </item>
-
-{% endfor %}
-{% endfor %}
-{% endpaginate %}
+{%- endfor -%}
+{%- endfor -%}
+{%- endpaginate -%}
 {% endverbatim %}
 {% endfor %}
 {% verbatim %}
