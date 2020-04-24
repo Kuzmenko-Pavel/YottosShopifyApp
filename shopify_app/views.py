@@ -683,7 +683,7 @@ class MainXml(TemplateResponseMixin, View, BaseShop):
             cn = feed_settings.get('utm', {}).get('cn', shop.myshopify_domain)
             cm = feed_settings.get('utm', {}).get('cm', 'cpc')
             print(feed_settings)
-            utm = '?utm_source=%s&utm_medium=%s&utm_campaign=%s' % (
+            utm = 'utm_source=%s&utm_medium=%s&utm_campaign=%s' % (
             char_replace(cs), char_replace(cn), char_replace(cm))
             collec = []
             for collection in feed_settings.get('collection', ''):

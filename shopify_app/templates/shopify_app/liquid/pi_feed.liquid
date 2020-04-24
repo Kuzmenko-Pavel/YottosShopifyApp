@@ -28,7 +28,7 @@ by 1000 -%}
 <title>{{ product.title | strip_html | strip_newlines | replace: '&', '&amp;' }}</title>
 <description>{{ product.description | replace: '</', ' </' | strip_html | strip_newlines | replace: '&', '&amp;' }}</description>
 <link>{{ shop.url }}{{ variant.url | append:  {% endverbatim %}
-"{{utm}}"
+"&{{utm}}"
 {% verbatim %} }}</link>
 <g:google_product_category>{{ GoogleProductCategory | replace: '&', '&amp;' }}</g:google_product_category>
 <g:item_group_id>{{ product.id }}</g:item_group_id>
@@ -54,7 +54,7 @@ by 1000 -%}
 <description>{{ product.description | replace: '</', ' </' | strip_html | strip_newlines | replace: '&', '&amp;' }}</description>
 <g:id>{{ product.id }}</g:id>
 <link>{{ shop.url }}{{ product.url | append:  {% endverbatim %}
-"{{utm}}"
+"?{{utm}}"
 {% verbatim %} }}</link>
 <g:google_product_category>{{ GoogleProductCategory | replace: '&', '&amp;'  }}</g:google_product_category>
 <g:item_group_id>{{ product.id }}</g:item_group_id>

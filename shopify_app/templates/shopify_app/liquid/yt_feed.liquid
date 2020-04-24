@@ -34,7 +34,7 @@
                 <categoryName>{{ GoogleProductCategory | replace: '&', '&amp;'  }}</categoryName>
                 <name>{{ product.title | strip_html | strip_newlines | replace: '&', '&amp;' }}</name>
                 <url>{{ shop.url }}{{ variant.url | append:  {% endverbatim %}
-                "{{utm}}"
+                "&{{utm}}"
                 {% verbatim %} }}</url>
                 <price>{{ variant.price | money_without_currency }}</price>
                 <currencyId>{{ shop.currency }}</currencyId>
@@ -51,7 +51,7 @@
                 <categoryName>{{ GoogleProductCategory | replace: '&', '&amp;'  }}</categoryName>
                 <name>{{ product.title | strip_html | strip_newlines | replace: '&', '&amp;' }}</name>
                 <url>{{ shop.url }}{{ product.url | append:  {% endverbatim %}
-                "{{utm}}"
+                "?{{utm}}"
                 {% verbatim %} }}</url>
                 <price>{{ product.price | money_without_currency }}</price>
                 <currencyId>{{ shop.currency }}</currencyId>
