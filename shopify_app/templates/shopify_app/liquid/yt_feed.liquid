@@ -35,7 +35,7 @@
                 <name>{{ product.title | strip_html | strip_newlines | replace: '&', '&amp;' }}</name>
                 <url>{{ shop.url }}{{ variant.url | append:  {% endverbatim %}
                 "&{{utm|safe}}"
-                {% verbatim %} }}</url>
+                {% verbatim %}  | replace: '&', '&amp;'   }}</url>
                 <price>{{ variant.price | money_without_currency }}</price>
                 <currencyId>{{ shop.currency }}</currencyId>
                 <picture>http:{% if variant.image.src %}{{ variant.image.src | img_url: '720x720' }}{% else %}{{ product.featured_image.src | img_url: '720x720' }}{% endif %}</picture>
@@ -52,7 +52,7 @@
                 <name>{{ product.title | strip_html | strip_newlines | replace: '&', '&amp;' }}</name>
                 <url>{{ shop.url }}{{ product.url | append:  {% endverbatim %}
                 "?{{utm|safe}}"
-                {% verbatim %} }}</url>
+                {% verbatim %}  | replace: '&', '&amp;'   }}</url>
                 <price>{{ product.price | money_without_currency }}</price>
                 <currencyId>{{ shop.currency }}</currencyId>
                 {%- if product.images.size > 1 -%}
