@@ -667,8 +667,12 @@ class MainXml(TemplateResponseMixin, View, BaseShop):
         utm = ''
         collec = []
         for collection in feed_settings.get('collection', ''):
-            if collection.get('value', False) and collection.get('name', 'yt__all') != 'yt__all':
-                collec.append('collections.%s.products' % collection.get('name', 'all'))
+            if collection.get('value', False):
+                name = collection.get('name', 'yt__all')
+                if name != 'yt__all':
+                    collec.append('collections.%s.products' % collection.get('name', 'all'))
+                else:
+                    collec.append('collections.all.products')
         if len(collec) == 0:
             collec.append('collections.all.products')
         context['utm'] = utm
