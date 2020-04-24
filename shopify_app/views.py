@@ -1,6 +1,5 @@
 import json
 import re
-from copy import deepcopy
 from datetime import datetime
 
 import shopify
@@ -103,17 +102,53 @@ class BaseFacebook(object):
 
 class Dashboard(TemplateView, BaseShop, BaseFacebook):
     template_name = "shopify_app/dashboard.html"
-    feeds = {
-        'fb': {
-            'page_name': 'Your Facebook (Instagram) Feed',
-            'title': "Facebook (Instagram) product feed set up!",
-            'description': "Your have successfully generated your product feed. You can now add it to your Facebook Catalog.",
-            'sectioned_title': "Your Facebook (Instagram) Feed",
-            'link': 'facebook',
-            'offer_count': 0,
-            "catalog_title": "Facebook (Instagram) Catalog",
-            "catalog_link": 'https://facebook.com/products/',
-            "integration": {
+
+    @property
+    def feeds(self):
+        feeds = {
+            'fb': {
+                'page_name': 'Your Facebook (Instagram) Feed',
+                'title': "Facebook (Instagram) product feed set up!",
+                'description': "Your have successfully generated your product feed. You can now add it to your Facebook Catalog.",
+                'sectioned_title': "Your Facebook (Instagram) Feed",
+                'link': 'facebook',
+                'offer_count': 0,
+                "catalog_title": "Facebook (Instagram) Catalog",
+                "catalog_link": 'https://facebook.com/products/'
+            },
+            'ga': {
+                'page_name': 'Your Google Feed',
+                'title': "Google product feed set up!",
+                'description': "Your have successfully generated your product feed. You can now add it to your Google Catalog.",
+                'sectioned_title': "Your Google Feed",
+                'link': 'google',
+                'offer_count': 0,
+                "catalog_title": "Google Merchants",
+                "catalog_link": 'https://merchants.google.com/'
+            },
+            'yt': {
+                'page_name': 'Your Yottos Feed',
+                'title': "Yottos product feed set up!",
+                'description': "Your have successfully generated your product feed. You can now add it to your Yottos Catalog.",
+                'sectioned_title': "Your Yottos Feed",
+                'link': 'yottos',
+                'offer_count': 0,
+                "catalog_title": "Yottos Adload",
+                "catalog_link": 'https://adload.yottos.com/'
+            },
+            'pi': {
+                'page_name': 'Your Pinterest Feed',
+                'title': "Pinterest product feed set up!",
+                'description': "Your have successfully generated your product feed. You can now add it to your Pinterest Catalog.",
+                'sectioned_title': "Your Pinterest Feed",
+                'link': 'pinterest',
+                'offer_count': 0,
+                "catalog_title": "Pinterest Catalog",
+                "catalog_link": 'https://pinterest.com/product-catalogs/'
+            },
+        }
+        if settings.FACEBOOK_APP_ENABLE:
+            feeds['fb']['integration'] = {
                 'complite': False,
                 'text': {
                     'title': 'Automatically set up ad campaigns',
@@ -145,58 +180,31 @@ class Dashboard(TemplateView, BaseShop, BaseFacebook):
                     }
                 }
             }
-        },
-        'ga': {
-            'page_name': 'Your Google Feed',
-            'title': "Google product feed set up!",
-            'description': "Your have successfully generated your product feed. You can now add it to your Google Catalog.",
-            'sectioned_title': "Your Google Feed",
-            'link': 'google',
-            'offer_count': 0,
-            "catalog_title": "Google Merchants",
-            "catalog_link": 'https://merchants.google.com/'
-        },
-        'yt': {
-            'page_name': 'Your Yottos Feed',
-            'title': "Yottos product feed set up!",
-            'description': "Your have successfully generated your product feed. You can now add it to your Yottos Catalog.",
-            'sectioned_title': "Your Yottos Feed",
-            'link': 'yottos',
-            'offer_count': 0,
-            "catalog_title": "Yottos Adload",
-            "catalog_link": 'https://adload.yottos.com/'
-        },
-        'pi': {
-            'page_name': 'Your Pinterest Feed',
-            'title': "Pinterest product feed set up!",
-            'description': "Your have successfully generated your product feed. You can now add it to your Pinterest Catalog.",
-            'sectioned_title': "Your Pinterest Feed",
-            'link': 'pinterest',
-            'offer_count': 0,
-            "catalog_title": "Pinterest Catalog",
-            "catalog_link": 'https://pinterest.com/product-catalogs/'
-        },
-    }
-    utm = [
-        {
-            'value': 'facebook',
-            'label': 'Campaign Source',
-            'name': 'cs'
-        },
-        {
-            'value': 'cpc',
-            'label': 'Campaign Medium',
-            'name': 'cm'
-        },
-        {
-            'value': 'test-yottos.myshopify.com',
-            'label': 'Campaign Name',
-            'name': 'cn'
-        }
-    ]
 
-    # @never_cache
-    # @transaction.atomic
+        return feeds
+
+    @property
+    def utm(self):
+        return [
+            {
+                'value': 'facebook',
+                'label': 'Campaign Source',
+                'name': 'cs'
+            },
+            {
+                'value': 'cpc',
+                'label': 'Campaign Medium',
+                'name': 'cm'
+            },
+            {
+                'value': 'test-yottos.myshopify.com',
+                'label': 'Campaign Name',
+                'name': 'cn'
+            }
+        ]
+
+    @never_cache
+    @transaction.atomic
     def get(self, request, *args, **kwargs):
         utm = []
         collection = []
@@ -212,7 +220,7 @@ class Dashboard(TemplateView, BaseShop, BaseFacebook):
                 install = True
             elif message.message == 'reinstall':
                 reinstall = True
-        feed = deepcopy(self.feeds.get(feed_name, self.feeds.get('fb')))
+        feed = self.feeds.get(feed_name, self.feeds.get('fb'))
         shop = self.get_shop(request.shop)
         facebook = self.get_facebook(request.shop)
         if shop:
@@ -233,12 +241,6 @@ class Dashboard(TemplateView, BaseShop, BaseFacebook):
                     feed['integration']['text']['buttons']['relevant'] = 'Change Relevant Audience Settings'
                 elif camp.campaign_type == 'ret':
                     feed['integration']['text']['buttons']['retargeting'] = 'Change Audience retargeting settings'
-
-        if not settings.FACEBOOK_APP_ENABLE:
-            try:
-                del feed['integration']
-            except Exception as e:
-                print(e)
 
         context = {
             'page_name': feed['page_name'],
@@ -362,8 +364,8 @@ class FbSubscribe(TemplateView, BaseShop, BaseFacebook):
             if shop and facebook:
                 with shopify.Session.temp(shop.myshopify_domain, settings.SHOPIFY_API_VERSION, shop.access_token):
                     ac = shopify.ApplicationCharge()
-                    # if settings.DEBUG:
-                    #     ac.test = True
+                    if settings.SHOPIFY_TEST_PAY:
+                        ac.test = True
                     ac.return_url = request.build_absolute_uri(
                         route_url('shopify_app:fb_subscribe_submit', _query=_query))
                     ac.price = 99.00
@@ -578,8 +580,8 @@ class Subscribe(TemplateView, BaseShop):
                         if i.status != 'declined':
                             rac_count += 1
                     rac = shopify.RecurringApplicationCharge()
-                    # if settings.DEBUG:
-                    #     rac.test = True
+                    if settings.SHOPIFY_TEST_PAY:
+                        rac.test = True
                     rac.return_url = request.build_absolute_uri(
                         route_url('shopify_app:subscribe_submit', _query=_query))
                     rac.price = 29.00
@@ -715,12 +717,13 @@ class MainXml(TemplateResponseMixin, View, BaseShop):
                     if ch in string:
                         string = string.replace(ch, to_char)
                 return string.lower()
+
             cs = feed_settings.get('utm', {}).get('cs', self.feed)
             cn = feed_settings.get('utm', {}).get('cn', shop.myshopify_domain)
             cm = feed_settings.get('utm', {}).get('cm', 'cpc')
             print(feed_settings)
             utm = 'utm_source=%s&utm_medium=%s&utm_campaign=%s' % (
-            char_replace(cs), char_replace(cn), char_replace(cm))
+                char_replace(cs), char_replace(cn), char_replace(cm))
             collec = []
             for collection in feed_settings.get('collection', ''):
                 if collection.get('value', False):
