@@ -1,5 +1,6 @@
 import json
 import re
+from copy import deepcopy
 from datetime import datetime
 
 import shopify
@@ -11,6 +12,7 @@ from django.shortcuts import render, redirect
 from django.template import RequestContext
 from django.utils import timezone
 from django.utils.decorators import method_decorator
+from django.views.decorators.cache import never_cache
 from django.views.decorators.csrf import csrf_exempt
 from django.views.generic.base import TemplateResponseMixin, View, TemplateView, HttpResponse
 
@@ -24,6 +26,7 @@ def index(request):
     return render(request, 'shopify_app/index.html', context)
 
 
+@never_cache
 @transaction.atomic
 def save(request):
     if request.method == 'POST':
@@ -49,6 +52,7 @@ def save(request):
     return HttpResponse("OK")
 
 
+@never_cache
 @transaction.atomic
 def facebook_campaign(request):
     context = {}
@@ -191,6 +195,7 @@ class Dashboard(TemplateView, BaseShop, BaseFacebook):
         }
     ]
 
+    @never_cache
     @transaction.atomic
     def get(self, request, *args, **kwargs):
         utm = []
@@ -207,7 +212,7 @@ class Dashboard(TemplateView, BaseShop, BaseFacebook):
                 install = True
             elif message.message == 'reinstall':
                 reinstall = True
-        feed = self.feeds.get(feed_name, self.feeds.get('fb'))
+        feed = self.feeds.get(feed_name, deepcopy(self.feeds.get('fb')))
         shop = self.get_shop(request.shop)
         facebook = self.get_facebook(request.shop)
         if shop:
@@ -250,6 +255,7 @@ class Dashboard(TemplateView, BaseShop, BaseFacebook):
 class Downgrade(TemplateView, BaseShop):
     template_name = "shopify_app/downgrade.html"
 
+    @never_cache
     def get(self, request, *args, **kwargs):
         shop = self.get_shop(request.shop)
         context = {
@@ -263,6 +269,7 @@ class Downgrade(TemplateView, BaseShop):
 class FbIntegration(TemplateView, BaseShop, BaseFacebook):
     template_name = "shopify_app/fb_integration.html"
 
+    @never_cache
     def get(self, request, *args, **kwargs):
         shop = self.get_shop(request.shop)
         context = {
@@ -272,6 +279,7 @@ class FbIntegration(TemplateView, BaseShop, BaseFacebook):
 
         return self.render_to_response(context)
 
+    @never_cache
     @transaction.atomic
     def post(self, request, *args, **kwargs):
         json_data = json.loads(request.body.decode('utf-8'))
@@ -307,6 +315,7 @@ class FbIntegration(TemplateView, BaseShop, BaseFacebook):
 class FbDisconect(TemplateView, BaseShop, BaseFacebook):
     template_name = "shopify_app/subscribe.html"
 
+    @never_cache
     @transaction.atomic
     def get(self, request, *args, **kwargs):
         shop = self.get_shop(request.shop)
@@ -324,6 +333,7 @@ class FbDisconect(TemplateView, BaseShop, BaseFacebook):
 class FbDeIntegration(TemplateView, BaseShop, BaseFacebook):
     template_name = "shopify_app/webhook.html"
 
+    @never_cache
     @transaction.atomic
     def post(self, request, *args, **kwargs):
         json_data = json.loads(request.body.decode('utf-8'))
@@ -334,6 +344,7 @@ class FbDeIntegration(TemplateView, BaseShop, BaseFacebook):
 class FbSubscribe(TemplateView, BaseShop, BaseFacebook):
     template_name = "shopify_app/subscribe.html"
 
+    @never_cache
     @transaction.atomic
     def get(self, request, *args, **kwargs):
         campaign_type = request.GET.get('type')
@@ -364,6 +375,7 @@ class FbSubscribe(TemplateView, BaseShop, BaseFacebook):
 
 class FbSubmitSubscribe(View, BaseShop, BaseFacebook):
 
+    @never_cache
     @transaction.atomic
     def get(self, request, *args, **kwargs):
         campaign_type = request.GET.get('type')
@@ -389,6 +401,7 @@ class FbSubmitSubscribe(View, BaseShop, BaseFacebook):
 
 class Authenticate(View, BaseShop):
 
+    @never_cache
     def get(self, request, *args, **kwargs):
         shop = self.get_shop(request.shop)
         _query = {
@@ -445,6 +458,7 @@ class Authenticate(View, BaseShop):
                 print(e)
         return redirect(url)
 
+    @never_cache
     def post(self, request, *args, **kwargs):
         shop = request.GET.get('shop') or request.POST.get('shop')
         _query = {
@@ -457,6 +471,7 @@ class Authenticate(View, BaseShop):
 
 class Install(View):
 
+    @never_cache
     def get(self, request, *args, **kwargs):
         shop = request.shop
         _query = {
@@ -523,6 +538,7 @@ class Finalize(View):
             webhook = shopify.Webhook()
             w = webhook.create(webhook_data)
 
+    @never_cache
     def get(self, request, *args, **kwargs):
         shop = request.shop
         _query = {
@@ -543,6 +559,7 @@ class Finalize(View):
 class Subscribe(TemplateView, BaseShop):
     template_name = "shopify_app/subscribe.html"
 
+    @never_cache
     def get(self, request, *args, **kwargs):
         _query = {
             'shop': request.shop, 'hmac': request.hmac, 'timestamp': request.timestamp,
@@ -577,6 +594,7 @@ class Subscribe(TemplateView, BaseShop):
 
 class UnSubscribe(TemplateView, BaseShop):
 
+    @never_cache
     @transaction.atomic
     def get(self, request, *args, **kwargs):
         _query = {
@@ -597,6 +615,7 @@ class UnSubscribe(TemplateView, BaseShop):
 
 class SubmitSubscribe(View, BaseShop):
 
+    @never_cache
     @transaction.atomic
     def get(self, request, *args, **kwargs):
         _query = {
@@ -624,6 +643,7 @@ class SubmitSubscribe(View, BaseShop):
 class WebhookAppUninstalled(TemplateView, BaseShop, BaseFacebook):
     template_name = "shopify_app/webhook.html"
 
+    @never_cache
     def post(self, request, *args, **kwargs):
         if request.method == 'POST' and verify_webhook(request.body, request.headers.get('X-Shopify-Hmac-Sha256')):
             topic = request.headers.get('X-Shopify-Topic')
@@ -648,6 +668,7 @@ class WebhookAppUninstalled(TemplateView, BaseShop, BaseFacebook):
 class WebhookGDPR(TemplateView, BaseShop):
     template_name = "shopify_app/webhook.html"
 
+    @never_cache
     def post(self, request, *args, **kwargs):
         return self.render_to_response({})
 
@@ -657,6 +678,7 @@ class MainXml(TemplateResponseMixin, View, BaseShop):
     content_type = 'application/liquid'
     feed = None
 
+    @never_cache
     def get(self, request, *args, **kwargs):
         context = {
             'shop': self.get_shop(request.shop),
