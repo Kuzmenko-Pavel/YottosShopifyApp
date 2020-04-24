@@ -159,7 +159,6 @@ class Dashboard(TemplateView, BaseShop, BaseFacebook):
                         'new_auditory': 'Create a new audience',
                         'relevant': 'Create Relevant Audiences',
                         'retargeting': 'Create retargeting'
-
                     },
                     'sheet': {
                         'new_auditory': {
@@ -232,7 +231,7 @@ class Dashboard(TemplateView, BaseShop, BaseFacebook):
                     item['value'] = utm_val
                 utm.append(item)
 
-        if facebook and feed_name == 'fb':
+        if facebook and feed_name == 'fb' and feed.get('integration') is not None:
             feed['integration']['complite'] = facebook.connect
             for camp in facebook.facebookcampaign_set.all():
                 if camp.campaign_type == 'new':
@@ -253,7 +252,6 @@ class Dashboard(TemplateView, BaseShop, BaseFacebook):
             'collection': collection,
             'feed_name': feed_name
         }
-        print(context)
         return self.render_to_response(context)
 
 
