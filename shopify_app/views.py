@@ -359,8 +359,8 @@ class FbSubscribe(TemplateView, BaseShop, BaseFacebook):
             if shop and facebook:
                 with shopify.Session.temp(shop.myshopify_domain, settings.SHOPIFY_API_VERSION, shop.access_token):
                     ac = shopify.ApplicationCharge()
-                    if settings.DEBUG:
-                        ac.test = True
+                    # if settings.DEBUG:
+                    #     ac.test = True
                     ac.return_url = request.build_absolute_uri(
                         route_url('shopify_app:fb_subscribe_submit', _query=_query))
                     ac.price = 99.00
@@ -575,8 +575,8 @@ class Subscribe(TemplateView, BaseShop):
                         if i.status != 'declined':
                             rac_count += 1
                     rac = shopify.RecurringApplicationCharge()
-                    if settings.DEBUG:
-                        rac.test = True
+                    # if settings.DEBUG:
+                    #     rac.test = True
                     rac.return_url = request.build_absolute_uri(
                         route_url('shopify_app:subscribe_submit', _query=_query))
                     rac.price = 29.00
