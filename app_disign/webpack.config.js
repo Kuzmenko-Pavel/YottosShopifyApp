@@ -15,7 +15,7 @@ module.exports = {
         splitChunks: {
             cacheGroups: {
                 vendor: {
-                    test: /[\\/]node_modules[\\/](react|react-dom|axios|react-transition-group)[\\/]/,
+                    test: /[\\/]node_modules[\\/](react|react-dom|axios|react-transition-group|react-youtube|react-cookies)[\\/]/,
                     name: 'react',
                     chunks: 'all'
                 },

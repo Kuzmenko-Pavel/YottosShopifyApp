@@ -52,7 +52,9 @@ ReactDOM.render(<SpinnerApp/>, document.getElementById('root'));
 function WrappedApp(props) {
     return (
         <AppProvider i18n={enTranslations}>
-            <App redirect={props.redirect} current_shop={window.current_shop}/>
+            <App redirect={props.redirect} current_shop={window.current_shop}
+                 buttons={props.buttons}
+            />
         </AppProvider>
     );
 }
@@ -75,6 +77,7 @@ function getApp() {
 function runApp() {
     const app = getApp();
     const redirect = Redirect.create(app);
+    const videoButton = Button.create(app, {label: 'Watch Help'});
     const subscribeButton = Button.create(app, {label: 'Upgrade to Premium Membershi'});
     const unSubscribeButton = Button.create(app, {label: 'Downgrade to free Membership'});
     const button1 = Button.create(app, {label: 'Facebook (Instagram) Feed'});
@@ -119,6 +122,9 @@ function runApp() {
         const link = window.current_shop.downgrade;
         redirect.dispatch(Redirect.Action.APP, link);
     });
+    videoButton.subscribe(Button.Action.CLICK, function () {
+        window.ga('send', 'event', 'Video', 'Open', 'BigButton');
+    });
     button1.subscribe(Button.Action.CLICK, function () {
         ReactDOM.render(<SpinnerApp/>, document.getElementById('root'));
         window.ga('send', 'event', 'Feed', 'Open', 'Facebook');
@@ -161,7 +167,8 @@ function runApp() {
             button1,
             button2,
             button3,
-            button4
+            button4,
+            videoButton
         ]
     };
     if (!window.current_shop.premium) {
@@ -197,7 +204,11 @@ function runApp() {
             });
         }
     }
-    ReactDOM.render(<WrappedApp redirect={redirect}/>, document.getElementById('root'));
+    ReactDOM.render(<WrappedApp redirect={redirect}
+                                buttons={{
+                                    help: videoButton
+                                }}
+    />, document.getElementById('root'));
 }
 
 function inIframe() {

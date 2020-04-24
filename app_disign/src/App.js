@@ -1,4 +1,6 @@
 import React, {useCallback, useEffect, useState} from 'react';
+import YouTube from 'react-youtube';
+import cookie from 'react-cookies'
 import {Badge, Layout, Link, List, Modal, Page, Stack, TextContainer} from '@shopify/polaris';
 import Feed from './Feed';
 import Options from './Options';
@@ -6,13 +8,34 @@ import UTM from './Utm';
 import Collections from './Collections';
 import Integrtion from './Integration';
 import * as Redirect from "@shopify/app-bridge/actions/Navigation/Redirect";
+import * as Button from "@shopify/app-bridge/actions/Button";
 
 export default function App(props) {
+    const watchVideo = cookie.load('watchVideo');
+    const expiresVideo = new Date();
+    const maxAgeVideo = 60 * 60 * 24 * 365;
+    expiresVideo.setDate(Date.now() + 1000 * maxAgeVideo);
+    const watchPromo = cookie.load('watchPromo');
+    const expiresPromo = new Date();
+    const maxAgePromo = 60 * 60 * 12;
+    expiresPromo.setDate(Date.now() + 1000 * maxAgePromo);
     const premium = props.current_shop.premium;
     const [active, setActive] = useState(false);
+    const [activeYoutube, setActiveYoutube] = useState(false);
     const handleChange = useCallback(() => {
         setActive(!active);
     }, [active]);
+    const handleChangeYoutube = useCallback(() => {
+        setActiveYoutube(!activeYoutube);
+    }, [
+        activeYoutube,
+        props
+    ]);
+    if (props.buttons.help) {
+        props.buttons.help.subscribe(Button.Action.CLICK, function () {
+            setActiveYoutube(true);
+        });
+    }
 
     function upgrade() {
         window.ga('send', 'event', 'Order', 'Upgrade', 'Options');
@@ -48,17 +71,55 @@ export default function App(props) {
 
     useEffect(
         () => {
-            if (!premium) {
-                let timer1 = setTimeout(() => setActive(true), 8000);
-                return () => {
-                    clearTimeout(timer1);
-                };
+            if (!watchVideo) {
+                setActiveYoutube(true);
+                cookie.save('watchVideo', true, {
+                    path: '/',
+                    Expires: expiresVideo,
+                    secure: true,
+                    maxAge: maxAgeVideo
+                });
+            }
+            else {
+                if (!premium) {
+                    if (!watchPromo) {
+                        let timer1 = setTimeout(() => {
+                            setActive(true);
+                            cookie.save('watchPromo', true, {
+                                path: '/',
+                                Expires: expiresPromo,
+                                secure: true,
+                                maxAge: maxAgePromo
+                            });
+                        }, 8000);
+                        return () => {
+                            clearTimeout(timer1);
+                        };
+                    }
+                }
             }
         },
         []
     );
     const h3Style = {textAlign: 'center'};
     const title = <div style={h3Style} className="Polaris-Heading">Activate 60 day PREMIUM PLAN for free!</div>;
+    const youtube_opts = {
+        height: '500px',
+        width: '100%',
+        playerVars: {
+            // https://developers.google.com/youtube/player_parameters
+            autoplay: 0,
+            color: 'red',
+            enablejsapi: 1,
+            loop: 1,
+            rel: 0
+        }
+    };
+
+    function _onReady(event) {
+        event.target.pauseVideo();
+    }
+
     return (
         <Page>
             <Layout>
@@ -108,6 +169,20 @@ export default function App(props) {
                             </Stack.Item>
                             <Stack.Item fill>
 
+                            </Stack.Item>
+                        </Stack>
+                    </Modal.Section>
+                </Modal>
+                <Modal
+                    large
+                    title={'HOW TO CONFIGURE FEED PRODUCT IN SHOPIFY'}
+                    open={activeYoutube}
+                    onClose={handleChangeYoutube}
+                >
+                    <Modal.Section>
+                        <Stack vertical>
+                            <Stack.Item>
+                                <YouTube videoId="kN19vW3Q6as" opts={youtube_opts} onReady={_onReady}/>
                             </Stack.Item>
                         </Stack>
                     </Modal.Section>
