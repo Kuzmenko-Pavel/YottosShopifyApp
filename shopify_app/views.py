@@ -721,7 +721,7 @@ class MainXml(TemplateResponseMixin, View, BaseShop):
             cm = feed_settings.get('utm', {}).get('cm', 'cpc')
             print(feed_settings)
             utm = 'utm_source=%s&utm_medium=%s&utm_campaign=%s' % (
-                char_replace(cs), char_replace(cn), char_replace(cm))
+                char_replace(cs), char_replace(cm), char_replace(cn))
             collec = []
             for collection in feed_settings.get('collection', ''):
                 if collection.get('value', False):
