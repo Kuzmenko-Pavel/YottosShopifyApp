@@ -397,6 +397,8 @@ class Authenticate(View, BaseShop):
         }
         url = route_url('shopify_app:install', _query=_query)
         if shop and shop.installed:
+            # _query['shop'] = shop.myshopify_domain
+            url = route_url('shopify_app:dashboard', _query=_query)
             try:
                 with shopify.Session.temp(shop.myshopify_domain, settings.SHOPIFY_API_VERSION, shop.access_token):
                     count = shopify.Product.count()
@@ -407,8 +409,6 @@ class Authenticate(View, BaseShop):
                     collections = shopify.SmartCollection.find()
                     for collection in collections:
                         coll.append({'label': collection.title, 'name': collection.handle})
-
-                    url = route_url('shopify_app:dashboard', _query=_query)
                     if count:
                         old_coll_fb = {x['name']: (x['label'], x['value']) for x in
                                        shop.feeds.get('fb', {}).get('collection', [])}
