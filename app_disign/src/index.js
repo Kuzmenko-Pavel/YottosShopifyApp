@@ -1,11 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {AppProvider, Spinner} from '@shopify/polaris';
+import {AppProvider} from '@shopify/polaris';
 import '@shopify/polaris/styles.css';
 import enTranslations from '@shopify/polaris/locales/en.json';
 import App from './App';
 import createApp from '@shopify/app-bridge';
 import {Button, Redirect, TitleBar} from '@shopify/app-bridge/actions';
+import SpinnerApp from './SpinnerApp';
 
 
 window.fbAsyncInit = function () {
@@ -32,17 +33,6 @@ window.fbAsyncInit = function () {
     fjs.parentNode.insertBefore(js, fjs);
 }(document, 'script', 'facebook-jssdk'));
 
-function SpinnerApp() {
-    return (
-        <div style={{
-            position: 'absolute',
-            left: '50%',
-            top: '50%'
-        }}>
-            <Spinner size="large" color="teal"/>
-        </div>
-    );
-}
 
 ReactDOM.render(<SpinnerApp/>, document.getElementById('root'));
 
