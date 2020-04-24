@@ -23,7 +23,7 @@ ReactDOM.render(<SpinnerApp/>, document.getElementById('root'));
 
 function WrappedApp(props) {
     return (
-        <AppProvider>
+        <AppProvider i18n={{}}>
             <IntegrationApp
                 token={props.token}
                 user={props.user}

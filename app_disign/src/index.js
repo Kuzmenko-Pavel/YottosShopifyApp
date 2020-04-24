@@ -48,7 +48,7 @@ ReactDOM.render(<SpinnerApp/>, document.getElementById('root'));
 
 function WrappedApp(props) {
     return (
-        <AppProvider>
+        <AppProvider i18n={{}}>
             <App redirect={props.redirect} current_shop={window.current_shop}
                  buttons={props.buttons}
             />
