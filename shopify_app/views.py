@@ -672,7 +672,7 @@ class MainXml(TemplateResponseMixin, View, BaseShop):
         else:
             def char_replace(string, chars=None, to_char=None):
                 if chars is None:
-                    chars = [' ', '.', ',', ';', '!', '?', ':']
+                    chars = [' ', '.', ',', ';', '!', '?', ':', '<', '>', '&']
                 if to_char is None:
                     to_char = '_'
                 for ch in chars:
