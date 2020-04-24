@@ -54,7 +54,7 @@ by 1000 -%}
 <item>
 <title>{{ productTitle | strip_html | replace: '&', '&amp;' }}</title>
 <link>{{ shop.url }}{{ variant.url | append:  {% endverbatim %}
-"&{{utm}}"
+"&{{utm|safe}}"
 {% verbatim %} }}</link>
 <description>{{ productDescription | strip_html | strip_newlines | replace: '&', '&amp;' }}</description>
 <g:google_product_category>{{ GoogleProductCategory | replace: '&', '&amp;'  }}</g:google_product_category>
