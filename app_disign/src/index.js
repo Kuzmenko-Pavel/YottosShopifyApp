@@ -34,7 +34,7 @@ window.fbAsyncInit = function () {
 }(document, 'script', 'facebook-jssdk'));
 
 
-ReactDOM.render(<SpinnerApp/>, document.getElementById('root'));
+// ReactDOM.render(<SpinnerApp/>, document.getElementById('root'));
 
 function WrappedApp(props) {
     return (
