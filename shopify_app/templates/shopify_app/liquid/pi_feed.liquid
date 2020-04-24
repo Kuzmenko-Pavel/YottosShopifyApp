@@ -46,9 +46,8 @@ by 1000 -%}
 <g:brand>{{ product.vendor }}</g:brand>
 <g:inventory>{{ variant.inventory_quantity }}</g:inventory>
 </item>
-  {% endfor %}
-  {% else %}
-
+  {%- endfor -%}
+  {%- else -%}
 <item>
 <title>{{ product.title | strip_html | strip_newlines | replace: '&', '&amp;' }}</title>
 <description>{{ product.description | replace: '</', ' </' | strip_html | strip_newlines | replace: '&', '&amp;' }}</description>
@@ -68,10 +67,10 @@ by 1000 -%}
     {% else %}
     <additional_image_link>http:{{ image.src | img_url: '720x720' }}</additional_image_link>
     {% endif %}
-{% endfor %}
-{% else %}
+{%- endfor -%}
+{%- else -%}
     <g:image_link>http:{{ product.featured_image.src | img_url: '720x720' }}</g:image_link>
-{% endif %}
+{%- endif -%}
 <g:gtin>{{ product.barcode }}</g:gtin>
 <g:mpn>{{ product.sku }}</g:mpn>
 <g:product_type>{{ product.type | replace: '&', '&amp;' }}</g:product_type>
@@ -79,9 +78,9 @@ by 1000 -%}
 <g:gender>{{ Gender }}</g:gender>
 <g:brand>{{ product.vendor }}</g:brand>
 </item>
-  {% endif %}
-{% endfor %}
-{% endpaginate %}
+  {%- endif -%}
+{%- endfor -%}
+{%- endpaginate -%}
 {% endverbatim %}
 {% endfor %}
 {% verbatim %}

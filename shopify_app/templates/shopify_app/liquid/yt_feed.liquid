@@ -45,8 +45,8 @@
                 <gender>{{ Gender }}</gender>
                 <brand>{{ product.vendor }}</brand>
             </offer>
-            {% endfor %}
-            {% else %}
+            {%- endfor -%}
+            {%- else -%}
             <offer id='{{ product.id }}'>
                 <categoryName>{{ GoogleProductCategory | replace: '&', '&amp;'  }}</categoryName>
                 <name>{{ product.title | strip_html | strip_newlines | replace: '&', '&amp;' }}</name>
@@ -58,19 +58,19 @@
                 {%- if product.images.size > 1 -%}
                 {%- for image in product.images -%}
                     <picture>http:{{ image.src | img_url: '720x720' }}</picture>
-                {% endfor %}
-                {% else %}
+                {%- endfor -%}
+                {%- else -%}
                     <picture>http:{{ product.featured_image.src | img_url: '720x720' }}</picture>
-                {% endif %}
+                {%- endif -%}
                 <description>{{ product.description | replace: '</', ' </' | strip_html | strip_newlines | replace: '&', '&amp;' }}</description>
                 <product_type>{{ product.type | replace: '&', '&amp;' }}</product_type>
                 <age_group>{{ AgeGroup }}</age_group>
                 <gender>{{ Gender }}</gender>
                 <brand>{{ product.vendor }}</brand>
             </offer>
-            {% endif %}
-            {% endfor %}
-            {% endpaginate %}
+            {%- endif -%}
+            {%- endfor -%}
+            {%- endpaginate -%}
             {% endverbatim %}
             {% endfor %}
             {% verbatim %}
