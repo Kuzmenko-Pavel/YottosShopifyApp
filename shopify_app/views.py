@@ -190,6 +190,7 @@ class Dashboard(TemplateView, BaseShop, BaseFacebook):
         }
     ]
 
+    @transaction.atomic
     def get(self, request, *args, **kwargs):
         utm = []
         collection = []

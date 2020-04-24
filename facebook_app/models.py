@@ -85,6 +85,10 @@ class FacebookCampaign(Model):
                     campaign_result = acc.create_campaign(params=campaign_params)
                     self.campaign_id = campaign_result['id']
 
+    def fb_get_or_create_adset(self):
+        self.business.setup_api_access()
+        if self.campaign_id:
+            pass
 
 class FacebookFeed(Model):
     business = models.ForeignKey(FacebookBusinessManager, on_delete=models.CASCADE)

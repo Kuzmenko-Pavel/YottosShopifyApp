@@ -118,6 +118,17 @@ export default function IntegrationApp(props) {
         }
     ];
 
+    const choiceFunding = [
+        {
+            label: 'Use an existing Payment Method',
+            value: 'existing'
+        },
+        {
+            label: 'Create a new Payment Method',
+            value: 'create'
+        }
+    ];
+
     const handleTabChange = useCallback(
         (selectedTabIndex) => setSelected(selectedTabIndex),
         []
@@ -317,9 +328,9 @@ export default function IntegrationApp(props) {
             id: 'pages',
             content: '3. Select Page',
             text: 'Select a Page to your account',
-            panelID: 'pixel',
+            panelID: 'page',
             childrens: (
-                <Choicer choices={choicePixels}
+                <Choicer choices={choicePages}
                          options={existingOptions('page')}
                          setings={selectedSettings.page}
                          setSettings={setSettings}
@@ -352,7 +363,7 @@ export default function IntegrationApp(props) {
             panelID: 'funding',
             childrens: (
                 <ChoicerFunding
-                    choices={choicePixels}
+                    choices={choiceFunding}
                     options={existingOptions('funding')}
                     setings={selectedSettings.funding}
                     setSettings={setSettings}
