@@ -1,22 +1,8 @@
 import React, {useCallback, useState} from "react";
-import {
-    Banner,
-    Button,
-    Caption,
-    Card,
-    Heading,
-    Layout,
-    Link,
-    Modal,
-    Scrollable,
-    Sheet,
-    TextContainer
-} from "@shopify/polaris";
+import {Banner, Button, Caption, Card, Layout, Link, Modal, TextContainer} from "@shopify/polaris";
 import * as Redirect from "@shopify/app-bridge/actions/Navigation/Redirect";
-import {MobileCancelMajorMonotone} from "@shopify/polaris-icons";
 import axios from 'axios';
-import Geo from "./Geo";
-
+import CampaignSettings from "./CampaignSettings";
 
 export default function Integrtion(props) {
     const redirect = props.redirect;
@@ -1022,22 +1008,16 @@ export default function Integrtion(props) {
             "label": "Falkland Islands"
         }
     ];
+    const relevant_geoOptions = geoOptions.slice();
+    const retargeting_geoOptions = geoOptions.slice();
+    const [budgetValue, setBudget] = useState('15.00');
+    const [relevant_budgetValue, relevant_setBudget] = useState('15.00');
+    const [retargeting_budgetValue, retargeting_setBudget] = useState('15.00');
+    const [retargeting_campaignRun, retargeting_setCampaignRun] = useState(false);
+    const [relevant_campaignRun, relevant_setCampaignRun] = useState(false);
+    const [campaignRun, setCampaignRun] = useState(false);
     const [selectedOptionsGeo, setSelectedOptionsGeo] = useState([]);
-    const relevant_geoOptions = Array.from(Array(100)).map((
-        _,
-        index
-    ) => ({
-        value: `country ${index}`,
-        label: `Country ${index}`
-    }));
     const [selectedOptionsGeoRel, setSelectedOptionsGeoRel] = useState([]);
-    const retargeting_geoOptions = Array.from(Array(100)).map((
-        _,
-        index
-    ) => ({
-        value: `country ${index}`,
-        label: `Country ${index}`
-    }));
     const [selectedOptionsGeoRet, setSelectedOptionsGeoRet] = useState([]);
     const premium = props.current_shop.premium;
     const liStyle = {
@@ -1076,7 +1056,9 @@ export default function Integrtion(props) {
             axios.defaults.xsrfHeaderName = "X-CSRFTOKEN";
             axios.post('/shopify/fb_integration/campaign?type=new', {
                 data: {
-                    geo: selectedOptionsGeo
+                    geo: selectedOptionsGeo,
+                    budget: budgetValue,
+                    status: campaignRun
                 },
                 shop: props.current_shop.domain
             }).then(function (response) {
@@ -1120,7 +1102,9 @@ export default function Integrtion(props) {
             axios.defaults.xsrfHeaderName = "X-CSRFTOKEN";
             axios.post('/shopify/fb_integration/campaign?type=rel', {
                 data: {
-                    geo: selectedOptionsGeoRel
+                    geo: selectedOptionsGeoRel,
+                    budget: relevant_budgetValue,
+                    status: relevant_campaignRun
                 },
                 shop: props.current_shop.domain
             }).then(function (response) {
@@ -1163,7 +1147,9 @@ export default function Integrtion(props) {
             axios.defaults.xsrfHeaderName = "X-CSRFTOKEN";
             axios.post('/shopify/fb_integration/campaign?type=ret', {
                 data: {
-                    geo: selectedOptionsGeoRet
+                    geo: selectedOptionsGeoRet,
+                    budget: retargeting_budgetValue,
+                    status: retargeting_campaignRun
                 },
                 shop: props.current_shop.domain
             }).then(function (response) {
@@ -1227,7 +1213,7 @@ export default function Integrtion(props) {
                 function (response) {
                     statusChangeCallback(response, true);
                 }, {
-                    scope: 'email,ads_management,ads_read,read_insights,business_management,catalog_management,manage_pages',
+                    scope: 'email,ads_management,business_management,catalog_management,manage_pages',
                     auth_type: 'rerequest',
                     return_scopes: true
                 }
@@ -1318,167 +1304,45 @@ export default function Integrtion(props) {
                         <Caption>To disconnect facebook click on the <Link onClick={disonnectFb}>link </Link></Caption>
                     </Card>
 
-                    <Sheet open={sheetActive}>
-                        <div
-                            style={{
-                                display: 'flex',
-                                flexDirection: 'column',
-                                height: '100%'
-                            }}
-                        >
-                            <div
-                                style={{
-                                    alignItems: 'center',
-                                    borderBottom: '1px solid #DFE3E8',
-                                    display: 'flex',
-                                    justifyContent: 'space-between',
-                                    padding: '1.6rem',
-                                    width: '100%'
-                                }}
-                            >
-                                <Heading>{props.current_shop.feed.integration.text.sheet.new_auditory.heading}</Heading>
-                                <Button
-                                    accessibilityLabel="Cancel"
-                                    icon={MobileCancelMajorMonotone}
-                                    onClick={toggleSheetClose}
-                                    plain
-                                />
-                            </div>
-                            <Scrollable style={{
-                                padding: '1.6rem',
-                                height: '100%'
-                            }}>
-                                <Geo geo={geoOptions}
-                                     selectedOptions={selectedOptionsGeo}
-                                     setSelectedOptions={setSelectedOptionsGeo}></Geo>
-                            </Scrollable>
-                            <div
-                                style={{
-                                    alignItems: 'center',
-                                    borderTop: '1px solid #DFE3E8',
-                                    display: 'flex',
-                                    justifyContent: 'space-between',
-                                    padding: '1.6rem',
-                                    width: '100%'
-                                }}
-                            >
-                                <Button onClick={toggleSheetClose}>
-                                    {props.current_shop.feed.integration.text.sheet.new_auditory.cancel}
-                                </Button>
-                                <Button primary onClick={toggleSheetSave}>
-                                    {props.current_shop.feed.integration.text.sheet.new_auditory.save}
-                                </Button>
-                            </div>
-                        </div>
-                    </Sheet>
-
-                    <Sheet open={retargeting_sheetActive}>
-                        <div
-                            style={{
-                                display: 'flex',
-                                flexDirection: 'column',
-                                height: '100%'
-                            }}
-                        >
-                            <div
-                                style={{
-                                    alignItems: 'center',
-                                    borderBottom: '1px solid #DFE3E8',
-                                    display: 'flex',
-                                    justifyContent: 'space-between',
-                                    padding: '1.6rem',
-                                    width: '100%'
-                                }}
-                            >
-                                <Heading>{props.current_shop.feed.integration.text.sheet.retargeting.heading}</Heading>
-                                <Button
-                                    accessibilityLabel="Cancel"
-                                    icon={MobileCancelMajorMonotone}
-                                    onClick={retargeting_toggleSheetClose}
-                                    plain
-                                />
-                            </div>
-                            <Scrollable style={{
-                                padding: '1.6rem',
-                                height: '100%'
-                            }}>
-                                <Geo geo={retargeting_geoOptions}
-                                     selectedOptions={selectedOptionsGeoRet}
-                                     setSelectedOptions={setSelectedOptionsGeoRet}></Geo>
-                            </Scrollable>
-                            <div
-                                style={{
-                                    alignItems: 'center',
-                                    borderTop: '1px solid #DFE3E8',
-                                    display: 'flex',
-                                    justifyContent: 'space-between',
-                                    padding: '1.6rem',
-                                    width: '100%'
-                                }}
-                            >
-                                <Button onClick={retargeting_toggleSheetClose}>
-                                    {props.current_shop.feed.integration.text.sheet.retargeting.cancel}
-                                </Button>
-                                <Button primary onClick={retargeting_toggleSheetSave}>
-                                    {props.current_shop.feed.integration.text.sheet.retargeting.save}
-                                </Button>
-                            </div>
-                        </div>
-                    </Sheet>
-
-                    <Sheet open={relevant_sheetActive}>
-                        <div
-                            style={{
-                                display: 'flex',
-                                flexDirection: 'column',
-                                height: '100%'
-                            }}
-                        >
-                            <div
-                                style={{
-                                    alignItems: 'center',
-                                    borderBottom: '1px solid #DFE3E8',
-                                    display: 'flex',
-                                    justifyContent: 'space-between',
-                                    padding: '1.6rem',
-                                    width: '100%'
-                                }}
-                            >
-                                <Heading>{props.current_shop.feed.integration.text.sheet.relevant.heading}</Heading>
-                                <Button
-                                    accessibilityLabel="Cancel"
-                                    icon={MobileCancelMajorMonotone}
-                                    onClick={relevant_toggleSheetClose}
-                                    plain
-                                />
-                            </div>
-                            <Scrollable style={{
-                                padding: '1.6rem',
-                                height: '100%'
-                            }}>
-                                <Geo geo={relevant_geoOptions}
-                                     selectedOptions={selectedOptionsGeoRel}
-                                     setSelectedOptions={setSelectedOptionsGeoRel}></Geo>
-                            </Scrollable>
-                            <div
-                                style={{
-                                    alignItems: 'center',
-                                    borderTop: '1px solid #DFE3E8',
-                                    display: 'flex',
-                                    justifyContent: 'space-between',
-                                    padding: '1.6rem',
-                                    width: '100%'
-                                }}
-                            >
-                                <Button onClick={relevant_toggleSheetClose}>
-                                    {props.current_shop.feed.integration.text.sheet.relevant.cancel}
-                                </Button>
-                                <Button primary onClick={relevant_toggleSheetSave}>
-                                    {props.current_shop.feed.integration.text.sheet.relevant.save}
-                                </Button>
-                            </div>
-                        </div>
-                    </Sheet>
+                    <CampaignSettings
+                        sheetActive={sheetActive}
+                        toggleSheetClose={toggleSheetClose}
+                        toggleSheetSave={toggleSheetSave}
+                        geoOptions={geoOptions}
+                        selectedOptionsGeo={selectedOptionsGeo}
+                        setSelectedOptionsGeo={setSelectedOptionsGeo}
+                        current_shop={props.current_shop}
+                        budgetValue={budgetValue}
+                        setBudget={setBudget}
+                        campaignRun={campaignRun}
+                        setCampaignRun={setCampaignRun}
+                    />
+                    <CampaignSettings
+                        sheetActive={retargeting_sheetActive}
+                        toggleSheetClose={retargeting_toggleSheetClose}
+                        toggleSheetSave={retargeting_toggleSheetSave}
+                        geoOptions={retargeting_geoOptions}
+                        selectedOptionsGeo={selectedOptionsGeoRet}
+                        setSelectedOptionsGeo={setSelectedOptionsGeoRet}
+                        current_shop={props.current_shop}
+                        budgetValue={retargeting_budgetValue}
+                        setBudget={retargeting_setBudget}
+                        campaignRun={retargeting_campaignRun}
+                        setCampaignRun={retargeting_setCampaignRun}
+                    />
+                    <CampaignSettings
+                        sheetActive={relevant_sheetActive}
+                        toggleSheetClose={relevant_toggleSheetClose}
+                        toggleSheetSave={relevant_toggleSheetSave}
+                        geoOptions={relevant_geoOptions}
+                        selectedOptionsGeo={selectedOptionsGeoRel}
+                        setSelectedOptionsGeo={setSelectedOptionsGeoRel}
+                        current_shop={props.current_shop}
+                        budgetValue={relevant_budgetValue}
+                        setBudget={relevant_setBudget}
+                        campaignRun={relevant_campaignRun}
+                        setCampaignRun={relevant_setCampaignRun}
+                    />
                     <Modal
                         open={active}
                         onClose={handleChange}

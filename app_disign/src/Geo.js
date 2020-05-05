@@ -1,5 +1,5 @@
 import React, {useCallback, useState} from 'react';
-import {Autocomplete, Heading, Stack, Tag} from '@shopify/polaris';
+import {Autocomplete, Heading, SettingToggle, Stack, Tag} from '@shopify/polaris';
 
 export default function Geo(props) {
     const paginationInterval = 25;
@@ -76,19 +76,21 @@ export default function Geo(props) {
     ) : null;
 
     return (
-        <Stack vertical>
-            <Heading>Geo Targeting</Heading>
-            {selectedTagMarkup}
-            <Autocomplete
-                allowMultiple
-                options={optionList}
-                selected={props.selectedOptions}
-                textField={textField}
-                onSelect={props.setSelectedOptions}
-                listTitle="Suggested Tags"
-                onLoadMoreResults={handleLoadMoreResults}
-            />
-        </Stack>
+        <SettingToggle>
+            <Stack vertical>
+                <Heading>Geo Targeting</Heading>
+                {selectedTagMarkup}
+                <Autocomplete
+                    allowMultiple
+                    options={optionList}
+                    selected={props.selectedOptions}
+                    textField={textField}
+                    onSelect={props.setSelectedOptions}
+                    listTitle="Suggested Tags"
+                    onLoadMoreResults={handleLoadMoreResults}
+                />
+            </Stack>
+        </SettingToggle>
     );
 
     function titleCase(string) {
