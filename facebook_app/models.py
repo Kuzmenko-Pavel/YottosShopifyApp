@@ -17,6 +17,7 @@ from facebook_business.adobjects.flexibletargeting import FlexibleTargeting
 from facebook_business.adobjects.productcatalog import ProductCatalog
 from facebook_business.adobjects.targeting import Targeting
 from facebook_business.api import FacebookAdsApi
+from facebook_business.exceptions import FacebookRequestError
 
 
 def camp_data():
@@ -515,6 +516,9 @@ class FacebookCampaign(Model):
                     if acc:
                         campaign_result = acc.create_campaign(params=params)
                         self.campaign_id = campaign_result['id']
+        except FacebookRequestError as e:
+            print(e._body)
+            print(e)
         except Exception as e:
             print(e)
 
@@ -531,6 +535,9 @@ class FacebookCampaign(Model):
                 if self.campaign_id:
                     adset_result = acc.create_ad_set(params=params)
                     self.adset_id = adset_result['id']
+        except FacebookRequestError as e:
+            print(e._body)
+            print(e)
         except Exception as e:
             print(e)
 
@@ -547,6 +554,9 @@ class FacebookCampaign(Model):
                 if self.campaign_id:
                     creative_result = acc.create_ad_creative(params=params)
                     self.ad_creative_id = creative_result['id']
+        except FacebookRequestError as e:
+            print(e._body)
+            print(e)
         except Exception as e:
             print(e)
         self.fb_get_or_create_ads()
@@ -562,6 +572,9 @@ class FacebookCampaign(Model):
                 if self.campaign_id and self.adset_id and self.ad_creative_id:
                     ads_result = acc.create_ad(params=params)
                     self.ads_id = ads_result['id']
+        except FacebookRequestError as e:
+            print(e._body)
+            print(e)
         except Exception as e:
             print(e)
 
@@ -592,11 +605,17 @@ class FacebookFeed(Model):
                     )
                     catalog.add_external_event_sources(pixel_ids=[self.business.pixel, ])
                     self.catalog_id = catalog['id']
+            except FacebookRequestError as e:
+                print(e._body)
+                print(e)
             except Exception as e:
                 print(e)
 
             self.fb_feed_get_or_create()
             self.fb_product_set_get_or_create()
+        except FacebookRequestError as e:
+            print(e._body)
+            print(e)
         except Exception as e:
             print(e)
 
@@ -622,6 +641,9 @@ class FacebookFeed(Model):
                         feed = catalog.create_product_feed(params=feed_params)
                         self.feed_id = feed['id']
                         feed.create_upload(params={'url': feed_url})
+        except FacebookRequestError as e:
+            print(e._body)
+            print(e)
         except Exception as e:
             print(e)
 
@@ -640,5 +662,8 @@ class FacebookFeed(Model):
                     else:
                         product_set = catalog.create_product_set(params=product_set_params)
                         self.product_set_id = product_set['id']
+        except FacebookRequestError as e:
+            print(e._body)
+            print(e)
         except Exception as e:
             print(e)
