@@ -70,7 +70,7 @@ def facebook_campaign(request):
                 campaign.save()
                 campaign.facebookfeed_set.create(business=facebook)
                 campaign.save()
-
+            campaign.data = data
             campaign.fb_get_or_create(shop.myshopify_domain)
             campaign.save()
             _query = {

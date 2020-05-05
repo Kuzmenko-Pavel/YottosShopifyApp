@@ -85,7 +85,7 @@ class FacebookCampaign(Model):
         camp_status = Campaign.Status.paused
         adset_status = AdSet.Status.paused
         budget = self.data.get('budget', 15)
-        budget = budget * 100
+        budget = budget * 1000
         countries = self.data.get('geo', ["US"])
 
         story = AdCreativeObjectStorySpec()
