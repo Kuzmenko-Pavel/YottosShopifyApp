@@ -23,7 +23,7 @@ from facebook_business.exceptions import FacebookRequestError
 def camp_data():
     return {
         'geo': ["US"],
-        'budget': 15.00,
+        'budget': 100,
         'status': False
     }
 
