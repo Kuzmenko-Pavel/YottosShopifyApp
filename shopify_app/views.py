@@ -69,9 +69,9 @@ def facebook_campaign(request):
                 campaign = FacebookCampaign(business=facebook, campaign_type=campaign_type)
                 campaign.save()
                 campaign.facebookfeed_set.create(business=facebook)
-                campaign.fb_get_or_create()
                 campaign.save()
             campaign.data = data
+            campaign.fb_get_or_create()
             campaign.save()
             _query = {
                 'shop': domain, 'type': campaign_type
