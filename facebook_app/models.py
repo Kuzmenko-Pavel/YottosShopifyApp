@@ -88,7 +88,7 @@ class FacebookCampaign(Model):
         countries = self.data.get('geo', ["US"])
 
         story = AdCreativeObjectStorySpec()
-        # story[story.Field.page_id] = page_id
+        story[story.Field.page_id] = self.business.page
         story[story.Field.template_data] = {
             "link": "https://%s/" % self.business.myshopify_domain,
             "name": "{{product.name}}",
@@ -519,19 +519,21 @@ class FacebookCampaign(Model):
             print(e)
 
         self.fb_get_or_create_adset()
-        self.fb_get_or_create_ad_creative()
-        self.fb_get_or_create_ads()
 
     def fb_get_or_create_adset(self):
         try:
             self.business.setup_api_access()
             acc = AdAccount('act_%s' % self.business.account_id)
             params = self.get_params.get('adset')
-            if self.campaign_id:
+            if self.adset_id:
                 pass
             else:
-                adset_result = acc.create_ad_set(params=params)
-                self.adset_id = adset_result['id']
+                if self.campaign_id:
+                    adset_result = acc.create_ad_set(params=params)
+                    self.adset_id = adset_result['id']
+
+            self.fb_get_or_create_ad_creative()
+
         except Exception as e:
             print(e)
 
@@ -540,9 +542,13 @@ class FacebookCampaign(Model):
             self.business.setup_api_access()
             params = self.get_params.get('ad_creative')
             acc = AdAccount('act_%s' % self.business.account_id)
-            if self.campaign_id:
-                creative_result = acc.create_ad_creative(params=params)
-                self.ad_creative_id = creative_result['id']
+            if self.ad_creative_id:
+                pass
+            else:
+                if self.campaign_id:
+                    creative_result = acc.create_ad_creative(params=params)
+                    self.ad_creative_id = creative_result['id']
+            self.fb_get_or_create_ads()
         except Exception as e:
             print(e)
 
@@ -551,9 +557,12 @@ class FacebookCampaign(Model):
             self.business.setup_api_access()
             acc = AdAccount('act_%s' % self.business.account_id)
             params = self.get_params.get('ads')
-            if self.campaign_id and self.adset_id and self.ad_creative_id:
-                ads_result = acc.create_ad(params=params)
-                self.ads_id = ads_result['id']
+            if self.ads_id:
+                pass
+            else:
+                if self.campaign_id and self.adset_id and self.ad_creative_id:
+                    ads_result = acc.create_ad(params=params)
+                    self.ads_id = ads_result['id']
         except Exception as e:
             print(e)
 
