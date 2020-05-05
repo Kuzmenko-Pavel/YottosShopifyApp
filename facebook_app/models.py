@@ -87,6 +87,9 @@ class FacebookCampaign(Model):
         budget = int(self.data.get('budget', 15))
         budget = budget * 100
         countries = self.data.get('geo', ["US"])
+        if len(countries) < 1:
+            countries = ["US"]
+            self.data['geo'] = ["US"]
 
         story = AdCreativeObjectStorySpec()
         story[story.Field.page_id] = self.business.page
