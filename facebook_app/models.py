@@ -67,7 +67,7 @@ class FacebookCampaign(Model):
     campaign_id = BigIntegerField(null=True, blank=True)
     adset_id = BigIntegerField(null=True, blank=True)
     paid = models.BooleanField(default=False)
-    data = JSONField(default=camp_data())
+    data = JSONField(default=camp_data)
     campaign_type = models.CharField(
         max_length=3,
         choices=CAMPAIGN_TYPE,
