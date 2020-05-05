@@ -504,11 +504,11 @@ class FacebookCampaign(Model):
         }
         return params[self.campaign_type]
 
-    def fb_get_or_create(self, domain):
+    def fb_get_or_create(self):
         self.business.setup_api_access()
         try:
             for feed in self.facebookfeed_set.all():
-                feed.fb_get_or_create(domain)
+                feed.fb_get_or_create()
 
             params = self.get_params.get('campaign')
             if self.paid:
@@ -589,7 +589,7 @@ class FacebookFeed(Model):
     catalog_id = BigIntegerField(null=True, blank=True)
     product_set_id = BigIntegerField(null=True, blank=True)
 
-    def fb_get_or_create(self, domain):
+    def fb_get_or_create(self):
         try:
             self.business.setup_api_access()
             try:
@@ -603,6 +603,7 @@ class FacebookFeed(Model):
                 if self.catalog_id:
                     pass
                 else:
+                    print(catalog_params)
                     catalog = acc.create_owned_product_catalog(
                         params=catalog_params
                     )

@@ -69,9 +69,9 @@ def facebook_campaign(request):
                 campaign = FacebookCampaign(business=facebook, campaign_type=campaign_type)
                 campaign.save()
                 campaign.facebookfeed_set.create(business=facebook)
+                campaign.fb_get_or_create()
                 campaign.save()
             campaign.data = data
-            campaign.fb_get_or_create(shop.myshopify_domain)
             campaign.save()
             _query = {
                 'shop': domain, 'type': campaign_type
@@ -422,7 +422,7 @@ class FbSubmitSubscribe(View, BaseShop, BaseFacebook):
                 for campaign in facebook.facebookcampaign_set.all():
                     if campaign.campaign_type == campaign_type:
                         campaign.paid = True
-                        campaign.fb_get_or_create(shop.myshopify_domain)
+                        campaign.fb_get_or_create()
                         campaign.save()
         url = request.build_absolute_uri(route_url('shopify_app:dashboard_feeds', args=['fb'], _query=_query))
         return redirect(url)
