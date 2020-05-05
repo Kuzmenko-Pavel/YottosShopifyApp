@@ -201,7 +201,7 @@ class FacebookCampaign(Model):
                     Ad.Field.adset_id: self.adset_id,
                     Ad.Field.creative: {'creative_id': self.ad_creative_id},
                     Ad.Field.status: adset_status,
-                    Ad.Field.name.tracking_specs: [
+                    Ad.Field.tracking_specs: [
                         {
                             "action.type": [
                                 "offsite_conversion"
@@ -332,7 +332,7 @@ class FacebookCampaign(Model):
                     Ad.Field.adset_id: self.adset_id,
                     Ad.Field.creative: {'creative_id': self.ad_creative_id},
                     Ad.Field.status: adset_status,
-                    Ad.Field.name.tracking_specs: [
+                    Ad.Field.tracking_specs: [
                         {
                             "action.type": [
                                 "offsite_conversion"
@@ -463,7 +463,7 @@ class FacebookCampaign(Model):
                     Ad.Field.adset_id: self.adset_id,
                     Ad.Field.creative: {'creative_id': self.ad_creative_id},
                     Ad.Field.status: adset_status,
-                    Ad.Field.name.tracking_specs: [
+                    Ad.Field.tracking_specs: [
                         {
                             "action.type": [
                                 "offsite_conversion"
