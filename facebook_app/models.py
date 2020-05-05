@@ -520,7 +520,7 @@ class FacebookCampaign(Model):
                         campaign_result = acc.create_campaign(params=params)
                         self.campaign_id = campaign_result['id']
         except FacebookRequestError as e:
-            print(e._body)
+            print(e._body.get('error_user_msg'))
             print(e)
         except Exception as e:
             print(e)
@@ -540,7 +540,7 @@ class FacebookCampaign(Model):
                     adset_result = acc.create_ad_set(params=params)
                     self.adset_id = adset_result['id']
         except FacebookRequestError as e:
-            print(e._body)
+            print(e._body.get('error_user_msg'))
             print(e)
         except Exception as e:
             print(e)
@@ -559,7 +559,7 @@ class FacebookCampaign(Model):
                     creative_result = acc.create_ad_creative(params=params)
                     self.ad_creative_id = creative_result['id']
         except FacebookRequestError as e:
-            print(e._body)
+            print(e._body.get('error_user_msg'))
             print(e)
         except Exception as e:
             print(e)
@@ -577,7 +577,7 @@ class FacebookCampaign(Model):
                     ads_result = acc.create_ad(params=params)
                     self.ads_id = ads_result['id']
         except FacebookRequestError as e:
-            print(e._body)
+            print(e._body.get('error_user_msg'))
             print(e)
         except Exception as e:
             print(e)
