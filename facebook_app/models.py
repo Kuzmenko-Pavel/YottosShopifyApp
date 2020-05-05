@@ -526,6 +526,7 @@ class FacebookCampaign(Model):
             print(e)
 
         self.fb_get_or_create_adset()
+        self.save()
 
     def fb_get_or_create_adset(self):
         self.business.setup_api_access()
@@ -617,6 +618,7 @@ class FacebookFeed(Model):
 
             self.fb_feed_get_or_create()
             self.fb_product_set_get_or_create()
+            self.save()
         except FacebookRequestError as e:
             print(e._body)
             print(e)
