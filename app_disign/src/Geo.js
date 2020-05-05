@@ -60,12 +60,15 @@ export default function Geo(props) {
 
     const tagsMarkup = hasSelectedOptions
         ? props.selectedOptions.map((option) => {
-            let tagLabel = '';
-            tagLabel = option.replace('_', ' ');
-            tagLabel = titleCase(tagLabel);
+            let tagLabel = props.geo.filter((opt) =>
+                opt.value === option
+            )[0] || {
+                value: "",
+                label: ""
+            };
             return (
                 <Tag key={`option${option}`} onRemove={removeTag(option)}>
-                    {tagLabel}
+                    {tagLabel.label}
                 </Tag>
             );
         })
@@ -86,20 +89,10 @@ export default function Geo(props) {
                     selected={props.selectedOptions}
                     textField={textField}
                     onSelect={props.setSelectedOptions}
-                    listTitle="Suggested Tags"
+                    listTitle="Geo Tags"
                     onLoadMoreResults={handleLoadMoreResults}
                 />
             </Stack>
         </SettingToggle>
     );
-
-    function titleCase(string) {
-        return string
-            .toLowerCase()
-            .split(' ')
-            .map((word) => {
-                return word.replace(word[0], word[0].toUpperCase());
-            })
-            .join(' ');
-    }
 }

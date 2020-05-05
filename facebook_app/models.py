@@ -4,7 +4,7 @@ import requests
 from django.conf import settings
 from django.db import models
 from django.db.models.fields import BigIntegerField
-from django_mysql.models import Model
+from django_mysql.models import JSONField, Model
 from facebook_business.adobjects.ad import Ad
 from facebook_business.adobjects.adaccount import AdAccount
 from facebook_business.adobjects.adcreative import AdCreative
@@ -17,6 +17,14 @@ from facebook_business.adobjects.flexibletargeting import FlexibleTargeting
 from facebook_business.adobjects.productcatalog import ProductCatalog
 from facebook_business.adobjects.targeting import Targeting
 from facebook_business.api import FacebookAdsApi
+
+
+def camp_data():
+    return {
+        'geo': ["US"],
+        'budget': '15.00',
+        'status': 'false'
+    }
 
 
 class FacebookBusinessManager(Model):
@@ -59,6 +67,7 @@ class FacebookCampaign(Model):
     campaign_id = BigIntegerField(null=True, blank=True)
     adset_id = BigIntegerField(null=True, blank=True)
     paid = models.BooleanField(default=False)
+    data = JSONField(default=camp_data())
     campaign_type = models.CharField(
         max_length=3,
         choices=CAMPAIGN_TYPE,

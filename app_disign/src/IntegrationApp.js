@@ -230,7 +230,9 @@ export default function IntegrationApp(props) {
     function apiCreateData(selected) {
         let data = {
             url: '',
-            params: ''
+            params: function (label) {
+                return {};
+            }
         };
         if (selected === 'business_manager') {
             data.url = 'me/businesses';
@@ -262,7 +264,7 @@ export default function IntegrationApp(props) {
 
         }
         else if (selected === 'page') {
-
+            data.url = selectedSettings.business_manager.value + '/client_pages';
         }
         else if (selected === 'funding') {
             data.ad_account = selectedSettings.ad_account.value;

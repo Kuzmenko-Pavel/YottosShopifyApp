@@ -150,6 +150,23 @@ class Dashboard(TemplateView, BaseShop, BaseFacebook):
         if settings.FACEBOOK_APP_ENABLE:
             feeds['fb']['integration'] = {
                 'complite': False,
+                'data': {
+                    'new_auditory': {
+                        'geo': ["US"],
+                        'budget': 15.00,
+                        'status': False
+                    },
+                    'relevant': {
+                        'geo': ["US"],
+                        'budget': 15.00,
+                        'status': False
+                    },
+                    'retargeting': {
+                        'geo': ["US"],
+                        'budget': 15.00,
+                        'status': False
+                    }
+                },
                 'text': {
                     'title': 'Automatically set up ad campaigns',
                     'description': 'Automatically setting up ad campaigns saves you time',
@@ -236,10 +253,19 @@ class Dashboard(TemplateView, BaseShop, BaseFacebook):
             for camp in facebook.facebookcampaign_set.all():
                 if camp.campaign_type == 'new':
                     feed['integration']['text']['buttons']['new_auditory'] = 'Change New Audience Settings'
+                    feed['integration']['data']['new_auditory']['geo'] = camp.data.get('geo', ["US"])
+                    feed['integration']['data']['new_auditory']['budget'] = camp.data.get('budget', 15.00)
+                    feed['integration']['data']['new_auditory']['status'] = camp.data.get('status', False)
                 elif camp.campaign_type == 'rel':
                     feed['integration']['text']['buttons']['relevant'] = 'Change Relevant Audience Settings'
+                    feed['integration']['data']['relevant']['geo'] = camp.data.get('geo', ["US"])
+                    feed['integration']['data']['relevant']['budget'] = camp.data.get('budget', 15.00)
+                    feed['integration']['data']['relevant']['status'] = camp.data.get('status', False)
                 elif camp.campaign_type == 'ret':
                     feed['integration']['text']['buttons']['retargeting'] = 'Change Audience retargeting settings'
+                    feed['integration']['data']['retargeting']['geo'] = camp.data.get('geo', ["US"])
+                    feed['integration']['data']['retargeting']['budget'] = camp.data.get('budget', 15.00)
+                    feed['integration']['data']['retargeting']['status'] = camp.data.get('status', False)
 
         context = {
             'page_name': feed['page_name'],
@@ -719,7 +745,6 @@ class MainXml(TemplateResponseMixin, View, BaseShop):
             cs = feed_settings.get('utm', {}).get('cs', self.feed)
             cn = feed_settings.get('utm', {}).get('cn', shop.myshopify_domain)
             cm = feed_settings.get('utm', {}).get('cm', 'cpc')
-            print(feed_settings)
             utm = 'utm_source=%s&utm_medium=%s&utm_campaign=%s' % (
                 char_replace(cs), char_replace(cm), char_replace(cn))
             collec = []

@@ -1010,15 +1010,19 @@ export default function Integrtion(props) {
     ];
     const relevant_geoOptions = geoOptions.slice();
     const retargeting_geoOptions = geoOptions.slice();
-    const [budgetValue, setBudget] = useState('15.00');
-    const [relevant_budgetValue, relevant_setBudget] = useState('15.00');
-    const [retargeting_budgetValue, retargeting_setBudget] = useState('15.00');
-    const [retargeting_campaignRun, retargeting_setCampaignRun] = useState(false);
-    const [relevant_campaignRun, relevant_setCampaignRun] = useState(false);
-    const [campaignRun, setCampaignRun] = useState(false);
-    const [selectedOptionsGeo, setSelectedOptionsGeo] = useState([]);
-    const [selectedOptionsGeoRel, setSelectedOptionsGeoRel] = useState([]);
-    const [selectedOptionsGeoRet, setSelectedOptionsGeoRet] = useState([]);
+
+    const [budgetValue, setBudget] = useState(props.current_shop.feed.integration.data.new_auditory.budget + '');
+    const [relevant_budgetValue, relevant_setBudget] = useState(props.current_shop.feed.integration.data.relevant.budget + '');
+    const [retargeting_budgetValue, retargeting_setBudget] = useState(props.current_shop.feed.integration.data.retargeting.budget + '');
+
+    const [campaignRun, setCampaignRun] = useState(props.current_shop.feed.integration.data.new_auditory.status);
+    const [retargeting_campaignRun, retargeting_setCampaignRun] = useState(props.current_shop.feed.integration.data.retargeting.status);
+    const [relevant_campaignRun, relevant_setCampaignRun] = useState(props.current_shop.feed.integration.data.relevant.status);
+
+    const [selectedOptionsGeo, setSelectedOptionsGeo] = useState(props.current_shop.feed.integration.data.new_auditory.geo);
+    const [selectedOptionsGeoRel, setSelectedOptionsGeoRel] = useState(props.current_shop.feed.integration.data.relevant.geo);
+    const [selectedOptionsGeoRet, setSelectedOptionsGeoRet] = useState(props.current_shop.feed.integration.data.retargeting.geo);
+
     const premium = props.current_shop.premium;
     const liStyle = {
         fontSize: '30px',
@@ -1213,7 +1217,7 @@ export default function Integrtion(props) {
                 function (response) {
                     statusChangeCallback(response, true);
                 }, {
-                    scope: 'email,ads_management,business_management,catalog_management,manage_pages',
+                    scope: 'email,ads_management,business_management,manage_pages',
                     auth_type: 'rerequest',
                     return_scopes: true
                 }
