@@ -16,6 +16,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.views.generic.base import TemplateResponseMixin, View, TemplateView, HttpResponse
 
 from facebook_app.models import FacebookBusinessManager, FacebookCampaign
+from facebook_app.tasks import fb_create_update
 from .helpers import verify_webhook, route_url
 from .models import ShopifyStore
 
@@ -71,8 +72,8 @@ def facebook_campaign(request):
                 campaign.facebookfeed_set.create(business=facebook)
                 campaign.save()
             campaign.data = data
-            campaign.fb_get_or_create()
             campaign.save()
+            fb_create_update(campaign.pk)
             _query = {
                 'shop': domain, 'type': campaign_type
             }
@@ -422,8 +423,8 @@ class FbSubmitSubscribe(View, BaseShop, BaseFacebook):
                 for campaign in facebook.facebookcampaign_set.all():
                     if campaign.campaign_type == campaign_type:
                         campaign.paid = True
-                        campaign.fb_get_or_create()
                         campaign.save()
+                        fb_create_update(campaign.pk)
         url = request.build_absolute_uri(route_url('shopify_app:dashboard_feeds', args=['fb'], _query=_query))
         return redirect(url)
 
