@@ -81,8 +81,10 @@ class FacebookCampaign(Model):
     @property
     def get_params(self):
         product_set_id = None
+        product_catalog_id = None
         for feed in self.facebookfeed_set.all():
             product_set_id = feed.product_set_id
+            product_catalog_id = feed.catalog_id
         camp_status = Campaign.Status.paused
         adset_status = AdSet.Status.paused
         budget = int(self.data.get('budget', 15))
@@ -103,6 +105,36 @@ class FacebookCampaign(Model):
             },
             "multi_share_end_card": False,
             "show_multiple_images": False
+        }
+        story_ret = AdCreativeObjectStorySpec()
+        story_ret[story.Field.page_id] = self.business.page
+        story_ret[story.Field.template_data] = {
+            "link": "https://%s/" % self.business.myshopify_domain,
+            "name": "{{product.name}}",
+            "description": "{{product.description}} ",
+            "call_to_action": {
+                "type": "SHOP_NOW"
+            },
+            "multi_share_end_card": False,
+            "show_multiple_images": False,
+            "image_layer_specs": [
+                {
+                    "image_source": "catalog",
+                    "layer_type": "image"
+                },
+                {
+                    "content": {
+                        "type": "price"
+                    },
+                    "layer_type": "text_overlay",
+                    "opacity": 100,
+                    "overlay_position": "top_left",
+                    "overlay_shape": "rectangle",
+                    "shape_color": "DF0005",
+                    "text_color": "FFFFFF",
+                    "text_font": "open_sans_bold"
+                }
+            ]
         }
 
         if self.data.get('status', False):
@@ -195,7 +227,7 @@ class FacebookCampaign(Model):
                                                         self.id),
                     AdCreative.Field.object_story_spec: story,
                     AdCreative.Field.product_set_id: product_set_id,
-                    # AdCreative.Field.call_to_action_type: AdCreative.CallToActionType.shop_now,
+                    AdCreative.Field.call_to_action_type: AdCreative.CallToActionType.shop_now,
                     AdCreative.Field.object_type: AdCreative.ObjectType.share,
                     AdCreative.Field.title: "{{product.name}}",
                 },
@@ -215,28 +247,28 @@ class FacebookCampaign(Model):
                                 self.business.pixel
                             ]
                         },
-                        # {
-                        #     "action.type": [
-                        #         "post_engagement"
-                        #     ],
-                        #     "page": [
-                        #         self.business.page
-                        #     ],
-                        #     "post": [
-                        #         "2827957023907806"
-                        #     ]
-                        # },
-                        # {
-                        #     "action.type": [
-                        #         "link_click"
-                        #     ],
-                        #     "post": [
-                        #         "2827957023907806"
-                        #     ],
-                        #     "post.wall": [
-                        #         self.business.page
-                        #     ]
-                        # }
+                        {
+                            "action.type": [
+                                "post_engagement"
+                            ],
+                            "page": [
+                                self.business.page
+                            ],
+                            # "post": [
+                            #     "2827957023907806"
+                            # ]
+                        },
+                        {
+                            "action.type": [
+                                "link_click"
+                            ],
+                            # "post": [
+                            #     "2827957023907806"
+                            # ],
+                            "post.wall": [
+                                self.business.page
+                            ]
+                        }
                     ]
                 }
             },
@@ -326,7 +358,7 @@ class FacebookCampaign(Model):
                                                         self.id),
                     AdCreative.Field.object_story_spec: story,
                     AdCreative.Field.product_set_id: product_set_id,
-                    # AdCreative.Field.call_to_action_type: AdCreative.CallToActionType.shop_now,
+                    AdCreative.Field.call_to_action_type: AdCreative.CallToActionType.shop_now,
                     AdCreative.Field.object_type: AdCreative.ObjectType.share,
                     AdCreative.Field.title: "{{product.name}}",
                 },
@@ -346,28 +378,28 @@ class FacebookCampaign(Model):
                                 self.business.pixel
                             ]
                         },
-                        # {
-                        #     "action.type": [
-                        #         "post_engagement"
-                        #     ],
-                        #     "page": [
-                        #         self.business.page
-                        #     ],
-                        #     "post": [
-                        #         "2827957023907806"
-                        #     ]
-                        # },
-                        # {
-                        #     "action.type": [
-                        #         "link_click"
-                        #     ],
-                        #     "post": [
-                        #         "2827957023907806"
-                        #     ],
-                        #     "post.wall": [
-                        #         self.business.page
-                        #     ]
-                        # }
+                        {
+                            "action.type": [
+                                "post_engagement"
+                            ],
+                            "page": [
+                                self.business.page
+                            ],
+                            # "post": [
+                            #     "2827957023907806"
+                            # ]
+                        },
+                        {
+                            "action.type": [
+                                "link_click"
+                            ],
+                            # "post": [
+                            #     "2827957023907806"
+                            # ],
+                            "post.wall": [
+                                self.business.page
+                            ]
+                        }
                     ]
                 }
             },
@@ -376,7 +408,7 @@ class FacebookCampaign(Model):
                     'name': 'Campaign %s %s (%s)' % (self.business.myshopify_domain,
                                                      self.get_campaign_type_display(),
                                                      self.id),
-                    'objective': Campaign.Objective.conversions,
+                    'objective': Campaign.Objective.product_catalog_sales,
                     'special_ad_category': Campaign.SpecialAdCategory.none,
                     'status': camp_status,
                     'can_use_spend_cap': True,
@@ -384,6 +416,9 @@ class FacebookCampaign(Model):
                     'buying_type': "AUCTION",
                     "budget_remaining": "0",
                     "budget_rebalance_flag": False,
+                    'promoted_object': {
+                        "product_catalog_id": product_catalog_id
+                    },
                 },
                 'adset': {
                     'name': 'AdSet %s %s (%s)' % (self.business.myshopify_domain,
@@ -394,7 +429,7 @@ class FacebookCampaign(Model):
                     'campaign_id': self.campaign_id,
                     'status': adset_status,
                     'daily_budget': budget,
-                    "destination_type": AdSet.DestinationType.undefined,
+                    "destination_type": AdSet.DestinationType.website,
                     "is_dynamic_creative": False,
                     "lifetime_budget": "0",
                     "lifetime_imps": 0,
@@ -403,35 +438,28 @@ class FacebookCampaign(Model):
                     'pacing_type': ["standard"],
                     'promoted_object': {
                         "custom_event_type": AdPromotedObject.CustomEventType.purchase,
-                        "pixel_id": self.business.pixel
+                        "product_set_id": product_set_id
                     },
                     "targeting": {
                         Targeting.Field.age_max: 65,
                         Targeting.Field.age_min: 22,
-                        Targeting.Field.flexible_spec: [
-                            # {
-                            #     FlexibleTargeting.Field.interests: [
-                            #         {
-                            #             "id": "6011366104268",
-                            #             "name": "Женская одежда"
-                            #         },
-                            #         {
-                            #             "id": "6011994253127",
-                            #             "name": "Мужская одежда"
-                            #         }
-                            #     ]
-                            # },
+                        Targeting.Field.product_audience_specs: [
                             {
-                                FlexibleTargeting.Field.interests: [
+                                "product_set_id": product_set_id,
+                                "inclusions": [
                                     {
-                                        "id": "6003346592981",
-                                        "name": "Онлайн-покупки"
+                                        "retention_seconds": "1209600",
+                                        "rule": "{\"event\":{\"eq\":\"ViewContent\"}}"
+                                    },
+                                    {
+                                        "retention_seconds": "1209600",
+                                        "rule": "{\"event\":{\"eq\":\"AddToCart\"}}"
                                     }
                                 ],
-                                FlexibleTargeting.Field.behaviors: [
+                                "exclusions": [
                                     {
-                                        "id": "6071631541183",
-                                        "name": "Вовлеченные покупатели"
+                                        "retention_seconds": "1209600",
+                                        "rule": "{\"event\":{\"eq\":\"Purchase\"}}"
                                     }
                                 ]
                             }
@@ -455,9 +483,9 @@ class FacebookCampaign(Model):
                     'name': 'Ad Template %s %s (%s)' % (self.business.myshopify_domain,
                                                         self.get_campaign_type_display(),
                                                         self.id),
-                    AdCreative.Field.object_story_spec: story,
+                    AdCreative.Field.object_story_spec: story_ret,
                     AdCreative.Field.product_set_id: product_set_id,
-                    # AdCreative.Field.call_to_action_type: AdCreative.CallToActionType.shop_now,
+                    AdCreative.Field.call_to_action_type: AdCreative.CallToActionType.shop_now,
                     AdCreative.Field.object_type: AdCreative.ObjectType.share,
                     AdCreative.Field.title: "{{product.name}}",
                 },
@@ -477,28 +505,28 @@ class FacebookCampaign(Model):
                                 self.business.pixel
                             ]
                         },
-                        # {
-                        #     "action.type": [
-                        #         "post_engagement"
-                        #     ],
-                        #     "page": [
-                        #         self.business.page
-                        #     ],
-                        #     "post": [
-                        #         "2827957023907806"
-                        #     ]
-                        # },
-                        # {
-                        #     "action.type": [
-                        #         "link_click"
-                        #     ],
-                        #     "post": [
-                        #         "2827957023907806"
-                        #     ],
-                        #     "post.wall": [
-                        #         self.business.page
-                        #     ]
-                        # }
+                        {
+                            "action.type": [
+                                "post_engagement"
+                            ],
+                            "page": [
+                                self.business.page
+                            ],
+                            # "post": [
+                            #     "2827957023907806"
+                            # ]
+                        },
+                        {
+                            "action.type": [
+                                "link_click"
+                            ],
+                            # "post": [
+                            #     "2827957023907806"
+                            # ],
+                            "post.wall": [
+                                self.business.page
+                            ]
+                        }
                     ]
                 }
             }
