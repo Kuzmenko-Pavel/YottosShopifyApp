@@ -79,7 +79,7 @@ def facebook_campaign(request):
             if not campaign.paid:
                 context['url'] = route_url('shopify_app:fb_subscribe', _query=_query)
 
-            fb_create_update.apply_async((campaign.id,), countdown=60)
+            fb_create_update.apply_async((campaign.id,), countdown=10)
 
     return JsonResponse(context)
 
@@ -425,7 +425,7 @@ class FbSubmitSubscribe(View, BaseShop, BaseFacebook):
                     if campaign.campaign_type == campaign_type:
                         campaign.paid = True
                         campaign.save()
-                    fb_create_update.apply_async((campaign.id,), countdown=60)
+                    fb_create_update.apply_async((campaign.id,), countdown=10)
         url = request.build_absolute_uri(route_url('shopify_app:dashboard_feeds', args=['fb'], _query=_query))
         return redirect(url)
 
