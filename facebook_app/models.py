@@ -543,7 +543,7 @@ class FacebookCampaign(Model):
             if self.paid:
                 acc = AdAccount('act_%s' % self.business.account_id)
                 if self.campaign_id:
-                    print(Campaign(self.campaign_id).update(fields=[], params=params))
+                    print(Campaign(self.campaign_id).api_update(fields=[], params=params))
                     logging.warning("Campaign existing '%s'" % self.campaign_id)
                 else:
                     logging.warning("Campaign not existing")
@@ -566,7 +566,7 @@ class FacebookCampaign(Model):
             acc = AdAccount('act_%s' % self.business.account_id)
             params = self.get_params.get('adset')
             if self.adset_id:
-                print(AdSet(self.adset_id).update(fields=[], params=params))
+                print(AdSet(self.adset_id).api_update(fields=[], params=params))
                 logging.warning("AdSet existing '%s'" % self.adset_id)
             else:
                 logging.warning("AdSet not existing")
@@ -588,7 +588,7 @@ class FacebookCampaign(Model):
             params = self.get_params.get('ad_creative')
             acc = AdAccount('act_%s' % self.business.account_id)
             if self.ad_creative_id:
-                print(AdCreative(self.ad_creative_id).update(fields=[], params=params))
+                print(AdCreative(self.ad_creative_id).api_update(fields=[], params=params))
                 logging.warning("Creative existing '%s'" % self.ad_creative_id)
             else:
                 logging.warning("Creative not existing")
@@ -609,7 +609,7 @@ class FacebookCampaign(Model):
             acc = AdAccount('act_%s' % self.business.account_id)
             params = self.get_params.get('ads')
             if self.ads_id:
-                print(Ad(self.ads_id).update(fields=[], params=params))
+                print(Ad(self.ads_id).api_update(fields=[], params=params))
                 logging.warning("Ads existing '%s'" % self.ads_id)
             else:
                 logging.warning("Ads not existing")
