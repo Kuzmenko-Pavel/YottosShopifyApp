@@ -100,9 +100,9 @@ class FacebookCampaign(Model):
             "link": "https://%s/" % self.business.myshopify_domain,
             "name": "{{product.name}}",
             "description": "{{product.current_price strip_zeros}}",
-            "call_to_action": {
-                "type": "SHOP_NOW"
-            },
+            # "call_to_action": {
+            #     "type": "SHOP_NOW"
+            # },
             "multi_share_end_card": False,
             "show_multiple_images": False
         }
@@ -112,9 +112,9 @@ class FacebookCampaign(Model):
             "link": "https://%s/" % self.business.myshopify_domain,
             "name": "{{product.name}}",
             "description": "{{product.description}} ",
-            "call_to_action": {
-                "type": "SHOP_NOW"
-            },
+            # "call_to_action": {
+            #     "type": "SHOP_NOW"
+            # },
             "multi_share_end_card": False,
             "show_multiple_images": False,
             "image_layer_specs": [
