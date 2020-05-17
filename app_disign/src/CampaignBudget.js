@@ -15,7 +15,7 @@ export default function CampaignBudget(props) {
                 value={props.budgetValue}
                 onChange={handleTextFieldChange}
                 prefix="$"
-                min="15.00"
+                min="50.00"
             />
         </SettingToggle>
     );
