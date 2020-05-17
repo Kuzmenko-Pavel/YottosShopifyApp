@@ -1,3 +1,4 @@
+import logging
 from datetime import datetime, timedelta
 
 import requests
@@ -514,13 +515,15 @@ class FacebookCampaign(Model):
             if self.paid:
                 acc = AdAccount('act_%s' % self.business.account_id)
                 if self.campaign_id:
-                    pass
+                    logging.warning("Campaign existing '%s'" % self.campaign_id)
                 else:
+                    logging.warning("Campaign not existing")
                     if acc:
                         campaign_result = acc.create_campaign(params=params)
                         self.campaign_id = campaign_result['id']
+                        logging.warning("Campaign creating '%s'" % self.campaign_id)
         except FacebookRequestError as e:
-            print(e._body.get('error_user_msg'))
+            logging.warning(e._body.get('error_user_msg'))
             print(e)
         except Exception as e:
             print(e)
@@ -534,13 +537,15 @@ class FacebookCampaign(Model):
             acc = AdAccount('act_%s' % self.business.account_id)
             params = self.get_params.get('adset')
             if self.adset_id:
-                pass
+                logging.warning("AdSet existing '%s'" % self.adset_id)
             else:
+                logging.warning("AdSet not existing")
                 if self.campaign_id:
                     adset_result = acc.create_ad_set(params=params)
                     self.adset_id = adset_result['id']
+                    logging.warning("AdSet creating '%s'" % self.adset_id)
         except FacebookRequestError as e:
-            print(e._body.get('error_user_msg'))
+            logging.warning(e._body.get('error_user_msg'))
             print(e)
         except Exception as e:
             print(e)
@@ -553,13 +558,15 @@ class FacebookCampaign(Model):
             params = self.get_params.get('ad_creative')
             acc = AdAccount('act_%s' % self.business.account_id)
             if self.ad_creative_id:
-                pass
+                logging.warning("Creative existing '%s'" % self.ad_creative_id)
             else:
+                logging.warning("Creative not existing")
                 if self.campaign_id:
                     creative_result = acc.create_ad_creative(params=params)
                     self.ad_creative_id = creative_result['id']
+                    logging.warning("Creative creating '%s'" % self.ad_creative_id)
         except FacebookRequestError as e:
-            print(e._body.get('error_user_msg'))
+            logging.warning(e._body.get('error_user_msg'))
             print(e)
         except Exception as e:
             print(e)
@@ -571,13 +578,15 @@ class FacebookCampaign(Model):
             acc = AdAccount('act_%s' % self.business.account_id)
             params = self.get_params.get('ads')
             if self.ads_id:
-                pass
+                logging.warning("Ads existing '%s'" % self.ads_id)
             else:
+                logging.warning("Ads not existing")
                 if self.campaign_id and self.adset_id and self.ad_creative_id:
                     ads_result = acc.create_ad(params=params)
                     self.ads_id = ads_result['id']
+                    logging.warning("Ads creating '%s'" % self.ads_id)
         except FacebookRequestError as e:
-            print(e._body.get('error_user_msg'))
+            logging.warning(e._body.get('error_user_msg'))
             print(e)
         except Exception as e:
             print(e)
@@ -602,16 +611,17 @@ class FacebookFeed(Model):
 
                 acc = Business(self.business.business_id)
                 if self.catalog_id:
-                    pass
+                    logging.warning("Catalog existing '%s'" % self.catalog_id)
                 else:
-                    print(catalog_params)
+                    logging.warning("Catalog not existing")
                     catalog = acc.create_owned_product_catalog(
                         params=catalog_params
                     )
                     catalog.add_external_event_sources(pixel_ids=[self.business.pixel, ])
                     self.catalog_id = catalog['id']
+                    logging.warning("Catalog creating '%s'" % self.catalog_id)
             except FacebookRequestError as e:
-                print(e._body)
+                logging.warning(e._body.get('error_user_msg'))
                 print(e)
             except Exception as e:
                 print(e)
@@ -620,7 +630,7 @@ class FacebookFeed(Model):
             self.fb_product_set_get_or_create()
             self.save()
         except FacebookRequestError as e:
-            print(e._body)
+            logging.warning(e._body.get('error_user_msg'))
             print(e)
         except Exception as e:
             print(e)
@@ -642,13 +652,15 @@ class FacebookFeed(Model):
                 catalog = ProductCatalog(self.catalog_id)
                 if catalog:
                     if self.feed_id:
-                        pass
+                        logging.warning("Feed existing '%s'" % self.feed_id)
                     else:
+                        logging.warning("Feed not existing")
                         feed = catalog.create_product_feed(params=feed_params)
                         self.feed_id = feed['id']
                         feed.create_upload(params={'url': feed_url})
+                        logging.warning("Feed create '%s'" % self.feed_id)
         except FacebookRequestError as e:
-            print(e._body)
+            logging.warning(e._body.get('error_user_msg'))
             print(e)
         except Exception as e:
             print(e)
@@ -664,12 +676,14 @@ class FacebookFeed(Model):
                 catalog = ProductCatalog(self.catalog_id)
                 if catalog:
                     if self.product_set_id:
-                        pass
+                        logging.warning("Product set existing '%s'" % self.product_set_id)
                     else:
+                        logging.warning("Product set not existing")
                         product_set = catalog.create_product_set(params=product_set_params)
                         self.product_set_id = product_set['id']
+                        logging.warning("Product creating '%s'" % self.product_set_id)
         except FacebookRequestError as e:
-            print(e._body)
+            logging.warning(e._body.get('error_user_msg'))
             print(e)
         except Exception as e:
             print(e)
