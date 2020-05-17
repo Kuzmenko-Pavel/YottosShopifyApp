@@ -73,12 +73,13 @@ def facebook_campaign(request):
                 campaign.save()
             campaign.data = data
             campaign.save()
-            fb_create_update.delay(campaign.id)
             _query = {
                 'shop': domain, 'type': campaign_type
             }
             if not campaign.paid:
                 context['url'] = route_url('shopify_app:fb_subscribe', _query=_query)
+
+            fb_create_update.delay(campaign.id)
 
     return JsonResponse(context)
 
@@ -424,7 +425,7 @@ class FbSubmitSubscribe(View, BaseShop, BaseFacebook):
                     if campaign.campaign_type == campaign_type:
                         campaign.paid = True
                         campaign.save()
-                        fb_create_update.delay(campaign.id)
+                    fb_create_update.delay(campaign.id)
         url = request.build_absolute_uri(route_url('shopify_app:dashboard_feeds', args=['fb'], _query=_query))
         return redirect(url)
 
