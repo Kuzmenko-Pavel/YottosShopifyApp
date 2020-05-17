@@ -105,9 +105,9 @@ class FacebookCampaign(Model):
             "show_multiple_images": False
         }
 
-        if self.data.get('status_fake', False):
+        if self.data.get('status', False):
             camp_status = Campaign.Status.active
-            adset_status = AdSet.Status.active
+            # adset_status = AdSet.Status.active
         params = {
             self.CAMPAIGN_TYPE[0][0]: {
                 'campaign': {
@@ -515,6 +515,8 @@ class FacebookCampaign(Model):
             if self.paid:
                 acc = AdAccount('act_%s' % self.business.account_id)
                 if self.campaign_id:
+                    campaign_result = Campaign(self.campaign_id)
+                    campaign_result.update(params=params)
                     logging.warning("Campaign existing '%s'" % self.campaign_id)
                 else:
                     logging.warning("Campaign not existing")
@@ -537,6 +539,8 @@ class FacebookCampaign(Model):
             acc = AdAccount('act_%s' % self.business.account_id)
             params = self.get_params.get('adset')
             if self.adset_id:
+                adset_result = AdSet(self.adset_id)
+                adset_result.update(params=params)
                 logging.warning("AdSet existing '%s'" % self.adset_id)
             else:
                 logging.warning("AdSet not existing")
@@ -558,6 +562,8 @@ class FacebookCampaign(Model):
             params = self.get_params.get('ad_creative')
             acc = AdAccount('act_%s' % self.business.account_id)
             if self.ad_creative_id:
+                creative_result = AdCreative(self.ad_creative_id)
+                creative_result.update(params=params)
                 logging.warning("Creative existing '%s'" % self.ad_creative_id)
             else:
                 logging.warning("Creative not existing")
@@ -578,6 +584,8 @@ class FacebookCampaign(Model):
             acc = AdAccount('act_%s' % self.business.account_id)
             params = self.get_params.get('ads')
             if self.ads_id:
+                ads_result = Ad(self.ads_id)
+                ads_result.update(params=params)
                 logging.warning("Ads existing '%s'" % self.ads_id)
             else:
                 logging.warning("Ads not existing")
