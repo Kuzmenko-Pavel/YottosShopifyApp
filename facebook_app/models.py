@@ -529,7 +529,7 @@ class FacebookCampaign(Model):
             print(e)
 
         self.fb_get_or_create_adset()
-        self.save()
+        self.save(update_fields=['campaign_id', 'adset_id', 'ad_creative_id', 'ads_id'])
 
     def fb_get_or_create_adset(self):
         self.business.setup_api_access()
@@ -628,7 +628,7 @@ class FacebookFeed(Model):
 
             self.fb_feed_get_or_create()
             self.fb_product_set_get_or_create()
-            self.save()
+            self.save(update_fields=['catalog_id', 'feed_id', 'product_set_id'])
         except FacebookRequestError as e:
             logging.warning(e._body.get('error_user_msg'))
             print(e)
