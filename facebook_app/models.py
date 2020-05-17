@@ -553,7 +553,7 @@ class FacebookCampaign(Model):
                         self.campaign_id = campaign_result['id']
                         logging.warning("Campaign creating '%s'" % self.campaign_id)
         except FacebookRequestError as e:
-            logging.warning(e._body.get('error_user_msg'))
+            logging.warning(e._body.get('error_user_msg', e._body))
             print(e)
         except Exception as e:
             print(e)
@@ -577,7 +577,7 @@ class FacebookCampaign(Model):
                     self.adset_id = adset_result['id']
                     logging.warning("AdSet creating '%s'" % self.adset_id)
         except FacebookRequestError as e:
-            logging.warning(e._body.get('error_user_msg'))
+            logging.warning(e._body.get('error_user_msg', e._body))
             print(e)
         except Exception as e:
             print(e)
@@ -600,7 +600,7 @@ class FacebookCampaign(Model):
                     self.ad_creative_id = creative_result['id']
                     logging.warning("Creative creating '%s'" % self.ad_creative_id)
         except FacebookRequestError as e:
-            logging.warning(e._body.get('error_user_msg'))
+            logging.warning(e._body.get('error_user_msg', e._body))
             print(e)
         except Exception as e:
             print(e)
@@ -622,7 +622,7 @@ class FacebookCampaign(Model):
                     self.ads_id = ads_result['id']
                     logging.warning("Ads creating '%s'" % self.ads_id)
         except FacebookRequestError as e:
-            logging.warning(e._body.get('error_user_msg'))
+            logging.warning(e._body.get('error_user_msg', e._body))
             print(e)
         except Exception as e:
             print(e)
@@ -657,7 +657,7 @@ class FacebookFeed(Model):
                     self.catalog_id = catalog['id']
                     logging.warning("Catalog creating '%s'" % self.catalog_id)
             except FacebookRequestError as e:
-                logging.warning(e._body.get('error_user_msg'))
+                logging.warning(e._body.get('error_user_msg', e._body))
                 print(e)
             except Exception as e:
                 print(e)
@@ -666,7 +666,7 @@ class FacebookFeed(Model):
             self.fb_product_set_get_or_create()
             self.save(update_fields=['catalog_id', 'feed_id', 'product_set_id'])
         except FacebookRequestError as e:
-            logging.warning(e._body.get('error_user_msg'))
+            logging.warning(e._body.get('error_user_msg', e._body))
             print(e)
         except Exception as e:
             print(e)
@@ -696,7 +696,7 @@ class FacebookFeed(Model):
                         feed.create_upload(params={'url': feed_url})
                         logging.warning("Feed create '%s'" % self.feed_id)
         except FacebookRequestError as e:
-            logging.warning(e._body.get('error_user_msg'))
+            logging.warning(e._body.get('error_user_msg', e._body))
             print(e)
         except Exception as e:
             print(e)
@@ -719,7 +719,7 @@ class FacebookFeed(Model):
                         self.product_set_id = product_set['id']
                         logging.warning("Product creating '%s'" % self.product_set_id)
         except FacebookRequestError as e:
-            logging.warning(e._body.get('error_user_msg'))
+            logging.warning(e._body.get('error_user_msg', e._body))
             print(e)
         except Exception as e:
             print(e)
