@@ -13,6 +13,7 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 import os
 
 from .app_settings import *
+from .patch_SameSite import *
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -31,7 +32,7 @@ CSRF_COOKIE_SAMESITE = None
 CSRF_COOKIE_SECURE = True
 CSRF_USE_SESSIONS = False
 CSRF_TRUSTED_ORIGINS = ALLOWED_HOSTS
-CSRF_COOKIE_SAMESITE = 'Lax'
+CSRF_COOKIE_SAMESITE = 'None'
 
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
