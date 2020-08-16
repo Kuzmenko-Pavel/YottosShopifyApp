@@ -63,6 +63,7 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'yottos_shopify.urls'
+APPEND_SLASH = False
 
 TEMPLATES = [
     {

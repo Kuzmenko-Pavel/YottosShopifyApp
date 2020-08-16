@@ -72,7 +72,7 @@ def facebook_campaign(request):
                 campaign.facebookfeed_set.create(business=facebook)
                 campaign.save()
             campaign.data = data
-            campaign.save()
+            campaign.save(update_fields=['data'])
             _query = {
                 'shop': domain, 'type': campaign_type
             }
@@ -254,19 +254,19 @@ class Dashboard(TemplateView, BaseShop, BaseFacebook):
             feed['integration']['complite'] = facebook.connect
             for camp in facebook.facebookcampaign_set.all():
                 if camp.campaign_type == 'new':
-                    feed['integration']['text']['buttons']['new_auditory'] = 'Change New Audience Settings'
+                    feed['integration']['text']['buttons']['new_auditory'] = 'New Audience Settings'
                     feed['integration']['text']['sheet']['new_auditory']['save'] = 'Set'
                     feed['integration']['data']['new_auditory']['geo'] = camp.data.get('geo', ["US"])
                     feed['integration']['data']['new_auditory']['budget'] = camp.data.get('budget', 50)
                     feed['integration']['data']['new_auditory']['status'] = camp.data.get('status', False)
                 elif camp.campaign_type == 'rel':
-                    feed['integration']['text']['buttons']['relevant'] = 'Change Relevant Audience Settings'
+                    feed['integration']['text']['buttons']['relevant'] = 'Relevant Audience Settings'
                     feed['integration']['text']['sheet']['new_auditory']['save'] = 'Set'
                     feed['integration']['data']['relevant']['geo'] = camp.data.get('geo', ["US"])
                     feed['integration']['data']['relevant']['budget'] = camp.data.get('budget', 50)
                     feed['integration']['data']['relevant']['status'] = camp.data.get('status', False)
                 elif camp.campaign_type == 'ret':
-                    feed['integration']['text']['buttons']['retargeting'] = 'Change Audience retargeting settings'
+                    feed['integration']['text']['buttons']['retargeting'] = 'Audience retargeting Settings'
                     feed['integration']['text']['sheet']['new_auditory']['save'] = 'Set'
                     feed['integration']['data']['retargeting']['geo'] = camp.data.get('geo', ["US"])
                     feed['integration']['data']['retargeting']['budget'] = camp.data.get('budget', 50)
@@ -423,12 +423,19 @@ class FbSubmitSubscribe(View, BaseShop, BaseFacebook):
         if shop and facebook and charge_id:
             with shopify.Session.temp(shop.myshopify_domain, settings.SHOPIFY_API_VERSION, shop.access_token):
                 ac = shopify.ApplicationCharge.find(charge_id)
-                ac.activate()
-                for campaign in facebook.facebookcampaign_set.all():
-                    if campaign.campaign_type == campaign_type:
-                        campaign.paid = True
-                        campaign.save()
-                    fb_create_update.apply_async((campaign.id,), countdown=10)
+                if ac.status == 'accepted':
+                    ac.activate()
+                    ac = shopify.ApplicationCharge.find(charge_id)
+                    if ac.status == 'active':
+                        for campaign in facebook.facebookcampaign_set.all():
+                            if campaign.campaign_type == campaign_type:
+                                campaign.paid = True
+                                campaign.save(update_fields=['paid'])
+                            fb_create_update.apply_async((campaign.id,), countdown=10)
+                    else:
+                        print(ac, ac.status)
+                else:
+                    print(ac, ac.status)
         url = request.build_absolute_uri(route_url('shopify_app:dashboard_feeds', args=['fb'], _query=_query))
         return redirect(url)
 
@@ -642,7 +649,7 @@ class UnSubscribe(TemplateView, BaseShop):
                 if rac:
                     rac.destroy()
                 shop.premium = False
-                shop.save()
+                shop.save(update_fields=['premium'])
         url = request.build_absolute_uri(route_url('shopify_app:dashboard', _query=_query))
         return redirect(url)
 
@@ -662,12 +669,18 @@ class SubmitSubscribe(View, BaseShop):
         if shop and charge_id:
             with shopify.Session.temp(shop.myshopify_domain, settings.SHOPIFY_API_VERSION, shop.access_token):
                 rac = shopify.RecurringApplicationCharge.find(charge_id)
-                rac.activate()
-                if rac.status == 'active':
-                    shop.premium = True
-                    shop.date_paid = timezone.now()
-                    shop.save()
-                    msg = 'premium_active'
+                if rac.status == 'accepted':
+                    rac.activate()
+                    rac = shopify.RecurringApplicationCharge.find(charge_id)
+                    if rac.status == 'active':
+                        shop.premium = True
+                        shop.date_paid = timezone.now()
+                        shop.save(update_fields=['premium', 'date_paid'])
+                        msg = 'premium_active'
+                    else:
+                        print(rac, rac.status)
+                else:
+                    print(rac, rac.status)
         add_message(request, INFO, msg)
         url = request.build_absolute_uri(route_url('shopify_app:dashboard', _query=_query))
         return redirect(url)
@@ -693,7 +706,7 @@ class WebhookAppUninstalled(TemplateView, BaseShop, BaseFacebook):
                     shop.installed = False
                     shop.premium = False
                     shop.date_uninstalled = timezone.now()
-                    shop.save()
+                    shop.save(update_fields=['installed', 'premium', 'date_uninstalled'])
 
         return self.render_to_response({})
 
@@ -729,14 +742,14 @@ class MainXml(TemplateResponseMixin, View, BaseShop):
         """
         response_kwargs.setdefault('content_type', self.content_type)
         shop = context.get('shop')
-        page = context.get('page', 1)
-        context['utm'] = ''
-        context['collections'] = ['collections.all.products']
-        feed_settings = shop.feeds.get(self.feed, {})
         template = self.get_template_names()
-        if shop is None:
+        if shop is None or self.feed is None:
             template = ["liquid/main.liquid"]
         else:
+            page = context.get('page', 1)
+            context['utm'] = ''
+            context['collections'] = ['collections.all.products']
+            feed_settings = shop.feeds.get(self.feed, {})
             def char_replace(string, chars=None, to_char=None):
                 if chars is None:
                     chars = [' ', '.', ',', ';', '!', '?', ':', '<', '>', '&']
