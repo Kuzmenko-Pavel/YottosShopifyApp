@@ -82,30 +82,30 @@ export default function IntegrationApp(props) {
             label: 'Use an existing Business Manager',
             value: 'existing'
         },
-        {
-            label: 'Create a new Business Manager',
-            value: 'create'
-        }
+        // {
+        //     label: 'Create a new Business Manager',
+        //     value: 'create'
+        // }
     ];
     const choiceAccounts = [
         {
             label: 'Use an existing account',
             value: 'existing'
         },
-        {
-            label: 'Create a new account',
-            value: 'create'
-        }
+        // {
+        //     label: 'Create a new account',
+        //     value: 'create'
+        // }
     ];
     const choicePages = [
         {
             label: 'Use an existing Page',
             value: 'existing'
         },
-        {
-            label: 'Create a new Page',
-            value: 'create'
-        }
+        // {
+        //     label: 'Create a new Page',
+        //     value: 'create'
+        // }
     ];
     const choicePixels = [
         {
