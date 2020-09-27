@@ -25,7 +25,7 @@ export default function CampaignSettings(props) {
                         width: '100%'
                     }}
                 >
-                    <Heading>{props.current_shop.feed.integration.text.sheet.new_auditory.heading}</Heading>
+                    <Heading>{props.sheet.heading}</Heading>
                     <Button
                         accessibilityLabel="Cancel"
                         icon={MobileCancelMajorMonotone}
@@ -61,10 +61,10 @@ export default function CampaignSettings(props) {
                     }}
                 >
                     <Button onClick={props.toggleSheetClose}>
-                        {props.current_shop.feed.integration.text.sheet.new_auditory.cancel}
+                        {props.sheet.cancel}
                     </Button>
                     <Button primary onClick={props.toggleSheetSave}>
-                        {props.current_shop.feed.integration.text.sheet.new_auditory.save}
+                        {props.sheet.save}
                     </Button>
                 </div>
             </div>

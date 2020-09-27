@@ -1320,6 +1320,7 @@ export default function Integrtion(props) {
                         setBudget={setBudget}
                         campaignRun={campaignRun}
                         setCampaignRun={setCampaignRun}
+                        sheet={props.current_shop.feed.integration.new_auditory}
                     />
                     <CampaignSettings
                         sheetActive={retargeting_sheetActive}
@@ -1333,6 +1334,7 @@ export default function Integrtion(props) {
                         setBudget={retargeting_setBudget}
                         campaignRun={retargeting_campaignRun}
                         setCampaignRun={retargeting_setCampaignRun}
+                        sheet={props.current_shop.feed.integration.retargeting}
                     />
                     <CampaignSettings
                         sheetActive={relevant_sheetActive}
@@ -1346,6 +1348,7 @@ export default function Integrtion(props) {
                         setBudget={relevant_setBudget}
                         campaignRun={relevant_campaignRun}
                         setCampaignRun={relevant_setCampaignRun}
+                        sheet={props.current_shop.feed.integration.relevant}
                     />
                     <Modal
                         open={active}
