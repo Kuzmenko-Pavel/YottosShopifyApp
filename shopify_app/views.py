@@ -181,17 +181,17 @@ class Dashboard(TemplateView, BaseShop, BaseFacebook):
                     },
                     'sheet': {
                         'new_auditory': {
-                            'heading': 'New Audience Settings',
+                            'heading': 'Create a New Audiences',
                             'cancel': 'Cancel',
                             'save': 'Create'
                         },
                         'relevant': {
-                            'heading': 'Relevant Audience Settings',
+                            'heading': 'Create Relevant Audiences',
                             'cancel': 'Cancel',
                             'save': 'Create'
                         },
                         'retargeting': {
-                            'heading': 'Audience Retargeting settings',
+                            'heading': 'Create Retargeting',
                             'cancel': 'Cancel',
                             'save': 'Create'
                         }
