@@ -175,9 +175,9 @@ class Dashboard(TemplateView, BaseShop, BaseFacebook):
                     'sectioned_title': 'Activate automatic setup of advertising campaigns?',
                     'buttons': {
                         'activate': 'Activate automatic setup of advertising campaigns?',
-                        'new_auditory': 'Create a new audience',
+                        'new_auditory': 'Create a New Audiences',
                         'relevant': 'Create Relevant Audiences',
-                        'retargeting': 'Create retargeting'
+                        'retargeting': 'Create Retargeting'
                     },
                     'sheet': {
                         'new_auditory': {
@@ -191,7 +191,7 @@ class Dashboard(TemplateView, BaseShop, BaseFacebook):
                             'save': 'Create'
                         },
                         'retargeting': {
-                            'heading': 'Audience retargeting settings',
+                            'heading': 'Audience Retargeting settings',
                             'cancel': 'Cancel',
                             'save': 'Create'
                         }
@@ -255,19 +255,22 @@ class Dashboard(TemplateView, BaseShop, BaseFacebook):
             for camp in facebook.facebookcampaign_set.all():
                 if camp.campaign_type == 'new':
                     feed['integration']['text']['buttons']['new_auditory'] = 'New Audience Settings'
+                    feed['integration']['text']['sheet']['new_auditory']['heading'] = 'New Audience Settings'
                     feed['integration']['text']['sheet']['new_auditory']['save'] = 'Set'
                     feed['integration']['data']['new_auditory']['geo'] = camp.data.get('geo', ["US"])
                     feed['integration']['data']['new_auditory']['budget'] = camp.data.get('budget', 50)
                     feed['integration']['data']['new_auditory']['status'] = camp.data.get('status', False)
                 elif camp.campaign_type == 'rel':
                     feed['integration']['text']['buttons']['relevant'] = 'Relevant Audience Settings'
-                    feed['integration']['text']['sheet']['new_auditory']['save'] = 'Set'
+                    feed['integration']['text']['sheet']['relevant']['heading'] = 'Relevant Audience Settings'
+                    feed['integration']['text']['sheet']['relevant']['save'] = 'Set'
                     feed['integration']['data']['relevant']['geo'] = camp.data.get('geo', ["US"])
                     feed['integration']['data']['relevant']['budget'] = camp.data.get('budget', 50)
                     feed['integration']['data']['relevant']['status'] = camp.data.get('status', False)
                 elif camp.campaign_type == 'ret':
-                    feed['integration']['text']['buttons']['retargeting'] = 'Audience retargeting Settings'
-                    feed['integration']['text']['sheet']['new_auditory']['save'] = 'Set'
+                    feed['integration']['text']['buttons']['retargeting'] = 'Audience Retargeting Settings'
+                    feed['integration']['text']['sheet']['retargeting']['heading'] = 'Audience Retargeting Settings'
+                    feed['integration']['text']['sheet']['retargeting']['save'] = 'Set'
                     feed['integration']['data']['retargeting']['geo'] = camp.data.get('geo', ["US"])
                     feed['integration']['data']['retargeting']['budget'] = camp.data.get('budget', 50)
                     feed['integration']['data']['retargeting']['status'] = camp.data.get('status', False)
