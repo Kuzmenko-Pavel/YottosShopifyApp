@@ -38,8 +38,8 @@ export default function Options(props) {
 
     return (
         <Layout.AnnotatedSection
-            title='You app options'>
-            <Card sectioned title='You app options'
+            title='Functions of your application'>
+            <Card sectioned title='Activate the functions you need'
                   actions={props.current_shop.premium ? null : [
                       {
                           content: 'Upgrade to Premium Membership',

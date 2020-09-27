@@ -65,7 +65,7 @@ function getApp() {
 function runApp() {
     const app = getApp();
     const redirect = Redirect.create(app);
-    const videoButton = Button.create(app, {label: 'Watch Help'});
+    const videoButton = Button.create(app, {label: 'How it works?'});
     const subscribeButton = Button.create(app, {label: 'Upgrade to Premium Membershi'});
     const unSubscribeButton = Button.create(app, {label: 'Downgrade to free Membership'});
     const button1 = Button.create(app, {label: 'Facebook (Instagram) Feed'});

@@ -122,9 +122,9 @@ export default function Collections(props) {
     </div>;
     return (
         <Layout.AnnotatedSection
-            title='You Collection'
+            title='Your collections'
             description={description}>
-            <Card sectioned subdued title='Collections'>
+            <Card sectioned subdued title='Collections uploaded to your feed'>
                 <div
                     style={{
                         alignItems: 'center',

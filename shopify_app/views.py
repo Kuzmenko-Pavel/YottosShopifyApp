@@ -109,10 +109,10 @@ class Dashboard(TemplateView, BaseShop, BaseFacebook):
     def feeds(self):
         feeds = {
             'fb': {
-                'page_name': 'Your Facebook (Instagram) Feed',
+                'page_name': 'Link to Facebook (instagram) feed',
                 'title': "Facebook (Instagram) product feed set up!",
-                'description': "Your have successfully generated your product feed. You can now add it to your Facebook Catalog.",
-                'sectioned_title': "Your Facebook (Instagram) Feed",
+                'description': "You have successfully created a product feed. You can now add it to your Facebook directory manually. Or use automatic upload with expert settings.",
+                'sectioned_title': "Link to Facebook (instagram) feed",
                 'link': 'facebook',
                 'offer_count': 0,
                 "catalog_title": "Facebook (Instagram) Catalog",
@@ -171,7 +171,7 @@ class Dashboard(TemplateView, BaseShop, BaseFacebook):
                 },
                 'text': {
                     'title': 'Automatically set up ad campaigns',
-                    'description': 'Automatically setting up ad campaigns saves you time',
+                    'description': 'Automatic setup of advertising campaigns saves you time! Take 3 Experienced Strategies With Customizations For Your Advertising Campaigns.',
                     'sectioned_title': 'Activate automatic setup of advertising campaigns?',
                     'buttons': {
                         'activate': 'Activate automatic setup of advertising campaigns?',

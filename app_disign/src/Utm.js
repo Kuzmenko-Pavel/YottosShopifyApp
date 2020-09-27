@@ -110,8 +110,8 @@ export default function UTM(props) {
 
     return (
         <Layout.AnnotatedSection
-            title='You UTM tag'>
-            <Card sectioned subdued title='UTM tag'>
+            title='Your UTM tag'>
+            <Card sectioned subdued title='UTM tag in your feed'>
                 <div
                     style={{
                         alignItems: 'center',
