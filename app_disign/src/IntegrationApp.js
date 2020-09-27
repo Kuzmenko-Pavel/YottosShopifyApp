@@ -297,7 +297,7 @@ export default function IntegrationApp(props) {
         {
             id: 'business_manager',
             content: '1. Select your Business Manager',
-            text: 'Select a Facebook page you wish to use for advertising or create a new one.',
+            text: 'Select a Facebook Business Manager you wish to use for advertising.',
             panelID: 'business_manager',
             childrens: (
                 <Choicer choices={choiceBusinessManager}
@@ -307,13 +307,14 @@ export default function IntegrationApp(props) {
                          createData={apiCreateData('business_manager')}
                          checkSettings={checkSettings}
                          type={'business_manager'}
+                         error={"You don't have a Business Manager. Create an Business Manager on Facebook"}
                 />
             )
         },
         {
             id: 'ad_account',
             content: '2. Select an Ad Account where you have the Admin role',
-            text: 'Select an ad account you wish to use for advertising or create a new one',
+            text: 'Select an ad account you wish to use for advertising',
             panelID: 'ad_account',
             childrens: (
                 <Choicer choices={choiceAccounts}
@@ -323,6 +324,7 @@ export default function IntegrationApp(props) {
                          checkSettings={checkSettings}
                          createData={apiCreateData('ad_account')}
                          type={'ad_account'}
+                         error={"You don't have a Ad Account. Create an Ad Account on Facebook"}
                 />
             )
         },
@@ -339,6 +341,7 @@ export default function IntegrationApp(props) {
                          checkSettings={checkSettings}
                          createData={apiCreateData('page')}
                          type={'page'}
+                         error={"You don't have aPage. Create an Page on Facebook"}
                 />
             )
         },

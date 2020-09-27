@@ -19,7 +19,7 @@ export default function Choicer(props) {
                 choice.renderChildren = useCallback(
                     isSelected => isSelected && (
                         <SelectExists options={props.options} setSettings={props.setSettings} setings={props.setings}
-                                      checkSettings={props.checkSettings} type={props.type}/>
+                                      checkSettings={props.checkSettings} type={props.type} error={""}/>
                     ),
                     [props]
                 );
@@ -28,7 +28,7 @@ export default function Choicer(props) {
                 choice.renderChildren = useCallback(
                     isSelected => isSelected && (
                         <Create setSettings={props.setSettings} setings={props.setings} createData={props.createData}
-                                checkSettings={props.checkSettings} type={props.type}
+                                checkSettings={props.checkSettings} type={props.type} error={""}
                         />
                     ),
                     [props]
@@ -37,8 +37,13 @@ export default function Choicer(props) {
             return choice;
         }
     );
-    return <ChoiceList choices={choices}
-                       selected={state}
-                       onChange={handleChangeState}
+    let Choice_List = <ChoiceList choices={choices}
+                                  selected={state}
+                                  onChange={handleChangeState}
     />;
+    if (choices.length === 1) {
+        Choice_List = <SelectExists options={props.options} setSettings={props.setSettings} setings={props.setings}
+                                    checkSettings={props.checkSettings} type={props.type} error={props.error}/>;
+    }
+    return Choice_List;
 }

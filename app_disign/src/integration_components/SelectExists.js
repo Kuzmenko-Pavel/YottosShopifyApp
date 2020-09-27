@@ -2,6 +2,7 @@ import React, {useCallback, useState} from 'react';
 import {Select} from "@shopify/polaris";
 
 export default function SelectExists(props) {
+    let error = "";
     let defState = props.setings.value;
     if (props.options[0] && defState === undefined) {
         defState = props.options[0].value;
@@ -28,11 +29,15 @@ export default function SelectExists(props) {
                 });
             }
         }, [props]);
+    if (props.options.length < 1) {
+        error = props.error;
+    }
     return (
         <Select
             options={props.options}
             onChange={handleChangeState}
             value={state}
+            error={error}
         ></Select>
     )
 }
