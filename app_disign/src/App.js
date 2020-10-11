@@ -1,6 +1,6 @@
 import React, {useCallback, useEffect, useState} from 'react';
 import YouTube from 'react-youtube';
-import cookie from 'react-cookies'
+import cookie from 'react-cookies';
 import {Badge, Layout, Link, List, Modal, Page, Stack, TextContainer} from '@shopify/polaris';
 import Feed from './Feed';
 import Options from './Options';
@@ -182,7 +182,7 @@ export default function App(props) {
                     <Modal.Section>
                         <Stack vertical>
                             <Stack.Item>
-                                <YouTube videoId="kN19vW3Q6as" opts={youtube_opts} onReady={_onReady}/>
+                                <YouTube videoId="A9-Rt6yXad8" opts={youtube_opts} onReady={_onReady}/>
                             </Stack.Item>
                         </Stack>
                     </Modal.Section>
