@@ -26,7 +26,7 @@ SECRET_KEY = 'npx%y+rpbraa=duy&m5h=yiu@_^sn#$#=rocxe+@=3nn!h4-68'
 MESSAGE_STORAGE = 'django.contrib.messages.storage.session.SessionStorage'
 
 ALLOWED_HOSTS = [URL, 'localhost', '127.0.0.1', 'shopify-app.yottos.com', '10.0.0.108', '5e6a029416f8.sn.mynetname.net',
-                 '0.0.0.0', '37.57.27.229', '192.168.88.241', '0.0.0.0:8001']
+                 '0.0.0.0', '37.57.27.229', '192.168.88.241', '0.0.0.0:8001', 'feed-product.com']
 CSRF_COOKIE_DOMAIN = URL
 CSRF_COOKIE_SAMESITE = None
 CSRF_COOKIE_SECURE = True
