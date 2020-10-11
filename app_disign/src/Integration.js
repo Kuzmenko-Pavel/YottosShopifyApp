@@ -5,6 +5,9 @@ import axios from 'axios';
 import CampaignSettings from "./CampaignSettings";
 
 export default function Integrtion(props) {
+    if (props.current_shop.feed.integration === undefined) {
+        return (null);
+    }
     const redirect = props.redirect;
     const geoOptions = [
         {
