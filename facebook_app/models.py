@@ -139,7 +139,7 @@ class FacebookCampaign(Model):
 
         if self.data.get('status', False):
             camp_status = Campaign.Status.active
-            # adset_status = AdSet.Status.active
+            adset_status = AdSet.Status.active
         params = {
             self.CAMPAIGN_TYPE[0][0]: {
                 'campaign': {
@@ -671,7 +671,7 @@ class FacebookFeed(Model):
         try:
             self.business.setup_api_access()
             feed_url = 'https://%s/%s.xml' % (self.business.myshopify_domain, 'a/ytt_feed/facebook.xml')
-            feed_url = 'https://cdn.yottos.com/sf.xml'
+            # feed_url = 'https://cdn.yottos.com/sf.xml'
             feed_params = {
                 'name': 'Feed %s %s (%s)' % (self.business.myshopify_domain,
                                              self.campaign.get_campaign_type_display(),
