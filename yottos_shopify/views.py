@@ -119,3 +119,11 @@ class StrategiesInFeedProduct(TemplateView):
     def get(self, request, *args, **kwargs):
         context = {}
         return self.render_to_response(context)
+
+
+class AutoFbSetup(TemplateView):
+    template_name = "how_to_activate_automatic_setup_of_advertising_campaigns.html"
+
+    def get(self, request, *args, **kwargs):
+        context = {}
+        return self.render_to_response(context)

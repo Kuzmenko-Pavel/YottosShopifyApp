@@ -35,6 +35,7 @@ urlpatterns = [
     path('help_center/upload_products_in_facebook_store.html', views.UploadProductsInFacebookStore.as_view()),
     path('help_center/dynamic_remarketing_in_facebook.html', views.DynamicRemarketingInFacebook.as_view()),
     path('help_center/strategies_in_feed_product.html', views.StrategiesInFeedProduct.as_view()),
+    path('help_center/how_to_activate_automatic_setup_of_advertising_campaigns.html', views.AutoFbSetup.as_view()),
     path('admin/', admin.site.urls),
     path('shopify/', include('shopify_app.urls')),
     path('facebook/', include('facebook_app.urls')),
