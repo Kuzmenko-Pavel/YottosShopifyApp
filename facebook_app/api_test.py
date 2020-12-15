@@ -224,38 +224,14 @@ def get_params(campaign_type):
                 Ad.Field.adset_id: data['new']['adset_id'],
                 Ad.Field.creative: {'creative_id': data['new']['ad_creative_id']},
                 Ad.Field.status: adset_status,
-                Ad.Field.tracking_specs: [
-                    {
+                Ad.Field.tracking_specs: {
                         "action.type": [
                             "offsite_conversion"
                         ],
                         "fb_pixel": [
                             pixel
                         ]
-                    },
-                    {
-                        "action.type": [
-                            "post_engagement"
-                        ],
-                        "page": [
-                            page
-                        ],
-                        # "post": [
-                        #     "2827957023907806"
-                        # ]
-                    },
-                    {
-                        "action.type": [
-                            "link_click"
-                        ],
-                        # "post": [
-                        #     "2827957023907806"
-                        # ],
-                        "post.wall": [
-                            page
-                        ]
                     }
-                ]
             }
         },
         'rel': {
@@ -559,9 +535,7 @@ def create_feed(campaign_type):
         feed_url = 'https://cdn.yottos.com/sf.xml'
         feed_params = {
             'name': 'Feed test %s api call' % campaign_type,
-            'schedule': {'interval': 'DAILY',
-                         'url': feed_url,
-                         'hour': '22'},
+            'schedule': json.dumps({'interval': 'DAILY', 'url': feed_url, 'hour': '22'}),
         }
         if data[campaign_type]['catalog_id']:
             catalog = ProductCatalog(data[campaign_type]['catalog_id'])
