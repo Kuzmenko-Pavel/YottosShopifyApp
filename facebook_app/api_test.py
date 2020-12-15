@@ -757,12 +757,12 @@ def delete_ads(campaign_type):
         pass
 
 
-for z in range(0, 100):
+for z in range(0, 2):
     for item in ['new', 'rel', 'ret']:
         create_catalog(item)
         create_feed(item)
         create_product_set(item)
-        for w in range(0, 5):
+        for w in range(0, 2):
             for q in range(0, 2):
                 create_campaign(item)
                 create_adset(item)
