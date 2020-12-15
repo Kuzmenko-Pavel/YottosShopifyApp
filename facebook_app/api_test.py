@@ -19,7 +19,7 @@ from facebook_business.exceptions import FacebookRequestError
 
 FACEBOOK_APP_ID = '726005661270272'
 FACEBOOK_APP_SECRET = 'bc3c46925dc37a5a01549d791f81dc12'
-access_token = 'EAAKUTF2LgQABAAlh9udkge4qJ1g0RSg74bHRLAhZA9yE82chRuv4zAerLGdpvdAeSw1Odvaspkwg5BOdL9FnxGILwuDZCHRGG4bLbI8HNZA6xgeWGZC43GkvxCaMZC6U2512lKaf47ZATlZC6UXZAZCIvL9O34yzIDmfr3xhUT5qDTc96Gh0WeEEG'
+access_token = 'EAAKUTF2LgQABAMDDg1nZAEa0CqG8EFCGuUQalGojYs82yoQNo0xd9dZAaWkkrx40vNkbUmpnFuhYyynQ3xs7wN0EH41MMxx15bXgrYDyZAcA02V6C8slQYtRLmaIHyfwYn8y9Cik7cki4IYzhJdI3V2FO6ZBZArA7mZBZCTb7jaowZDZD'
 business_id = '183065162237916'
 account_id = '210542543578120'
 pixel = '217796929477510'
@@ -64,7 +64,7 @@ def print_url(r, *args, **kwargs):
         usage = json.loads(r.headers.get('x-business-use-case-usage'))
         for k, v in usage.items():
             d = v[0]
-            pprint(d)
+            # pprint(d)
             sleep_sec = max(d['total_time'], d['call_count'], d['total_cputime'])
             if sleep_sec > 80 and not trolling:
                 trolling = True
@@ -523,10 +523,11 @@ def create_catalog(campaign_type):
             data[campaign_type]['catalog_id'] = catalog['id']
             print("Catalog creating '%s'" % data[campaign_type]['catalog_id'])
     except FacebookRequestError as e:
-        print(e._body.get('error_user_msg', e._body))
-        print(e)
+        print(e._body.get('error', {}).get('message'))
+        # print(e)
     except Exception as e:
-        print(e)
+        # print(e)
+        pass
 
 
 def delete_catalog(campaign_type):
@@ -545,10 +546,11 @@ def delete_catalog(campaign_type):
         else:
             print("Catalog not existing")
     except FacebookRequestError as e:
-        print(e._body.get('error_user_msg', e._body))
-        print(e)
+        print(e._body.get('error', {}).get('message'))
+        # print(e)
     except Exception as e:
-        print(e)
+        # print(e)
+        pass
 
 
 def create_feed(campaign_type):
@@ -573,10 +575,11 @@ def create_feed(campaign_type):
                     feed.create_upload(params={'url': feed_url})
                     print("Feed create '%s'" % data[campaign_type]['feed_id'])
     except FacebookRequestError as e:
-        print(e._body.get('error_user_msg', e._body))
-        print(e)
+        print(e._body.get('error', {}).get('message'))
+        # print(e)
     except Exception as e:
-        print(e)
+        # print(e)
+        pass
 
 
 def create_product_set(campaign_type):
@@ -595,10 +598,11 @@ def create_product_set(campaign_type):
                     data[campaign_type]['product_set_id'] = product_set['id']
                     print("Product creating '%s'" % data[campaign_type]['product_set_id'])
     except FacebookRequestError as e:
-        print(e._body.get('error_user_msg', e._body))
-        print(e)
+        print(e._body.get('error', {}).get('message'))
+        # print(e)
     except Exception as e:
-        print(e)
+        # print(e)
+        pass
 
 
 def create_campaign(campaign_type):
@@ -619,10 +623,11 @@ def create_campaign(campaign_type):
         else:
             print("Campaign Catalog not existing")
     except FacebookRequestError as e:
-        print(e._body.get('error_user_msg', e._body))
-        print(e)
+        print(e._body.get('error', {}).get('message'))
+        # print(e)
     except Exception as e:
-        print(e)
+        # print(e)
+        pass
 
 
 def delete_campaign(campaign_type):
@@ -639,10 +644,11 @@ def delete_campaign(campaign_type):
         else:
             print("Campaign not existing")
     except FacebookRequestError as e:
-        print(e._body.get('error_user_msg', e._body))
-        print(e)
+        print(e._body.get('error', {}).get('message'))
+        # print(e)
     except Exception as e:
-        print(e)
+        # print(e)
+        pass
 
 
 def create_adset(campaign_type):
@@ -662,10 +668,11 @@ def create_adset(campaign_type):
         else:
             print("AdSet Campaign not existing")
     except FacebookRequestError as e:
-        print(e._body.get('error_user_msg', e._body))
-        print(e)
+        print(e._body.get('error', {}).get('message'))
+        # print(e)
     except Exception as e:
-        print(e)
+        # print(e)
+        pass
 
 
 def delete_adset(campaign_type):
@@ -682,10 +689,11 @@ def delete_adset(campaign_type):
         else:
             print("Campaign AdSet not existing")
     except FacebookRequestError as e:
-        print(e._body.get('error_user_msg', e._body))
-        print(e)
+        print(e._body.get('error', {}).get('message'))
+        # print(e)
     except Exception as e:
-        print(e)
+        # print(e)
+        pass
 
 
 def create_ad_creative(campaign_type):
@@ -703,10 +711,11 @@ def create_ad_creative(campaign_type):
                 data[campaign_type]['ad_creative_id'] = creative_result['id']
                 print("Creative creating '%s'" % data[campaign_type]['ad_creative_id'])
     except FacebookRequestError as e:
-        print(e._body.get('error_user_msg', e._body))
-        print(e)
+        print(e._body.get('error', {}).get('message'))
+        # print(e)
     except Exception as e:
-        print(e)
+        # print(e)
+        pass
 
 
 def delete_ad_creative(campaign_type):
@@ -723,10 +732,11 @@ def delete_ad_creative(campaign_type):
         else:
             print("Campaign Creative not existing")
     except FacebookRequestError as e:
-        print(e._body.get('error_user_msg', e._body))
-        print(e)
+        print(e._body.get('error', {}).get('message'))
+        # print(e)
     except Exception as e:
-        print(e)
+        # print(e)
+        pass
 
 
 def create_ads(campaign_type):
@@ -745,10 +755,11 @@ def create_ads(campaign_type):
                 data[campaign_type]['ads_id'] = ads_result['id']
                 print("Ads creating '%s'" % data[campaign_type]['ads_id'])
     except FacebookRequestError as e:
-        print(e._body.get('error_user_msg', e._body))
-        print(e)
+        print(e._body.get('error', {}).get('message'))
+        # print(e)
     except Exception as e:
-        print(e)
+        # print(e)
+        pass
 
 
 def delete_ads(campaign_type):
@@ -765,10 +776,11 @@ def delete_ads(campaign_type):
         else:
             print("Campaign Ads not existing")
     except FacebookRequestError as e:
-        print(e._body.get('error_user_msg', e._body))
-        print(e)
+        print(e._body.get('error', {}).get('message'))
+        # print(e)
     except Exception as e:
-        print(e)
+        # print(e)
+        pass
 
 
 for z in range(0, 100):
