@@ -23,7 +23,7 @@ access_token = 'EAAKUTF2LgQABAMDDg1nZAEa0CqG8EFCGuUQalGojYs82yoQNo0xd9dZAaWkkrx4
 business_id = '183065162237916'
 account_id = '210542543578120'
 pixel = '217796929477510'
-page = '509042519132613'
+page = '105434934783882'
 trolling = False
 
 data = {
