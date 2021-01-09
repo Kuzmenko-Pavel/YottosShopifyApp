@@ -58,24 +58,6 @@ module.exports = {
                 'polaris'
             ]
         }),
-        // new HtmlWebpackPlugin({
-        //     filename: 'index2.html',
-        //     template: './public/index2.html',
-        //     chunks: [
-        //         'index',
-        //         'react',
-        //         'polaris'
-        //     ]
-        // }),
-        // new HtmlWebpackPlugin({
-        //     filename: 'index3.html',
-        //     template: './public/index3.html',
-        //     chunks: [
-        //         'index',
-        //         'react',
-        //         'polaris'
-        //     ]
-        // }),
         new HtmlWebpackPlugin({
             filename: 'unsub.html',
             template: './public/unsub.html',
