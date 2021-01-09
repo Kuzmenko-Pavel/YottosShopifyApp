@@ -19,7 +19,7 @@ def fb_create_update(cid):
 @app.task(ignore_result=True)
 def fb_test_call_api():
     try:
-        for i in range(1,5):
+        for i in range(1, 5):
             facebook = FacebookBusinessManager(
                 myshopify_domain='cdn.yottos.com',
                 access_token=token,
