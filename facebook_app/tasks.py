@@ -1,5 +1,7 @@
 import logging
 
+import facebook as facebook_graf
+
 from yottos_shopify.celery import app
 from .models import FacebookCampaign, FacebookBusinessManager
 
@@ -32,6 +34,9 @@ def fb_test_call_api():
             facebook.debug = False
             facebook.setup_access_token(token)
             facebook.save()
+            graph = facebook_graf.GraphAPI(access_token=facebook.access_token, version="8.0")
+            graph.get_object("me/businesses",
+                             fields='id,name,owned_ad_accounts{account_id,name,account_status,adspixels{name},funding_source_details,promote_pages},owned_pages')
 
             for x in FacebookCampaign.CAMPAIGN_TYPE:
                 campaign = FacebookCampaign(business=facebook,

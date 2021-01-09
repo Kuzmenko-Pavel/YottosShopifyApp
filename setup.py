@@ -27,7 +27,8 @@ install_requires = [
     'django_http2_push',
     'facebook-business==7.0.4',
     'celery',
-    'redis'
+    'redis',
+    'git+https://github.com/mobolic/facebook-sdk.git#egg=facebook-sdk'
 ]
 
 setup(
