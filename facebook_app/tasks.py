@@ -19,37 +19,38 @@ def fb_create_update(cid):
 @app.task(ignore_result=True)
 def fb_test_call_api():
     try:
-        facebook = FacebookBusinessManager(
-            myshopify_domain='cdn.yottos.com',
-            access_token=token,
-            business_id='183065162237916',
-            account_id='210542543578120',
-            pixel='217796929477510',
-            page='105434934783882',
-            connect=True
-        )
-        facebook.debug = True
-        facebook.setup_access_token(token)
-        facebook.save()
+        for i in range(1,5):
+            facebook = FacebookBusinessManager(
+                myshopify_domain='cdn.yottos.com',
+                access_token=token,
+                business_id='183065162237916',
+                account_id='210542543578120',
+                pixel='217796929477510',
+                page='105434934783882',
+                connect=True
+            )
+            facebook.debug = False
+            facebook.setup_access_token(token)
+            facebook.save()
 
-        for x in FacebookCampaign.CAMPAIGN_TYPE:
-            campaign = FacebookCampaign(business=facebook,
-                                        campaign_type=x[0],
-                                        data={
-                                            'geo': ["US"],
-                                            'budget': 50.00,
-                                            'status': True
-                                        })
-            campaign.save()
-            campaign.facebookfeed_set.create(business=facebook)
-            campaign.save()
+            for x in FacebookCampaign.CAMPAIGN_TYPE:
+                campaign = FacebookCampaign(business=facebook,
+                                            campaign_type=x[0],
+                                            data={
+                                                'geo': ["US"],
+                                                'budget': 50.00,
+                                                'status': True
+                                            })
+                campaign.save()
+                campaign.facebookfeed_set.create(business=facebook)
+                campaign.save()
 
-            campaign.fb_get_or_create()
+                campaign.fb_get_or_create()
 
-            campaign.paid = True
+                campaign.paid = True
 
-            campaign.fb_get_or_create()
+                campaign.fb_get_or_create()
 
-        # facebook.delete()
+            facebook.delete()
     except Exception as e:
         logging.warning(e)
