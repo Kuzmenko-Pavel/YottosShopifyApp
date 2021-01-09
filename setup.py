@@ -28,8 +28,9 @@ install_requires = [
     'facebook-business==7.0.4',
     'celery',
     'redis',
-    'git+https://github.com/mobolic/facebook-sdk.git#egg=facebook-sdk'
+    'facebook-sdk'
 ]
+dependency_links = ["https://github.com/mobolic/facebook-sdk.git#egg=facebook-sdk", ]
 
 setup(
     name="Yottos-Shopify-App",
@@ -40,6 +41,7 @@ setup(
 
     },
     install_requires=install_requires,
+    dependency_links=dependency_links,
     zip_safe=False,
     entry_points={
         'console_scripts': [
