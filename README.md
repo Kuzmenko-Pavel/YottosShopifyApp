@@ -2,7 +2,7 @@
 
 - Create a Python virtual environment.
 
-    virtualenv --no-site-packages -p python3.5 env
+    virtualenv  -p python3.5 env
 
 - Upgrade packaging tools.
 
@@ -17,7 +17,6 @@
     source env/bin/activate
 
 
-<a href="/collections/all?page=17">Next »</a>
 
 mysql -u root -p
 CREATE DATABASE shopify CHARACTER SET utf8;

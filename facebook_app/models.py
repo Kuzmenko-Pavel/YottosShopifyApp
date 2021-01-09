@@ -2,6 +2,8 @@ import logging
 from datetime import datetime, timedelta
 
 import requests
+from django.dispatch import receiver
+from django.db.models.signals import pre_delete
 from django.conf import settings
 from django.db import models
 from django.db.models.fields import BigIntegerField
@@ -39,6 +41,7 @@ class FacebookBusinessManager(Model):
     connect = models.BooleanField(help_text='App facebook connect.', default=False)
     access_token = models.TextField(help_text='Permanent token received from facebook.')
     access_token_end_date = models.DateTimeField(null=True, blank=True)
+    debug = False
 
     def setup_access_token(self, token):
         r = requests.get('https://graph.facebook.com/%s/oauth/access_token?grant_type=fb_exchange_token&client_id=%s'
@@ -53,7 +56,8 @@ class FacebookBusinessManager(Model):
         FacebookAdsApi.init(
             app_id=settings.FACEBOOK_APP_ID,
             app_secret=settings.FACEBOOK_APP_SECRET,
-            access_token=self.access_token
+            access_token=self.access_token,
+            debug=self.debug
         )
 
 
@@ -147,13 +151,12 @@ class FacebookCampaign(Model):
                                                      self.get_campaign_type_display(),
                                                      self.id),
                     'objective': Campaign.Objective.conversions,
-                    'special_ad_category': Campaign.SpecialAdCategory.none,
+                    'special_ad_categories': [Campaign.SpecialAdCategory.none, ],
                     'status': camp_status,
                     'can_use_spend_cap': True,
                     'can_create_brand_lift_study': False,
                     'buying_type': "AUCTION",
                     "budget_remaining": "0",
-                    "budget_rebalance_flag": False,
                 },
                 'adset': {
                     'name': 'AdSet %s %s (%s)' % (self.business.myshopify_domain,
@@ -278,13 +281,12 @@ class FacebookCampaign(Model):
                                                      self.get_campaign_type_display(),
                                                      self.id),
                     'objective': Campaign.Objective.conversions,
-                    'special_ad_category': Campaign.SpecialAdCategory.none,
+                    'special_ad_categories': [Campaign.SpecialAdCategory.none, ],
                     'status': camp_status,
                     'can_use_spend_cap': True,
                     'can_create_brand_lift_study': False,
                     'buying_type': "AUCTION",
                     "budget_remaining": "0",
-                    "budget_rebalance_flag": False,
                 },
                 'adset': {
                     'name': 'AdSet %s %s (%s)' % (self.business.myshopify_domain,
@@ -409,13 +411,12 @@ class FacebookCampaign(Model):
                                                      self.get_campaign_type_display(),
                                                      self.id),
                     'objective': Campaign.Objective.product_catalog_sales,
-                    'special_ad_category': Campaign.SpecialAdCategory.none,
+                    'special_ad_categories': [Campaign.SpecialAdCategory.none, ],
                     'status': camp_status,
                     'can_use_spend_cap': True,
                     'can_create_brand_lift_study': False,
                     'buying_type': "AUCTION",
                     "budget_remaining": "0",
-                    "budget_rebalance_flag": False,
                     'promoted_object': {
                         "product_catalog_id": product_catalog_id
                     },
@@ -449,17 +450,17 @@ class FacebookCampaign(Model):
                                 "inclusions": [
                                     {
                                         "retention_seconds": "1209600",
-                                        "rule": "{\"event\":{\"eq\":\"ViewContent\"}}"
+                                        "rule": "{'event':{'eq':'ViewContent'}}"
                                     },
                                     {
                                         "retention_seconds": "1209600",
-                                        "rule": "{\"event\":{\"eq\":\"AddToCart\"}}"
+                                        "rule": "{'event':{'eq':'AddToCart'}}"
                                     }
                                 ],
                                 "exclusions": [
                                     {
                                         "retention_seconds": "1209600",
-                                        "rule": "{\"event\":{\"eq\":\"Purchase\"}}"
+                                        "rule": "{'event':{'eq':'Purchase'}}"
                                     }
                                 ]
                             }
@@ -544,13 +545,13 @@ class FacebookCampaign(Model):
                 acc = AdAccount('act_%s' % self.business.account_id)
                 if self.campaign_id:
                     print(Campaign(self.campaign_id).api_update(fields=[], params=params))
-                    logging.warning("Campaign existing '%s'" % self.campaign_id)
+                    logging.info("Campaign existing '%s'" % self.campaign_id)
                 else:
-                    logging.warning("Campaign not existing")
+                    logging.info("Campaign not existing")
                     if acc:
                         campaign_result = acc.create_campaign(params=params)
                         self.campaign_id = campaign_result['id']
-                        logging.warning("Campaign creating '%s'" % self.campaign_id)
+                        logging.info("Campaign creating '%s'" % self.campaign_id)
         except FacebookRequestError as e:
             logging.warning(e._body.get('error_user_msg', e._body))
             print(e)
@@ -567,13 +568,13 @@ class FacebookCampaign(Model):
             params = self.get_params.get('adset')
             if self.adset_id:
                 print(AdSet(self.adset_id).api_update(fields=[], params=params))
-                logging.warning("AdSet existing '%s'" % self.adset_id)
+                logging.info("AdSet existing '%s'" % self.adset_id)
             else:
-                logging.warning("AdSet not existing")
+                logging.info("AdSet not existing")
                 if self.campaign_id:
                     adset_result = acc.create_ad_set(params=params)
                     self.adset_id = adset_result['id']
-                    logging.warning("AdSet creating '%s'" % self.adset_id)
+                    logging.info("AdSet creating '%s'" % self.adset_id)
         except FacebookRequestError as e:
             logging.warning(e._body.get('error_user_msg', e._body))
             print(e)
@@ -589,13 +590,13 @@ class FacebookCampaign(Model):
             acc = AdAccount('act_%s' % self.business.account_id)
             if self.ad_creative_id:
                 print(AdCreative(self.ad_creative_id).api_update(fields=[], params=params))
-                logging.warning("Creative existing '%s'" % self.ad_creative_id)
+                logging.info("Creative existing '%s'" % self.ad_creative_id)
             else:
-                logging.warning("Creative not existing")
+                logging.info("Creative not existing")
                 if self.campaign_id:
                     creative_result = acc.create_ad_creative(params=params)
                     self.ad_creative_id = creative_result['id']
-                    logging.warning("Creative creating '%s'" % self.ad_creative_id)
+                    logging.info("Creative creating '%s'" % self.ad_creative_id)
         except FacebookRequestError as e:
             logging.warning(e._body.get('error_user_msg', e._body))
             print(e)
@@ -609,14 +610,14 @@ class FacebookCampaign(Model):
             acc = AdAccount('act_%s' % self.business.account_id)
             params = self.get_params.get('ads')
             if self.ads_id:
-                print(Ad(self.ads_id).api_update(fields=[], params=params))
-                logging.warning("Ads existing '%s'" % self.ads_id)
+                Ad(self.ads_id).api_update(fields=[], params=params)
+                logging.info("Ads existing '%s'" % self.ads_id)
             else:
-                logging.warning("Ads not existing")
+                logging.info("Ads not existing")
                 if self.campaign_id and self.adset_id and self.ad_creative_id:
                     ads_result = acc.create_ad(params=params)
                     self.ads_id = ads_result['id']
-                    logging.warning("Ads creating '%s'" % self.ads_id)
+                    logging.info("Ads creating '%s'" % self.ads_id)
         except FacebookRequestError as e:
             logging.warning(e._body.get('error_user_msg', e._body))
             print(e)
@@ -643,15 +644,15 @@ class FacebookFeed(Model):
 
                 acc = Business(self.business.business_id)
                 if self.catalog_id:
-                    logging.warning("Catalog existing '%s'" % self.catalog_id)
+                    logging.info("Catalog existing '%s'" % self.catalog_id)
                 else:
-                    logging.warning("Catalog not existing")
+                    logging.info("Catalog not existing")
                     catalog = acc.create_owned_product_catalog(
                         params=catalog_params
                     )
                     catalog.add_external_event_sources(pixel_ids=[self.business.pixel, ])
                     self.catalog_id = catalog['id']
-                    logging.warning("Catalog creating '%s'" % self.catalog_id)
+                    logging.info("Catalog creating '%s'" % self.catalog_id)
             except FacebookRequestError as e:
                 logging.warning(e._body.get('error_user_msg', e._body))
                 print(e)
@@ -670,7 +671,7 @@ class FacebookFeed(Model):
     def fb_feed_get_or_create(self):
         try:
             self.business.setup_api_access()
-            feed_url = 'https://%s/%s.xml' % (self.business.myshopify_domain, 'a/ytt_feed/facebook.xml')
+            feed_url = 'https://%s/%s' % (self.business.myshopify_domain, 'a/ytt_feed/facebook.xml')
             # feed_url = 'https://cdn.yottos.com/sf.xml'
             feed_params = {
                 'name': 'Feed %s %s (%s)' % (self.business.myshopify_domain,
@@ -684,13 +685,13 @@ class FacebookFeed(Model):
                 catalog = ProductCatalog(self.catalog_id)
                 if catalog:
                     if self.feed_id:
-                        logging.warning("Feed existing '%s'" % self.feed_id)
+                        logging.info("Feed existing '%s'" % self.feed_id)
                     else:
-                        logging.warning("Feed not existing")
+                        logging.info("Feed not existing")
                         feed = catalog.create_product_feed(params=feed_params)
                         self.feed_id = feed['id']
                         feed.create_upload(params={'url': feed_url})
-                        logging.warning("Feed create '%s'" % self.feed_id)
+                        logging.info("Feed create '%s'" % self.feed_id)
         except FacebookRequestError as e:
             logging.warning(e._body.get('error_user_msg', e._body))
             print(e)
@@ -708,14 +709,32 @@ class FacebookFeed(Model):
                 catalog = ProductCatalog(self.catalog_id)
                 if catalog:
                     if self.product_set_id:
-                        logging.warning("Product set existing '%s'" % self.product_set_id)
+                        logging.info("Product set existing '%s'" % self.product_set_id)
                     else:
-                        logging.warning("Product set not existing")
+                        logging.info("Product set not existing")
                         product_set = catalog.create_product_set(params=product_set_params)
                         self.product_set_id = product_set['id']
-                        logging.warning("Product creating '%s'" % self.product_set_id)
+                        logging.info("Product creating '%s'" % self.product_set_id)
         except FacebookRequestError as e:
             logging.warning(e._body.get('error_user_msg', e._body))
             print(e)
         except Exception as e:
             print(e)
+
+
+@receiver(pre_delete, sender=FacebookFeed)
+def clear_fb_feed(instance, **kwargs):
+    instance.business.setup_api_access()
+    if instance.catalog_id:
+        catalog = ProductCatalog(instance.catalog_id)
+        if catalog:
+            catalog.api_delete()
+
+
+@receiver(pre_delete, sender=FacebookCampaign)
+def clear_fb_campaign(instance, **kwargs):
+    instance.business.setup_api_access()
+    if instance.campaign_id:
+        campaign = Campaign(instance.campaign_id)
+        if campaign:
+            campaign.api_delete()

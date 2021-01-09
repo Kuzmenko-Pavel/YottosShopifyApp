@@ -139,13 +139,12 @@ def get_params(campaign_type):
             'campaign': {
                 'name': 'Campaign new test api call',
                 'objective': Campaign.Objective.conversions,
-                'special_ad_category': Campaign.SpecialAdCategory.none,
+                'special_ad_categories': [Campaign.SpecialAdCategory.none, ],
                 'status': camp_status,
                 'can_use_spend_cap': True,
                 'can_create_brand_lift_study': False,
                 'buying_type': "AUCTION",
                 "budget_remaining": "0",
-                "budget_rebalance_flag": False,
             },
             'adset': {
                 'name': 'AdSet new test api call',
@@ -238,13 +237,12 @@ def get_params(campaign_type):
             'campaign': {
                 'name': 'Campaign rel test api call',
                 'objective': Campaign.Objective.conversions,
-                'special_ad_category': Campaign.SpecialAdCategory.none,
+                'special_ad_categories': [Campaign.SpecialAdCategory.none, ],
                 'status': camp_status,
                 'can_use_spend_cap': True,
                 'can_create_brand_lift_study': False,
                 'buying_type': "AUCTION",
                 "budget_remaining": "0",
-                "budget_rebalance_flag": False,
             },
             'adset': {
                 'name': 'AdSet rel test api call',
@@ -361,13 +359,12 @@ def get_params(campaign_type):
             'campaign': {
                 'name': 'Campaign ret test api call',
                 'objective': Campaign.Objective.product_catalog_sales,
-                'special_ad_category': Campaign.SpecialAdCategory.none,
+                'special_ad_categories': [Campaign.SpecialAdCategory.none, ],
                 'status': camp_status,
                 'can_use_spend_cap': True,
                 'can_create_brand_lift_study': False,
                 'buying_type': "AUCTION",
                 "budget_remaining": "0",
-                "budget_rebalance_flag": False,
                 'promoted_object': {
                     "product_catalog_id": data['ret']['catalog_id']
                 },
@@ -500,9 +497,9 @@ def create_catalog(campaign_type):
             print("Catalog creating '%s'" % data[campaign_type]['catalog_id'])
     except FacebookRequestError as e:
         print(e._body.get('error', {}).get('message'))
-        # print(e)
+        print(e)
     except Exception as e:
-        # print(e)
+        print(e)
         pass
 
 
@@ -773,6 +770,5 @@ for z in range(0, 2):
             delete_ad_creative(item)
             delete_adset(item)
             delete_campaign(item)
-
         delete_catalog(item)
     print('Complite %s' % z)

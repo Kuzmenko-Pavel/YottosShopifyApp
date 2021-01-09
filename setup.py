@@ -25,7 +25,7 @@ install_requires = [
     'ShopifyAPI==6.0.1',
     'django-mysql',
     'django_http2_push',
-    'facebook_business',
+    'facebook-business==7.0.4',
     'celery',
     'redis'
 ]
