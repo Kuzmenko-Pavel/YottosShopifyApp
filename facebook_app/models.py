@@ -724,17 +724,29 @@ class FacebookFeed(Model):
 
 @receiver(pre_delete, sender=FacebookFeed)
 def clear_fb_feed(instance, **kwargs):
-    instance.business.setup_api_access()
-    if instance.catalog_id:
-        catalog = ProductCatalog(instance.catalog_id)
-        if catalog:
-            catalog.api_delete()
+    try:
+        instance.business.setup_api_access()
+        if instance.catalog_id:
+            catalog = ProductCatalog(instance.catalog_id)
+            if catalog:
+                catalog.api_delete()
+    except FacebookRequestError as e:
+        logging.warning(e._body.get('error_user_msg', e._body))
+        print(e)
+    except Exception as e:
+        print(e)
 
 
 @receiver(pre_delete, sender=FacebookCampaign)
 def clear_fb_campaign(instance, **kwargs):
-    instance.business.setup_api_access()
-    if instance.campaign_id:
-        campaign = Campaign(instance.campaign_id)
-        if campaign:
-            campaign.api_delete()
+    try:
+        instance.business.setup_api_access()
+        if instance.campaign_id:
+            campaign = Campaign(instance.campaign_id)
+            if campaign:
+                campaign.api_delete()
+    except FacebookRequestError as e:
+        logging.warning(e._body.get('error_user_msg', e._body))
+        print(e)
+    except Exception as e:
+        print(e)
