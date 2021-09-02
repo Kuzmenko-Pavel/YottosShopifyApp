@@ -3,7 +3,7 @@
 SHOPIFY_API_KEY = 'api key'
 SHOPIFY_API_SECRET = 'api secret key'
 SHOPIFY_API_SCOPE = ['read_script_tags', 'write_script_tags', 'read_products', 'read_orders', 'write_orders']
-SHOPIFY_API_VERSION = '2020-07'
+SHOPIFY_API_VERSION = '2021-07'
 FACEBOOK_APP_ENABLE = False
 FACEBOOK_APP_ID = 'api key'
 FACEBOOK_APP_SECRET = 'api secret key'
