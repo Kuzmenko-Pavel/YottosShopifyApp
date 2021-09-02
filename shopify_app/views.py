@@ -426,17 +426,13 @@ class FbSubmitSubscribe(View, BaseShop, BaseFacebook):
         if shop and facebook and charge_id:
             with shopify.Session.temp(shop.myshopify_domain, settings.SHOPIFY_API_VERSION, shop.access_token):
                 ac = shopify.ApplicationCharge.find(charge_id)
-                if ac.status == 'accepted':
+                if ac.status == 'active':
                     ac.activate()
-                    ac = shopify.ApplicationCharge.find(charge_id)
-                    if ac.status == 'active':
-                        for campaign in facebook.facebookcampaign_set.all():
-                            if campaign.campaign_type == campaign_type:
-                                campaign.paid = True
-                                campaign.save(update_fields=['paid'])
-                            fb_create_update.apply_async((campaign.id,), countdown=10)
-                    else:
-                        print(ac, ac.status)
+                    for campaign in facebook.facebookcampaign_set.all():
+                        if campaign.campaign_type == campaign_type:
+                            campaign.paid = True
+                            campaign.save(update_fields=['paid'])
+                        fb_create_update.apply_async((campaign.id,), countdown=10)
                 else:
                     print(ac, ac.status)
         url = request.build_absolute_uri(route_url('shopify_app:dashboard_feeds', args=['fb'], _query=_query))
@@ -672,16 +668,12 @@ class SubmitSubscribe(View, BaseShop):
         if shop and charge_id:
             with shopify.Session.temp(shop.myshopify_domain, settings.SHOPIFY_API_VERSION, shop.access_token):
                 rac = shopify.RecurringApplicationCharge.find(charge_id)
-                if rac.status == 'accepted':
+                if rac.status == 'active':
                     rac.activate()
-                    rac = shopify.RecurringApplicationCharge.find(charge_id)
-                    if rac.status == 'active':
-                        shop.premium = True
-                        shop.date_paid = timezone.now()
-                        shop.save(update_fields=['premium', 'date_paid'])
-                        msg = 'premium_active'
-                    else:
-                        print(rac, rac.status)
+                    shop.premium = True
+                    shop.date_paid = timezone.now()
+                    shop.save(update_fields=['premium', 'date_paid'])
+                    msg = 'premium_active'
                 else:
                     print(rac, rac.status)
         add_message(request, INFO, msg)
