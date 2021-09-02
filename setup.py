@@ -22,7 +22,7 @@ install_requires = [
     'Django',
     'mysqlclient',
     'pyactiveresource',
-    'ShopifyAPI==6.0.1',
+    'ShopifyAPI==8.4.2',
     'django-mysql',
     'django_http2_push',
     'facebook-business==7.0.4',
