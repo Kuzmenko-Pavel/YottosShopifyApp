@@ -115,7 +115,7 @@ window.fbAsyncInit = function () {
         cookie: true,
         xfbml: false,
         status: true,
-        version: 'v8.0'
+        version: 'v12.0'
     });
     connectFb()
 };
