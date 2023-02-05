@@ -10,7 +10,7 @@
     "build": "webpack"
   },
   "dependencies": {
-    "@shopify/app-bridge": "^1.14.0",
+    "@shopify/app-bridge": "^2.0.5",
     "@shopify/polaris": "^4.0.0",
     "@shopify/polaris-icons": "^3.9.0",
     "axios": "^0.21.1",
