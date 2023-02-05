@@ -5,7 +5,7 @@ const TerserJSPlugin = require('terser-webpack-plugin');
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 
 module.exports = {
-    mode: 'production', //'development',
+    mode: 'development',// 'production', //'development',
     entry: {
         index: './src/index.js',
         // index2: './src/index.js',
@@ -14,11 +14,11 @@ module.exports = {
         fb_integration: './src/fb_integration.js'
     },
     optimization: {
-        minimize: true,
-        minimizer: [
-            new TerserJSPlugin({}),
-            new OptimizeCSSAssetsPlugin({})
-        ],
+        minimize: false,
+        // minimizer: [
+        //     new TerserJSPlugin({}),
+        //     new OptimizeCSSAssetsPlugin({})
+        // ],
         splitChunks: {
             cacheGroups: {
                 vendor: {
