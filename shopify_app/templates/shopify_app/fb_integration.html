@@ -28,7 +28,8 @@
             dashboard: '{% url "shopify_app:dashboard" %}',
             fb_integration: '{% url "shopify_app:fb_integration" %}',
             forceRedirect: true,
-            debug: false
+            debug: false,
+            host: '{{ host }}'
         };
     </script>
     {% include "analytics/google.html" %}

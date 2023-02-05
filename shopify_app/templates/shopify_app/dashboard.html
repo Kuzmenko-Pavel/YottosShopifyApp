@@ -130,7 +130,8 @@
 
                 ],
                 utm: {{ utm|to_json }},
-                collections: {{ collection|to_json }}
+                collections: {{ collection|to_json }},
+                host: '{{ host }}'
             };
         </script>
         {% include "analytics/google.html" %}

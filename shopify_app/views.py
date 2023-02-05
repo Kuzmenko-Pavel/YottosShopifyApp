@@ -1,6 +1,7 @@
 import json
 import re
 from datetime import datetime
+import base64
 
 import shopify
 from django.conf import settings
@@ -230,6 +231,7 @@ class Dashboard(TemplateView, BaseShop, BaseFacebook):
         premium = False
         install = False
         reinstall = False
+        host = 'admin.shopify.com'
         storage = get_messages(request)
         for message in storage:
             if message.message == 'premium_active':
@@ -238,6 +240,9 @@ class Dashboard(TemplateView, BaseShop, BaseFacebook):
                 install = True
             elif message.message == 'reinstall':
                 reinstall = True
+            elif 'host_' in message.message:
+                host = str(message.message).replace('host_', '')
+
         feed = self.feeds.get(feed_name, self.feeds.get('fb'))
         shop = self.get_shop(request.shop)
         facebook = self.get_facebook(request.shop)
@@ -284,7 +289,8 @@ class Dashboard(TemplateView, BaseShop, BaseFacebook):
             'feed': feed,
             'utm': utm,
             'collection': collection,
-            'feed_name': feed_name
+            'feed_name': feed_name,
+            'host': host
         }
         return self.render_to_response(context)
 
@@ -294,10 +300,16 @@ class Downgrade(TemplateView, BaseShop):
 
     @never_cache
     def get(self, request, *args, **kwargs):
+        host = 'admin.shopify.com'
+        storage = get_messages(request)
+        for message in storage:
+            if 'host_' in message.message:
+                host = str(message.message).replace('host_', '')
         shop = self.get_shop(request.shop)
         context = {
             'page_name': 'Downgrade to free Membership',
             'shop': shop,
+            'host': host
         }
 
         return self.render_to_response(context)
@@ -308,10 +320,16 @@ class FbIntegration(TemplateView, BaseShop, BaseFacebook):
 
     @never_cache
     def get(self, request, *args, **kwargs):
+        host = 'admin.shopify.com'
+        storage = get_messages(request)
+        for message in storage:
+            if 'host_' in message.message:
+                host = str(message.message).replace('host_', '')
         shop = self.get_shop(request.shop)
         context = {
             'page_name': 'Connect Facebook',
             'shop': shop,
+            'host': host
         }
 
         return self.render_to_response(context)
@@ -357,6 +375,11 @@ class FbDisconect(TemplateView, BaseShop, BaseFacebook):
     def get(self, request, *args, **kwargs):
         shop = self.get_shop(request.shop)
         facebook = self.get_facebook(request.shop)
+        try:
+            host = base64.b64decode(request.host)
+        except Exception:
+            host = 'admin.shopify.com'
+        add_message(request, INFO, 'host_'+host)
         _query = {
             'shop': request.shop, 'hmac': request.hmac, 'timestamp': request.timestamp,
             'rand': int(datetime.timestamp(datetime.now()))
@@ -385,6 +408,11 @@ class FbSubscribe(TemplateView, BaseShop, BaseFacebook):
     @transaction.atomic
     def get(self, request, *args, **kwargs):
         campaign_type = request.GET.get('type')
+        try:
+            host = base64.b64decode(request.host)
+        except Exception:
+            host = 'admin.shopify.com'
+        add_message(request, INFO, 'host_' + host)
         _query = {
             'shop': request.shop, 'hmac': request.hmac, 'timestamp': request.timestamp, 'type': campaign_type,
             'rand': int(datetime.timestamp(datetime.now()))
@@ -416,6 +444,11 @@ class FbSubmitSubscribe(View, BaseShop, BaseFacebook):
     @transaction.atomic
     def get(self, request, *args, **kwargs):
         campaign_type = request.GET.get('type')
+        try:
+            host = base64.b64decode(request.host)
+        except Exception:
+            host = 'admin.shopify.com'
+        add_message(request, INFO, 'host_' + host)
         _query = {
             'shop': request.shop, 'hmac': request.hmac, 'timestamp': request.timestamp, 'type': campaign_type,
             'rand': int(datetime.timestamp(datetime.now()))
@@ -444,6 +477,11 @@ class Authenticate(View, BaseShop):
     @never_cache
     def get(self, request, *args, **kwargs):
         shop = self.get_shop(request.shop)
+        try:
+            host = base64.b64decode(request.host)
+        except Exception:
+            host = 'admin.shopify.com'
+        add_message(request, INFO, 'host_' + host)
         _query = {
             'shop': request.shop, 'hmac': request.hmac, 'timestamp': request.timestamp,
             'rand': int(datetime.timestamp(datetime.now()))
@@ -514,6 +552,11 @@ class Install(View):
     @never_cache
     def get(self, request, *args, **kwargs):
         shop = request.shop
+        try:
+            host = base64.b64decode(request.host)
+        except Exception:
+            host = 'admin.shopify.com'
+        add_message(request, INFO, 'host_' + host)
         _query = {
             'shop': request.shop, 'hmac': request.hmac, 'timestamp': request.timestamp,
             'rand': int(datetime.timestamp(datetime.now()))
@@ -581,6 +624,11 @@ class Finalize(View):
     @never_cache
     def get(self, request, *args, **kwargs):
         shop = request.shop
+        try:
+            host = base64.b64decode(request.host)
+        except Exception:
+            host = 'admin.shopify.com'
+        add_message(request, INFO, 'host_' + host)
         _query = {
             'shop': request.shop, 'hmac': request.hmac, 'timestamp': request.timestamp,
             'rand': int(datetime.timestamp(datetime.now()))
@@ -601,6 +649,11 @@ class Subscribe(TemplateView, BaseShop):
 
     @never_cache
     def get(self, request, *args, **kwargs):
+        try:
+            host = base64.b64decode(request.host)
+        except Exception:
+            host = 'admin.shopify.com'
+        add_message(request, INFO, 'host_' + host)
         _query = {
             'shop': request.shop, 'hmac': request.hmac, 'timestamp': request.timestamp,
             'rand': int(datetime.timestamp(datetime.now()))
@@ -637,6 +690,11 @@ class UnSubscribe(TemplateView, BaseShop):
     @never_cache
     @transaction.atomic
     def get(self, request, *args, **kwargs):
+        try:
+            host = base64.b64decode(request.host)
+        except Exception:
+            host = 'admin.shopify.com'
+        add_message(request, INFO, 'host_' + host)
         _query = {
             'shop': request.shop, 'hmac': request.hmac, 'timestamp': request.timestamp,
             'rand': int(datetime.timestamp(datetime.now()))
@@ -658,6 +716,11 @@ class SubmitSubscribe(View, BaseShop):
     @never_cache
     @transaction.atomic
     def get(self, request, *args, **kwargs):
+        try:
+            host = base64.b64decode(request.host)
+        except Exception:
+            host = 'admin.shopify.com'
+        add_message(request, INFO, 'host_' + host)
         _query = {
             'shop': request.shop, 'hmac': request.hmac, 'timestamp': request.timestamp,
             'rand': int(datetime.timestamp(datetime.now()))

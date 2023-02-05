@@ -31,7 +31,8 @@
                 premium: {{ shop.premium|yesno:"true,false" }},
                 dashboard: '{% url "shopify_app:dashboard" %}',
                 forceRedirect: true,
-                debug: false
+                debug: false,
+                host: '{{ host }}'
             };
         </script>
         <style>
