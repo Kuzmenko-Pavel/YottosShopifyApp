@@ -56,7 +56,7 @@ function getApp() {
     const app = createApp({
         apiKey: window.current_shop.apiKey,
         shopOrigin: window.current_shop.domain,
-        host: new URLSearchParams(location.search).get("host"),
+        host: window.current_shop.domain,
         forceRedirect: window.current_shop.forceRedirect,
         debug: window.current_shop.debug
     });
