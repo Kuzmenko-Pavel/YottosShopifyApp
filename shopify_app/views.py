@@ -376,7 +376,7 @@ class FbDisconect(TemplateView, BaseShop, BaseFacebook):
         shop = self.get_shop(request.shop)
         facebook = self.get_facebook(request.shop)
         try:
-            host = base64.b64decode(request.host)
+            host = request.host
         except Exception:
             host = 'admin.shopify.com'
         add_message(request, INFO, 'host_'+host)
@@ -409,7 +409,7 @@ class FbSubscribe(TemplateView, BaseShop, BaseFacebook):
     def get(self, request, *args, **kwargs):
         campaign_type = request.GET.get('type')
         try:
-            host = base64.b64decode(request.host)
+            host = request.host
         except Exception:
             host = 'admin.shopify.com'
         add_message(request, INFO, 'host_' + host)
@@ -445,7 +445,7 @@ class FbSubmitSubscribe(View, BaseShop, BaseFacebook):
     def get(self, request, *args, **kwargs):
         campaign_type = request.GET.get('type')
         try:
-            host = base64.b64decode(request.host)
+            host = request.host
         except Exception:
             host = 'admin.shopify.com'
         add_message(request, INFO, 'host_' + host)
@@ -478,7 +478,7 @@ class Authenticate(View, BaseShop):
     def get(self, request, *args, **kwargs):
         shop = self.get_shop(request.shop)
         try:
-            host = base64.b64decode(request.host)
+            host = request.host
         except Exception:
             host = 'admin.shopify.com'
         add_message(request, INFO, 'host_' + host)
@@ -553,7 +553,7 @@ class Install(View):
     def get(self, request, *args, **kwargs):
         shop = request.shop
         try:
-            host = base64.b64decode(request.host)
+            host = request.host
         except Exception:
             host = 'admin.shopify.com'
         add_message(request, INFO, 'host_' + host)
@@ -625,7 +625,7 @@ class Finalize(View):
     def get(self, request, *args, **kwargs):
         shop = request.shop
         try:
-            host = base64.b64decode(request.host)
+            host = request.host
         except Exception:
             host = 'admin.shopify.com'
         add_message(request, INFO, 'host_' + host)
@@ -650,7 +650,7 @@ class Subscribe(TemplateView, BaseShop):
     @never_cache
     def get(self, request, *args, **kwargs):
         try:
-            host = base64.b64decode(request.host)
+            host = request.host
         except Exception:
             host = 'admin.shopify.com'
         add_message(request, INFO, 'host_' + host)
@@ -691,7 +691,7 @@ class UnSubscribe(TemplateView, BaseShop):
     @transaction.atomic
     def get(self, request, *args, **kwargs):
         try:
-            host = base64.b64decode(request.host)
+            host = request.host
         except Exception:
             host = 'admin.shopify.com'
         add_message(request, INFO, 'host_' + host)
@@ -717,7 +717,7 @@ class SubmitSubscribe(View, BaseShop):
     @transaction.atomic
     def get(self, request, *args, **kwargs):
         try:
-            host = base64.b64decode(request.host)
+            host = request.host
         except Exception:
             host = 'admin.shopify.com'
         add_message(request, INFO, 'host_' + host)
